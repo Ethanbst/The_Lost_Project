@@ -1,0 +1,14 @@
+Log file created at Fri Jan 10 15:41:43 2025
+MENU: Menu principal.
+MENU: menu.wav chargee avec succes.
+MENU: Width = %d, Height = %d
+MENU: Jouer sélectionné
+MENU: Jouer sélectionné
+MENU: Jouer sélectionné
+MENU: Jouer sélectionné
+MENU: Jouer sélectionné
+MENU: Options sélectionné
+MENU: Options sélectionné
+MENU: Options sélectionné
+MENU: Options sélectionné
+MENU: Jouer sélectionné
