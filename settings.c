@@ -1,10 +1,14 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
+#include "GetScreenSize.c"
+
+
 
 //void add_log(const char *tag, const char *message);
 
 void draw_slider(SDL_Renderer *renderer, int x, int y, int w, int h, int value, int max_value) {
+
     SDL_Rect slider_bg = {x, y, w, h};
     SDL_Rect slider_fg = {x, y, (w * value) / max_value, h};
 
@@ -62,12 +66,15 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
         return;
     }
 
+    SDL_DisplayMode displayMode;
+    displayMode = GetScreenSize();
+
     // Rendu des options
     SDL_RenderClear(renderer);
 
     // Dessiner les sliders
-    draw_slider(renderer, 100, 100, 200, 20, musicVolume, MIX_MAX_VOLUME);
-    draw_slider(renderer, 100, 200, 200, 20, sfxVolume, MIX_MAX_VOLUME);
+    draw_slider(renderer, displayMode.w/2-100, 100, 200, 20, musicVolume, MIX_MAX_VOLUME);
+    draw_slider(renderer, displayMode.w/2-100, 200, 200, 20, sfxVolume, MIX_MAX_VOLUME);
 
     // Dessiner le bouton "Appliquer"
     draw_button(renderer, 350, 400, 100, 50, "Appliquer", font);
@@ -109,17 +116,17 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
                         int mouseY = event.motion.y;
 
                         // Vérifier si le curseur est sur le slider de la musique
-                        if (mouseX >= 100 && mouseX <= 300 && mouseY >= 100 && mouseY <= 120) {
-                            musicVolume = (mouseX - 100) * MIX_MAX_VOLUME / 200;
-                            draw_slider(renderer, 100, 100, 200, 20, musicVolume, MIX_MAX_VOLUME);
+                        if (mouseX >= displayMode.w/2-100 && mouseX <= displayMode.w/2+100 && mouseY >= 100 && mouseY <= 120) {
+                            musicVolume = (mouseX - (displayMode.w/2-100)) * MIX_MAX_VOLUME / 200;
+                            draw_slider(renderer, displayMode.w/2-100, 100, 200, 20, musicVolume, MIX_MAX_VOLUME);
                             SDL_RenderPresent(renderer);
                             Mix_VolumeMusic(musicVolume);
                         }
 
                         // Vérifier si le curseur est sur le slider des effets sonores
-                        if (mouseX >= 100 && mouseX <= 300 && mouseY >= 200 && mouseY <= 220) {
-                            sfxVolume = (mouseX - 100) * MIX_MAX_VOLUME / 200;
-                            draw_slider(renderer, 100, 200, 200, 20, sfxVolume, MIX_MAX_VOLUME);
+                        if (mouseX >= displayMode.w/2-100 && mouseX <= displayMode.w/2+100 && mouseY >= 200 && mouseY <= 220) {
+                            sfxVolume = (mouseX - (displayMode.w/2-100)) * MIX_MAX_VOLUME / 200;
+                            draw_slider(renderer, displayMode.w/2-100, 200, 200, 20, sfxVolume, MIX_MAX_VOLUME);
                             SDL_RenderPresent(renderer);
                             Mix_VolumeMusic(musicVolume);
                         }

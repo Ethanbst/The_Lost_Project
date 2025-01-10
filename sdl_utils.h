@@ -12,6 +12,7 @@
  #endif
 #endif
 
+
 function inline bool
 sdl_utils_Init(const char *title, SDL_Window **window, SDL_Renderer **renderer, bool textureFiltering)
 {
