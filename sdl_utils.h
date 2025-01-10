@@ -5,7 +5,6 @@
  #ifdef _WIN64
   #include <SDL.h>
   #include <SDL_image.h>
-  #include "log.h"
 
  #else
   #include <SDL2/SDL.h>
@@ -36,13 +35,13 @@ sdl_utils_Init(const char *title, SDL_Window **window, SDL_Renderer **renderer, 
 
     // Obtenir la résolution de l'écran
     if (SDL_GetCurrentDisplayMode(0, &displayMode) != 0) {
-        add_log("SDL_UTILS", "Erreur lors de la récupération de la résolution de l'écran");
+        //add_log("SDL_UTILS", "Erreur lors de la récupération de la résolution de l'écran");
         SDL_Quit();
         return -1;
     }
     int screenWidth = displayMode.w;
     int screenHeight = displayMode.h;
-    add_log("SDL_UTILS", "Résolution de l'écran récupérée avec succès");
+    //add_log("SDL_UTILS", "Résolution de l'écran récupérée avec succès");
     printf("Hauteur %d, Largeur %d\n", screenHeight, screenWidth);
 
 

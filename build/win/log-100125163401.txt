@@ -1,0 +1,5 @@
+Log file created at Fri Jan 10 16:34:01 2025
+MENU: Menu principal.
+MENU: menu.wav chargee avec succes.
+MENU: Width = %d, Height = %d
+MENU: Quitter sélectionné

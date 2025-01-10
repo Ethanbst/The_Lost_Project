@@ -59,6 +59,7 @@
   "files.associations": {
     "common.h": "c",
     "sdl_mixer.h": "c",
-    "log.h": "c"
+    "log.h": "c",
+    "sdl_image.h": "c"
   }
 }

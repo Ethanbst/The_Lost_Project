@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
-
+#include "logs_utils/log.c"
 
 // Fonction pour afficher du texte à l'écran
 SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, SDL_Color color){
@@ -72,7 +72,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     SDL_GetCurrentDisplayMode(0, &taille_fenetre);
     width = taille_fenetre.w;
     height = taille_fenetre.h;
-    printf("Width = %d, Height = %d\n", width, height);
+    //printf("Width = %d, Height = %d\n", width, height);
     add_log("MENU","Width = %d, Height = %d\n");
 
 
@@ -80,7 +80,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     int t_bt_y = t_bt_x / 2; //Hauteur d'un bouton
     int esp_bt = t_bt_x; //Espacement entre chaque bouton
 
-    int pos_bt_y = height - height/3;
+    int pos_bt_y = height / 3;
     int pos_bt_x = width - (width/2 + t_bt_x/2);
     
 
@@ -128,7 +128,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                 if (x > optionsRect.x && x < optionsRect.x + optionsRect.w &&
                     y > optionsRect.y && y < optionsRect.y + optionsRect.h) {
                     add_log("MENU","Options sélectionné\n");
-                    // Appeler une fonction pour ouvrir le menu des options
+                    //Appeler une fonction pour ouvrir le menu des options
                 }
 
                 // Vérifier si "Quitter" est cliqué

@@ -23,7 +23,6 @@
 #endif
 #include "common.h"
 #include "sdl_utils.h"
-#include "logs_utils/log.c"
 #include "menu.c"
 
 
