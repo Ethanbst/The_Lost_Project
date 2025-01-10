@@ -1,0 +1,6 @@
+Log file created at Fri Jan 10 17:43:37 2025
+MENU: Menu principal.
+MENU: menu.wav chargee avec succes.
+MENU: Width = %d, Height = %d
+MENU: Options sélectionné
+OPTIONS: Entré dans les Options.

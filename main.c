@@ -115,7 +115,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
             mouvement(event, &posJoueur, &orientation_joueur, img_joueur);
             
             //On met à jour la position du joueur:
-            SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0));
+            SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0)); //Met la couleur noir à l'écran
             destRect.x = posJoueur.x;
             destRect.y = posJoueur.y;
             SDL_BlitScaled(orientation_joueur, NULL, ecran, &destRect);

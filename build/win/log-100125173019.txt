@@ -1,0 +1,7 @@
+Log file created at Fri Jan 10 17:30:19 2025
+MENU: Menu principal.
+MENU: menu.wav chargee avec succes.
+MENU: Width = %d, Height = %d
+MENU: Options sélectionné
+OPTIONS: Entré dans les Options.
+ERROR: Failed to load background image.

@@ -2,6 +2,7 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 #include "logs_utils/log.c"
+#include "settings.c"
 
 // Fonction pour afficher du texte à l'écran
 SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, SDL_Color color){
@@ -9,6 +10,31 @@ SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, 
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
     return texture;
+}
+
+// Fonction pour libérer les ressources du menu et réinitialiser l'affichage
+void menu_exit(SDL_Renderer *renderer, SDL_Texture *playTexture, SDL_Texture *optionsTexture, SDL_Texture *quitTexture, SDL_Texture *bg_menu_texture, TTF_Font *font, Mix_Music *music) {
+    // Libérer les textures
+    if (playTexture) SDL_DestroyTexture(playTexture);
+    if (optionsTexture) SDL_DestroyTexture(optionsTexture);
+    if (quitTexture) SDL_DestroyTexture(quitTexture);
+    if (bg_menu_texture) SDL_DestroyTexture(bg_menu_texture);
+
+    // Fermer la police
+    if (font) TTF_CloseFont(font);
+
+    // Libérer la musique
+    //if (music) Mix_FreeMusic(music);
+
+    // Quitter SDL_ttf et SDL_mixer
+    TTF_Quit();
+    //Mix_CloseAudio();
+    //Mix_Quit();
+
+    // Effacer l'écran et présenter un écran noir
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Couleur noire
+    SDL_RenderClear(renderer);
+    SDL_RenderPresent(renderer);
 }
 
 //Fonction de gestion du menu principal:
@@ -22,6 +48,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     int init2 = Mix_Init(0);
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024); //Ouverture du fichier audio
     Mix_VolumeMusic(MIX_MAX_VOLUME / 2); // Réglez le volume de la musique à 50%
+    
     //Musique:
     Mix_Music *music = Mix_LoadMUS("res/music/menu.wav");
     if(!music){
@@ -30,8 +57,9 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     else{
         add_log("MENU","menu.wav chargee avec succes.\n");
     }
+
     //Mix_PlayMusic(music, 1);
-    Mix_FadeInMusic(music, 1, 2000);
+    Mix_FadeInMusic(music, -1, 2000);
 
 
 
@@ -128,7 +156,9 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                 if (x > optionsRect.x && x < optionsRect.x + optionsRect.w &&
                     y > optionsRect.y && y < optionsRect.y + optionsRect.h) {
                     add_log("MENU","Options sélectionné\n");
-                    //Appeler une fonction pour ouvrir le menu des options
+                    SDL_RenderClear(renderer);
+                    menu_exit(renderer, playTexture, optionsTexture, quitTexture, bg_menu_texture, font, music);
+                    options(renderer, window);
                 }
 
                 // Vérifier si "Quitter" est cliqué
