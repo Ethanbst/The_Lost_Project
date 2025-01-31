@@ -4,7 +4,7 @@
 #include "logs_utils/log.c"
 #include "settings.c"
 
-// Fonction pour afficher du texte à l'écran
+//Fonction pour afficher du texte à l'écran
 SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, SDL_Color color){
     SDL_Surface* surface = TTF_RenderText_Solid(font, text, color);
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -12,29 +12,73 @@ SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, 
     return texture;
 }
 
-// Fonction pour libérer les ressources du menu et réinitialiser l'affichage
-void menu_exit(SDL_Renderer *renderer, SDL_Texture *playTexture, SDL_Texture *optionsTexture, SDL_Texture *quitTexture, SDL_Texture *bg_menu_texture, TTF_Font *font, Mix_Music *music) {
-    // Libérer les textures
+//Libère les ressources du menu une fois qu'elles ont été rendu.
+void free_menu(SDL_Renderer *renderer, SDL_Texture *playTexture, SDL_Texture *optionsTexture, SDL_Texture *quitTexture, SDL_Texture *bg_menu_texture) {
+    //Libérer les textures
     if (playTexture) SDL_DestroyTexture(playTexture);
     if (optionsTexture) SDL_DestroyTexture(optionsTexture);
     if (quitTexture) SDL_DestroyTexture(quitTexture);
     if (bg_menu_texture) SDL_DestroyTexture(bg_menu_texture);
+}
 
-    // Fermer la police
-    if (font) TTF_CloseFont(font);
 
-    // Libérer la musique
-    //if (music) Mix_FreeMusic(music);
+//Permet de réafficher le menu après être entré dans une autre fonction
+void menu_start(SDL_Renderer *renderer, SDL_Texture *playTexture, SDL_Texture *optionsTexture, SDL_Texture *quitTexture, SDL_Surface *bg_menu_surface, SDL_Texture *bg_menu_texture, TTF_Font *font, Mix_Music *music){
 
-    // Quitter SDL_ttf et SDL_mixer
-    TTF_Quit();
-    //Mix_CloseAudio();
-    //Mix_Quit();
+    //Rechargement de l'image de fond du menu:
+    bg_menu_surface = IMG_Load("res/bg/menu_bg.bmp");
+    if(!bg_menu_surface){
+        add_log("MENU","Erreur du chargement de l'image de fond du menu\n");
+    }
+    //Réattritbution de la texture
+    bg_menu_texture = SDL_CreateTextureFromSurface(renderer, bg_menu_surface);
+    SDL_FreeSurface(bg_menu_surface);
 
-    // Effacer l'écran et présenter un écran noir
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Couleur noire
-    SDL_RenderClear(renderer);
+
+    //Couleur pour le texte
+    SDL_Color color = {255, 255, 255}; // Blanc
+    
+
+    //Créer les textures pour les options du menu
+    playTexture = loadText(renderer, font, "Jouer", color);
+    optionsTexture = loadText(renderer, font, "Options", color);
+    quitTexture = loadText(renderer, font, "Quitter", color);
+
+    //On récupère la taille de la fenêtre pour bien placer les boutons par la suite
+    int width, height;
+    SDL_DisplayMode taille_fenetre;
+    SDL_GetCurrentDisplayMode(0, &taille_fenetre);
+    width = taille_fenetre.w;
+    height = taille_fenetre.h;
+    //printf("Width = %d, Height = %d\n", width, height);
+    add_log("MENU","Width = %d, Height = %d\n");
+
+
+    int t_bt_x = 200; //Longueur d'un bouton
+    int t_bt_y = t_bt_x / 2; //Hauteur d'un bouton
+    int esp_bt = t_bt_x; //Espacement entre chaque bouton
+
+    int pos_bt_y = height / 3;
+    int pos_bt_x = width - (width/2 + t_bt_x/2);
+    
+
+    //Définir les positions des options du menu
+    SDL_Rect playRect = {pos_bt_x, pos_bt_y, t_bt_x, t_bt_y};//Bouton "Jouer"
+    SDL_Rect optionsRect = {pos_bt_x, pos_bt_y+esp_bt, t_bt_x, t_bt_y};//Bouton "Options"
+    SDL_Rect quitRect = {pos_bt_x, pos_bt_y+esp_bt*2, t_bt_x, t_bt_y};//Bouton "Quitter"
+
+    //Afficher le fond du menu, NULL et NULL = dessinée sur la fenêtre complète
+    SDL_RenderCopy(renderer, bg_menu_texture, NULL, NULL);
+
+    //Afficher les boutons du menu
+    SDL_RenderCopy(renderer, playTexture, NULL, &playRect);
+    SDL_RenderCopy(renderer, optionsTexture, NULL, &optionsRect);
+    SDL_RenderCopy(renderer, quitTexture, NULL, &quitRect);
+
+    //Présenter le rendu
     SDL_RenderPresent(renderer);
+    //On libère les ressources maintenant qu'elles sont déjà rendu.
+    free_menu(renderer, playTexture, optionsTexture, quitTexture, bg_menu_texture);
 }
 
 //Fonction de gestion du menu principal:
@@ -43,7 +87,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     create_log_file();
     add_log("MENU","Menu principal.\n");
 
-
+    //Première initialisation du menu
     //Implémentation de l'audio du menu:
     int init2 = Mix_Init(0);
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024); //Ouverture du fichier audio
@@ -130,6 +174,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
 
     //Présenter le rendu
     SDL_RenderPresent(renderer);
+    free_menu(renderer, playTexture, optionsTexture, quitTexture, bg_menu_texture);
 
     //Boucle principale:
     int running = 1;
@@ -156,9 +201,9 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                 if (x > optionsRect.x && x < optionsRect.x + optionsRect.w &&
                     y > optionsRect.y && y < optionsRect.y + optionsRect.h) {
                     add_log("MENU","Options sélectionné\n");
-                    SDL_RenderClear(renderer);
-                    menu_exit(renderer, playTexture, optionsTexture, quitTexture, bg_menu_texture, font, music);
+                    free_menu(renderer, playTexture, optionsTexture, quitTexture, bg_menu_texture);
                     options(renderer, window);
+                    menu_start(renderer, playTexture, optionsTexture, quitTexture, bg_menu_surface, bg_menu_texture, font, music);
                 }
 
                 // Vérifier si "Quitter" est cliqué

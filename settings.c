@@ -4,7 +4,6 @@
 #include "GetScreenSize.c"
 
 
-
 //void add_log(const char *tag, const char *message);
 
 void draw_slider(SDL_Renderer *renderer, int x, int y, int w, int h, int value, int max_value) {
@@ -48,8 +47,13 @@ void draw_button(SDL_Renderer *renderer, int x, int y, int w, int h, const char 
     SDL_DestroyTexture(textTexture);
 }
 
+
 void options(SDL_Renderer *renderer, SDL_Window *window) {
     add_log("OPTIONS", "Entré dans les Options.\n");
+
+    // Effacer l'écran et présenter un écran noir
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Couleur noire
+    SDL_RenderClear(renderer);
 
     // Variables pour le volume
     int musicVolume = MIX_MAX_VOLUME / 2; // Volume initial de la musique (50%)
@@ -69,8 +73,6 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
     SDL_DisplayMode displayMode;
     displayMode = GetScreenSize();
 
-    // Rendu des options
-    SDL_RenderClear(renderer);
 
     // Dessiner les sliders
     draw_slider(renderer, displayMode.w/2-100, 100, 200, 20, musicVolume, MIX_MAX_VOLUME);
@@ -79,6 +81,7 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
     // Dessiner le bouton "Appliquer"
     draw_button(renderer, 350, 400, 100, 50, "Appliquer", font);
 
+    //Afficher les éléments
     SDL_RenderPresent(renderer);
 
     // Boucle pour gérer les événements des options
@@ -107,6 +110,10 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
                             Mix_VolumeMusic(musicVolume);
                             //Mix_Volume(-1, sfxVolume);
                             add_log("OPTIONS", "Modifications appliquées.\n");
+                            add_log("OPTIONS", "Sortie des Options.\n");
+                            running = 0;
+                            SDL_RenderClear(renderer);
+                            //On quitte les options
                         }
                     }
                     break;
@@ -135,9 +142,5 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
             }
         }
     }
-
-    TTF_CloseFont(font);
-    TTF_Quit();
-
-    add_log("OPTIONS", "Sortie des Options.\n");
+    return;
 }

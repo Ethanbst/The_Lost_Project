@@ -25,7 +25,7 @@
 #include "sdl_utils.h"
 #include "menu.c"
 
-
+/*
 //Change la position de notre image joueur en fonction de la touche pressée
 void mouvement(SDL_Event event, SDL_Rect *pos_joueur, SDL_Surface **orientation_joueur, SDL_Surface *img_joueur[4]){
     add_log("MOUVEMENT","mouvement()\n");
@@ -127,7 +127,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
     }
     add_log("JEU","Sortie while jeu()\n");
     sdl_utils_Quit(window, renderer);
-}
+}*/
 
 
 int main(int argc, char *args[])
@@ -148,9 +148,10 @@ int main(int argc, char *args[])
             SDL_SetWindowIcon(window, icon);
         }
 
+        //On passe au Menu si l'initialisation de la fenêtre est réussie
         menu(renderer, window);
-
     }
+
     else{
         add_log("MAIN","Echec initialisation de la fenetre.\n");
         return -1;
