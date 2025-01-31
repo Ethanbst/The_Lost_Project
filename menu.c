@@ -87,11 +87,20 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     create_log_file();
     add_log("MENU","Menu principal.\n");
 
+
+    init_default_settings();
+
+    int music_volume = get_setting_value("music_volume"); //On récupère la valeur de notre fichier afin de l'appliquer
+
+    //set_setting_value("music_volume", 2);
+
+
+
     //Première initialisation du menu
     //Implémentation de l'audio du menu:
     int init2 = Mix_Init(0);
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024); //Ouverture du fichier audio
-    Mix_VolumeMusic(MIX_MAX_VOLUME / 2); // Réglez le volume de la musique à 50%
+    Mix_VolumeMusic(music_volume); // Réglez le volume de la musique en fonction de settings.txt
     
     //Musique:
     Mix_Music *music = Mix_LoadMUS("res/music/menu.wav");

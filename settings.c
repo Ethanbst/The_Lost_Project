@@ -2,6 +2,111 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 #include "GetScreenSize.c"
+#include <string.h>
+
+//Retourne 1 si le fichier settings.txt existe, 0 sinon
+int exist_settings() {
+    FILE *file = fopen("settings.txt", "r");
+    if (file) {
+        fclose(file);
+        return 1;
+    } 
+    else 
+    {
+        return 0;
+    } 
+}
+
+// Fonction pour obtenir la valeur d'un paramètre dans le fichier settings.txt
+int get_setting_value(const char *setting_name) {
+    FILE *file = fopen("settings.txt", "r");
+    if (file == NULL) {
+        add_log("SETTINGS", "Erreur lors de l'ouverture du fichier settings.txt\n");
+        return -1;
+    }
+
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        char name[128];
+        int value;
+        if (sscanf(line, "%127s %d", name, &value) == 2) {
+            if (strcmp(name, setting_name) == 0) {
+                fclose(file);
+                return value;
+            }
+        }
+    }
+
+    fclose(file);
+    return -1; // Retourne -1 si le paramètre n'est pas trouvé
+}
+
+
+// Fonction pour définir la valeur d'un paramètre dans le fichier settings.txt
+void set_setting_value(const char *setting_name, int value) {
+    FILE *file = fopen("settings.txt", "r");
+    if (file == NULL) {
+        add_log("SETTINGS", "Erreur lors de l'ouverture du fichier settings.txt\n");
+        return;
+    }
+
+    FILE *temp = fopen("settings_tmp.txt", "w");
+    if (temp == NULL) {
+        add_log("SETTINGS", "Erreur lors de la création du fichier temporaire\n");
+        fclose(file);
+        return;
+    }
+
+    char line[256];
+    int found = 0;
+
+    while (fgets(line, sizeof(line), file)) {
+        char name[128];
+        int current_value;
+        
+        if (sscanf(line, "%127s %d", name, &current_value) == 2) {
+            if (strcmp(name, setting_name) == 0) {
+                fprintf(temp, "%s %d\n", setting_name, value);
+                found = 1;
+            } else {
+                fprintf(temp, "%s %d\n", name, current_value);
+            }
+        } else {
+            fputs(line, temp); // Pour conserver les lignes invalides si nécessaire
+        }
+    }
+
+    if (!found) {
+        fprintf(temp, "%s %d\n", setting_name, value);
+    }
+
+    fclose(file);
+    fclose(temp);
+
+    // Remplace l'ancien fichier par le nouveau
+    remove("settings.txt");
+    rename("settings_tmp.txt", "settings.txt");
+}
+
+
+//Fonction pour initialiser les paramètres par défaut si le fichier n'existe pas déjà
+void init_default_settings() {
+    //Si le fichier existe, on ne fait rien
+    if(exist_settings()){
+        return;
+    }
+    else{
+        FILE *file = fopen("settings.txt", "w");
+        if (file == NULL) {
+            add_log("SETTINGS", "Erreur lors de l'ouverture du fichier settings.txt\n");
+            return;
+        }
+        fprintf(file, "music_volume 50\n");
+        fprintf(file, "fx_volume 50\n");
+        fclose(file);
+        add_log("SETTINGS", "Fichier settings.txt écrit avec les valeurs par défaut\n");
+    }
+}
 
 
 //void add_log(const char *tag, const char *message);
@@ -56,8 +161,8 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
     SDL_RenderClear(renderer);
 
     // Variables pour le volume
-    int musicVolume = MIX_MAX_VOLUME / 2; // Volume initial de la musique (50%)
-    int sfxVolume = MIX_MAX_VOLUME / 2;   // Volume initial des effets sonores (50%)
+    int musicVolume = get_setting_value("music_volume"); // Volume initial de la musique (50%)
+    int sfxVolume = get_setting_value("fx_volume");   // Volume initial des effets sonores (50%)
 
     // Initialisation de TTF
     if (TTF_Init() == -1) {
@@ -126,6 +231,7 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
                         if (mouseX >= displayMode.w/2-100 && mouseX <= displayMode.w/2+100 && mouseY >= 100 && mouseY <= 120) {
                             musicVolume = (mouseX - (displayMode.w/2-100)) * MIX_MAX_VOLUME / 200;
                             draw_slider(renderer, displayMode.w/2-100, 100, 200, 20, musicVolume, MIX_MAX_VOLUME);
+                            set_setting_value("music_volume", musicVolume);
                             SDL_RenderPresent(renderer);
                             Mix_VolumeMusic(musicVolume);
                         }
@@ -134,6 +240,7 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
                         if (mouseX >= displayMode.w/2-100 && mouseX <= displayMode.w/2+100 && mouseY >= 200 && mouseY <= 220) {
                             sfxVolume = (mouseX - (displayMode.w/2-100)) * MIX_MAX_VOLUME / 200;
                             draw_slider(renderer, displayMode.w/2-100, 200, 200, 20, sfxVolume, MIX_MAX_VOLUME);
+                            set_setting_value("fx_volume", sfxVolume);
                             SDL_RenderPresent(renderer);
                             Mix_VolumeMusic(musicVolume);
                         }

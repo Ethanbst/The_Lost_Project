@@ -1,0 +1,50 @@
+Log file created at Fri Jan 31 18:12:33 2025
+MENU: Menu principal.
+SETTINGS: Fichier settings.txt écrit avec les valeurs par défaut
+MENU: menu.wav chargee avec succes.
+MENU: Width = %d, Height = %d
+MENU: Options sélectionné
+OPTIONS: Entré dans les Options.
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+SETTINGS: Erreur lors de l'ouverture du fichier settings.txt
+OPTIONS: Modifications appliquées.
+OPTIONS: Sortie des Options.
+MENU: Width = %d, Height = %d
+MENU: Quitter sélectionné
