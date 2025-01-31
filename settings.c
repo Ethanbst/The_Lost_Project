@@ -236,6 +236,7 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
                             Mix_VolumeMusic(musicVolume);
                         }
 
+
                         // Vérifier si le curseur est sur le slider des effets sonores
                         if (mouseX >= displayMode.w/2-100 && mouseX <= displayMode.w/2+100 && mouseY >= 200 && mouseY <= 220) {
                             sfxVolume = (mouseX - (displayMode.w/2-100)) * MIX_MAX_VOLUME / 200;
