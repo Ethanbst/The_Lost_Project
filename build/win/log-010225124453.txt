@@ -1,6 +1,0 @@
-Log file created at Sat Feb  1 12:44:53 2025
-MENU: Menu principal.
-SETTINGS: Fichier settings.txt écrit avec les valeurs par défaut
-MENU: menu.wav chargee avec succes.
-MENU: Width = %d, Height = %d
-MENU: Jouer sélectionné

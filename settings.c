@@ -4,6 +4,17 @@
 #include "GetScreenSize.c"
 #include <string.h>
 
+#define slider_width 600
+#define slider_height 40
+
+typedef struct _CTA{
+    int pos_x; //Position en x du CTA
+    int pox_y; //Position en y du CTA
+    int w; //Longueur du CTA
+    int h; //Largeur du CTA
+} CTA;
+
+
 //Retourne 1 si le fichier settings.txt existe, 0 sinon
 int exist_settings() {
     FILE *file = fopen("settings.txt", "r");
@@ -111,7 +122,7 @@ void init_default_settings() {
 
 //void add_log(const char *tag, const char *message);
 
-void draw_slider(SDL_Renderer *renderer, int x, int y, int w, int h, int value, int max_value) {
+CTA draw_slider(SDL_Renderer *renderer, int x, int y, int w, int h, int value, int max_value) {
 
     SDL_Rect slider_bg = {x, y, w, h};
     SDL_Rect slider_fg = {x, y, (w * value) / max_value, h};
@@ -127,24 +138,28 @@ void draw_slider(SDL_Renderer *renderer, int x, int y, int w, int h, int value, 
     // Draw border
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Border color (black)
     SDL_RenderDrawRect(renderer, &slider_bg);
+
+    CTA slider;
+    slider.h = h;
+    slider.w = w;
+    slider.pos_x = x;
+    slider.pox_y = y;
+
+    return slider;
 }
 
 
 
-void draw_button(SDL_Renderer *renderer, int x, int y, int w, int h, const char *text, TTF_Font *font) {
-    SDL_Rect button_rect = {x, y, w, h};
-
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Couleur du bouton
-    
-    SDL_RenderFillRect(renderer, &button_rect);
-
+void draw_button(SDL_Renderer *renderer, int x, int y, int multiply_size, const char *text, TTF_Font *font) {
     SDL_Color textColor = {255, 255, 255, 255}; // Text color
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text, textColor);
     SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
     int text_width = textSurface->w;
     int text_height = textSurface->h;
-    SDL_Rect text_rect = {x + (w - text_width) / 2, y + (h - text_height) / 2, text_width, text_height};
+    SDL_Rect text_rect = {x, y, multiply_size*text_width, multiply_size*text_height}; //Taille et pos du texte
+    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // Couleur du bouton
+    SDL_RenderFillRect(renderer, &text_rect);
 
     SDL_RenderCopy(renderer, textTexture, NULL, &text_rect);
 
@@ -180,11 +195,11 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
 
 
     // Dessiner les sliders
-    draw_slider(renderer, displayMode.w/2-100, 100, 200, 20, musicVolume, MIX_MAX_VOLUME);
-    draw_slider(renderer, displayMode.w/2-100, 200, 200, 20, sfxVolume, MIX_MAX_VOLUME);
+    CTA music_slider = draw_slider(renderer, displayMode.w/2-slider_width/2, 100, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
+    CTA fx_slider = draw_slider(renderer, displayMode.w/2-slider_width/2, 200, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
 
     // Dessiner le bouton "Appliquer"
-    draw_button(renderer, 350, 400, 100, 50, "Appliquer", font);
+    draw_button(renderer, displayMode.w/2-slider_width/2, 300, 2, "Appliquer", font);
 
     //Afficher les éléments
     SDL_RenderPresent(renderer);
@@ -211,7 +226,7 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
                         int mouseY = event.button.y;
 
                         // Vérifier si le clic est sur le bouton "Appliquer"
-                        if (mouseX >= 350 && mouseX <= 450 && mouseY >= 400 && mouseY <= 450) {
+                        if (mouseX >= displayMode.w/2-slider_width/2 && mouseX <= displayMode.w/2+slider_width/2 && mouseY >= 300 && mouseY <= 350) {
                             Mix_VolumeMusic(musicVolume);
                             //Mix_Volume(-1, sfxVolume);
                             add_log("OPTIONS", "Modifications appliquées.\n");
@@ -228,9 +243,9 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
                         int mouseY = event.motion.y;
 
                         // Vérifier si le curseur est sur le slider de la musique
-                        if (mouseX >= displayMode.w/2-100 && mouseX <= displayMode.w/2+100 && mouseY >= 100 && mouseY <= 120) {
-                            musicVolume = (mouseX - (displayMode.w/2-100)) * MIX_MAX_VOLUME / 200;
-                            draw_slider(renderer, displayMode.w/2-100, 100, 200, 20, musicVolume, MIX_MAX_VOLUME);
+                        if (mouseX >= displayMode.w/2-music_slider.w/2 && mouseX <= displayMode.w/2+music_slider.w/2 && mouseY >= 100 && mouseY <= 100+music_slider.h) {
+                            musicVolume = (mouseX - (displayMode.w/2-slider_width/2)) * MIX_MAX_VOLUME / slider_width;
+                            music_slider = draw_slider(renderer, music_slider.pos_x, music_slider.pox_y, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
                             set_setting_value("music_volume", musicVolume);
                             SDL_RenderPresent(renderer);
                             Mix_VolumeMusic(musicVolume);
@@ -238,9 +253,9 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
 
 
                         // Vérifier si le curseur est sur le slider des effets sonores
-                        if (mouseX >= displayMode.w/2-100 && mouseX <= displayMode.w/2+100 && mouseY >= 200 && mouseY <= 220) {
-                            sfxVolume = (mouseX - (displayMode.w/2-100)) * MIX_MAX_VOLUME / 200;
-                            draw_slider(renderer, displayMode.w/2-100, 200, 200, 20, sfxVolume, MIX_MAX_VOLUME);
+                        if (mouseX >= displayMode.w/2-fx_slider.w/2 && mouseX <= displayMode.w/2+fx_slider.w/2 && mouseY >= 200 && mouseY <= 200+fx_slider.h) {
+                            sfxVolume = (mouseX - (displayMode.w/2-slider_width/2)) * MIX_MAX_VOLUME / slider_width;
+                            fx_slider = draw_slider(renderer, displayMode.w/2-slider_width/2, 200, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
                             set_setting_value("fx_volume", sfxVolume);
                             SDL_RenderPresent(renderer);
                             Mix_VolumeMusic(musicVolume);

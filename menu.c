@@ -55,7 +55,7 @@ void menu_start(SDL_Renderer *renderer, SDL_Texture *playTexture, SDL_Texture *o
     add_log("MENU","Width = %d, Height = %d\n");
 
 
-    int t_bt_x = 200; //Longueur d'un bouton
+    int t_bt_x = 400; //Longueur d'un bouton
     int t_bt_y = t_bt_x / 2; //Hauteur d'un bouton
     int esp_bt = t_bt_x; //Espacement entre chaque bouton
 
@@ -134,7 +134,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     }
 
     //Charger la police d'écriture
-    TTF_Font* font = TTF_OpenFont("res/font/Pixelfy.ttf", 28);
+    TTF_Font* font = TTF_OpenFont("res/font/Pixelfy.ttf", 24);
     if (!font) {
         add_log("MENU","Erreur lors du chargement de la police");
         //return;
@@ -158,7 +158,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     add_log("MENU","Width = %d, Height = %d\n");
 
 
-    int t_bt_x = 200; //Longueur d'un bouton
+    int t_bt_x = 400; //Longueur d'un bouton
     int t_bt_y = t_bt_x / 2; //Hauteur d'un bouton
     int esp_bt = t_bt_x; //Espacement entre chaque bouton
 

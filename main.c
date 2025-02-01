@@ -52,11 +52,7 @@ int main(int argc, char *args[])
         add_log("MAIN","Echec initialisation de la fenetre.\n");
         return -1;
     }
-
-    //Libération des images du joueur
-    /*for(int i=0;i<4, i++){
-        SDL_FreeSurface(joueur[i]);
-    }*/
+    
     sdl_utils_Quit(window, renderer);
     return 0;
 }
