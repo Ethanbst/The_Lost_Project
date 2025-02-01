@@ -1,2 +1,2 @@
-music_volume 111
-fx_volume 8
+music_volume 103
+fx_volume 50
