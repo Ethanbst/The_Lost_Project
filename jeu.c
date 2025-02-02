@@ -3,37 +3,115 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 
+
+
+//Contient la texture d'une map ainsi que ça matrice d'objets (mur, vide, etc)
 typedef struct Map{
-    SDL_Texture *texture;
+    SDL_Texture *texture; //Texture des murs
+    int **matrice; //Matrice de la map
+    int pMposX; //Position du joueur en x dans la matrice
+    int pMposY; //Position du joueur en y dans la matrice
+    int pPXposX; //Position du joueur en x sur la fenêtre
+    int pPXposY; //Position du joueur en y sur la fenêtre
 }Map;
 
-enum{HAUT, BAS, GAUCHE, DROITE};
+enum Direction {HAUT, BAS, GAUCHE, DROITE};
 
-void mouvement( const Uint8 *state, SDL_Rect *playerRect, SDL_Texture *img_dir_joueur[4], SDL_Texture **playerTexture){
-    if(state[SDL_SCANCODE_W]){
+
+// Fonction pour vérifier les collisions en fonction du centre du joueur
+int no_obstacle(enum Direction direction, Map *map, SDL_Rect *playerRect, int cellSize) {
+    int centerX = playerRect->x + playerRect->w / 2;
+    int centerY = playerRect->y + playerRect->h;
+
+    if (direction == HAUT) {
+        if (map->matrice[(centerY - 10) / cellSize][centerX / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
+            return 0;
+        }
+    }
+
+    if (direction == BAS) {
+        if (map->matrice[(centerY + 10) / cellSize][centerX / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
+            return 0;
+        }
+    }
+
+    if (direction == GAUCHE) {
+        if (map->matrice[centerY / cellSize][(centerX - 10) / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
+            return 0;
+        }
+    }
+
+    if (direction == DROITE) {
+        if (map->matrice[centerY / cellSize][(centerX + 10) / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+// Taille d'une cellule de la matrice en pixels
+int cellSize;
+//On récupère la taille de la fenêtre pour bien placer les boutons par la suite
+int width, height;
+
+// Fonction pour initialiser la taille de la fenêtre
+void initWindowSize() {
+    SDL_DisplayMode taille_fenetre;
+    SDL_GetCurrentDisplayMode(0, &taille_fenetre);
+    width = taille_fenetre.w;
+    height = taille_fenetre.h;
+    cellSize = width / 20;
+}
+
+// Fonction pour mettre à jour la position du joueur dans la matrice en fonction de sa position dans la fenêtre
+void updatePlayerPositionInMatrix(Map *map, SDL_Rect *playerRect, int cellSize) {
+    map->pMposX = playerRect->x / cellSize;
+    map->pMposY = playerRect->y / cellSize;
+}
+
+void mouvement( const Uint8 *state, SDL_Rect *playerRect, SDL_Texture *img_dir_joueur[4], SDL_Texture **playerTexture, Map *map){
+    int oldMposX = map->pMposX;
+    int oldMposY = map->pMposY;
+
+    printf("Joueur in matrix: %d, %d\n", map->pMposX, map->pMposY);
+    
+    if(state[SDL_SCANCODE_W] && no_obstacle(HAUT, map, playerRect, cellSize)){
         add_log("MOUVEMENT","Z pressee\n");
         playerRect->y -= 10;
         *playerTexture = img_dir_joueur[HAUT];
     }
 
-    if(state[SDL_SCANCODE_A]){
+    if(state[SDL_SCANCODE_A] && no_obstacle(GAUCHE, map, playerRect, cellSize)){
         add_log("MOUVEMENT","Q pressee\n");
         playerRect->x -= 10;
         *playerTexture = img_dir_joueur[GAUCHE];
     }
 
-    if(state[SDL_SCANCODE_S]){
+    if(state[SDL_SCANCODE_S] && no_obstacle(BAS, map, playerRect, cellSize)){
         add_log("MOUVEMENT","S pressee\n");
         playerRect->y += 10;
         *playerTexture = img_dir_joueur[BAS];
     }
 
-    if(state[SDL_SCANCODE_D]){
+    if(state[SDL_SCANCODE_D] && no_obstacle(DROITE, map, playerRect, cellSize)){
         add_log("MOUVEMENT","D pressee\n");
         playerRect->x += 10;
         *playerTexture = img_dir_joueur[DROITE];
+        
     }
-    return;
+    
+    // Mettre à jour la position du joueur dans la matrice si elle a changé
+    updatePlayerPositionInMatrix(map, playerRect, cellSize);
+
+    // Vérifier si la position dans la matrice a changé
+    if (map->pMposX != oldMposX || map->pMposY != oldMposY) {
+        add_log("MOUVEMENT", "Position dans la matrice mise à jour\n");
+    }
 }
 
 
@@ -115,7 +193,7 @@ SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
 }
 
 //Créér une texture pour les murs et la retourne
-Map* render_map(SDL_Window *window, int **matrice){
+SDL_Texture* render_map(SDL_Window *window, int **matrice){
 
     SDL_Renderer *renderer = SDL_GetRenderer(window);
 
@@ -149,21 +227,23 @@ Map* render_map(SDL_Window *window, int **matrice){
     SDL_SetRenderTarget(renderer, NULL);
 
     //Structure contenant la texture et le rectangle du mur
-    Map *map = (Map*)malloc(sizeof(Map));
-    map->texture = map_texture;
+    //Map *map = (Map*)malloc(sizeof(Map));
+    //map->texture = map_texture;
 
-    return map;
+    return map_texture;
 }
-
 
 //Fonction de lancement du jeu
 void jeu(SDL_Window *window, SDL_Renderer *renderer){
 
+    initWindowSize();
+
     add_log("JEU","Fonction jeu.\n");
+    Map *map = (Map*)malloc(sizeof(Map));
+    map->matrice = read_map_from_file("res/map1.txt");
+    //int **matrice = read_map_from_file("res/map1.txt");
 
-    int **matrice = read_map_from_file("res/map1.txt");
-
-    Map *map = render_map(window, matrice);
+    map->texture = render_map(window, map->matrice);
 
     if(IMG_Init(IMG_INIT_PNG) == 0){
         add_log("JEU","Erreur d'initialisation de SDL_image\n");
@@ -178,15 +258,14 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
     width = taille_fenetre.w;
     height = taille_fenetre.h;
 
+    //Positionnement du joueur au départ dans la matrice
+    map->pMposX = 1;
+    map->pMposY = 1;
+    //Positionnement du joueur au départ sur la fenêtre
+    map->pPXposX = width/20*map->pMposX;
+    map->pPXposY = width/20*map->pMposY;
 
-    SDL_Rect playerRect = {width/20, width/20, width/20, width/20}; //Rectange qui reçoit l'image du joueur
-
-
-
-    //Implémentation des éléments du joueur:
-    //enum{VIDE, MUR, JOUEUR};
-    
-    //SDL_Rect position, posJoueur; //Position de l'image & Position joueur
+    SDL_Rect playerRect = {width/20*map->pMposX, width/20*map->pMposY, width/20, width/20}; //Rectange qui reçoit l'image du joueur
 
     SDL_Texture *img_dir_joueur[4]={NULL}; //Liste de valeur possible pour la rotation du joueur
 
@@ -230,7 +309,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
                 continuer = 0;
             }
         }
-        mouvement(state, &playerRect, img_dir_joueur, &playerTexture); //Déplace le joueur
+        mouvement(state, &playerRect, img_dir_joueur, &playerTexture, map); //Déplace le joueur
         SDL_RenderClear(renderer); //Efface l'écran
         SDL_RenderCopy(renderer, map->texture, NULL, NULL); //Rend la texture des murs
         SDL_RenderCopy(renderer, playerTexture, NULL, &playerRect); //Rend le joueur car sa position à changé

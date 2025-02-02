@@ -13,16 +13,16 @@ void create_log_file() {
 
     FILE *file = fopen(last_logfile, "w");
     if (file != NULL) {
-        fprintf(file, "Log file created at %s", asctime(t));
+        fprintf(file, "Log file created at %s\n", asctime(t));
         fclose(file);
-    } 
+    }
     else {
         perror("Error creating log file");
     }
 }
 
 
-//Ajoute une chaine de caractère au dernnier fichier de log
+//Ajoute une chaine de caractère au dernier fichier de log
 void add_log(const char *origine, const char *texte) {
     
     FILE *file = fopen(last_logfile, "a");
