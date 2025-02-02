@@ -203,10 +203,9 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                 if (x > playRect.x && x < playRect.x + playRect.w &&
                     y > playRect.y && y < playRect.y + playRect.h) {
                     add_log("MENU","Jouer sélectionné\n");
-                    Mix_FadeOutMusic(2000);
-                    int **map = read_map_from_file("res/map1.txt");
-                    create_map(window, map);
-                    //jeu(window, renderer);
+                    Mix_FadeOutMusic(1000);
+                    free_menu(renderer, playTexture, optionsTexture, quitTexture, bg_menu_texture);
+                    jeu(window, renderer);
                 }
 
                 //Vérifier si "Options" est cliqué

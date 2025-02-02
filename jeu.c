@@ -1,37 +1,36 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
+#include <SDL_image.h>
 
+typedef struct Texture_Rect{
+    SDL_Texture *texture;
+    SDL_Rect *rect;
+}T_R;
 
-//Change la position de notre image joueur en fonction de la touche pressée
-void mouvement(SDL_Event event, SDL_Rect *pos_joueur, SDL_Surface **orientation_joueur, SDL_Surface *img_joueur[4]){
-    add_log("MOUVEMENT","mouvement()\n");
+enum{HAUT, BAS, GAUCHE, DROITE};
+
+void mouvement(SDL_Event event, SDL_Rect *playerRect, SDL_Texture *img_dir_joueur[4], SDL_Texture **playerTexture){
     if(event.key.keysym.sym == SDLK_z){
         add_log("MOUVEMENT","Z pressee\n");
-        pos_joueur->y -= 100;
-        *orientation_joueur = img_joueur[0];
+        playerRect->y -= 100;
+        *playerTexture = img_dir_joueur[HAUT];
     }
 
     if(event.key.keysym.sym == SDLK_q){
         add_log("MOUVEMENT","Q pressee\n");
-        pos_joueur->x -= 100;
-        *orientation_joueur = img_joueur[2];
+        playerRect->x -= 100;
+        *playerTexture = img_dir_joueur[GAUCHE];
     }
     if(event.key.keysym.sym == SDLK_s){
         add_log("MOUVEMENT","S pressee\n");
-        pos_joueur->y += 100;
-        *orientation_joueur = img_joueur[1];
+        playerRect->y += 100;
+        *playerTexture = img_dir_joueur[BAS];
     }
     if(event.key.keysym.sym == SDLK_d){
         add_log("MOUVEMENT","D pressee\n");
-        pos_joueur->x += 100;
-        *orientation_joueur = img_joueur[3];
-    }
-    if(orientation_joueur){
-        add_log("MOUVEMENT","Orientation changee.");
-    }
-    else{
-        add_log("MOUVEMENT","Erreur d'orientation.");
+        playerRect->x += 100;
+        *playerTexture = img_dir_joueur[DROITE];
     }
     return;
 }
@@ -105,15 +104,22 @@ int** read_map_from_file(const char* filename) {
     return matrix;
 }
 
-
-//Affiche les images du mur sur la fenêtre en fonction de la matrice entrée en paramètre
-void create_map(SDL_Window *window, int **map){
-
-    SDL_Surface *mur = IMG_Load("res/mur.bmp");
-    if (!mur) {
-        add_log("MAP", "Erreur de chargement de l'image du mur\n");
-        return;
+// Fonction pour charger une texture à partir d'un fichier BMP
+SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
+    SDL_Texture* texture = IMG_LoadTexture(renderer, path);
+    if(texture == NULL) {
+        add_log("TEXTURE", "Erreur de chargement de la texture\n");
     }
+    return texture;
+}
+
+//Créér une texture pour les murs et la retourne
+T_R* render_map(SDL_Window *window, int **map){
+
+    SDL_Renderer *renderer = SDL_GetRenderer(window);
+
+    //Texture du mur
+    SDL_Texture *mur_texture = loadTexture("res/mur.bmp", renderer);
 
     //On récupère la taille de la fenêtre pour bien placer les boutons par la suite
     int width, height;
@@ -122,91 +128,105 @@ void create_map(SDL_Window *window, int **map){
     width = taille_fenetre.w;
     height = taille_fenetre.h;
 
-    
-    SDL_Rect destRect;
-    destRect.w = width/20;
-    destRect.h = destRect.w;
+    SDL_Texture *map_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width, height);
+    SDL_SetRenderTarget(renderer, map_texture);
+
+    SDL_Rect MurRect;
+    MurRect.w = width / 20;
+    MurRect.h = MurRect.w;
 
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 20; j++) {
             if (map[i][j] == 1) {
-                destRect.x = j * destRect.w;
-                destRect.y = i * destRect.h;
-                SDL_BlitScaled(mur, NULL, SDL_GetWindowSurface(window), &destRect);
+                MurRect.x = j * MurRect.w;
+                MurRect.y = i * MurRect.h;
+                SDL_RenderCopy(renderer, mur_texture, NULL, &MurRect);
             }
         }
     }
 
-    SDL_UpdateWindowSurface(window);
-    SDL_FreeSurface(mur);
+    SDL_SetRenderTarget(renderer, NULL);
 
+    //Structure contenant la texture et le rectangle du mur
+    T_R *mur = (T_R*)malloc(sizeof(T_R));
+    mur->rect = NULL; // Pas besoin de rectangle unique pour la texture de la carte
+    mur->texture = map_texture;
+
+    return mur;
 }
+
 
 //Fonction de lancement du jeu
 void jeu(SDL_Window *window, SDL_Renderer *renderer){
 
     add_log("JEU","Fonction jeu.\n");
-    
-    SDL_Surface *ecran = SDL_GetWindowSurface(window);
+
+    int **map = read_map_from_file("res/map1.txt");
+
+    T_R *Mur = render_map(window, map);
+
+    if(IMG_Init(IMG_INIT_PNG) == 0){
+        add_log("JEU","Erreur d'initialisation de SDL_image\n");
+    }
+
+    SDL_Texture *playerTexture = loadTexture("res/joueur/joueurB.png", renderer);
+    SDL_Rect playerRect = {150, 150, 150, 150}; //Rectange qui reçoit l'image du joueur
+
+
 
     //Implémentation des éléments du joueur:
-    enum{VIDE, MUR, JOUEUR};
-    enum{HAUT, BAS, GAUCHE, DROITE};
-    SDL_Rect position, posJoueur; //Position de l'image & Position joueur
+    //enum{VIDE, MUR, JOUEUR};
+    
+    //SDL_Rect position, posJoueur; //Position de l'image & Position joueur
 
-    SDL_Surface *img_joueur[4]={NULL}; //Liste de valeur possible pour la rotation du joueur
-    SDL_Surface *orientation_joueur = NULL; //Image du personnage en fonction du dernier déplacement (H, B, G, D)
+    SDL_Texture *img_dir_joueur[4]={NULL}; //Liste de valeur possible pour la rotation du joueur
 
-    //Chargement des images du joueur:
-    img_joueur[BAS]=IMG_Load("res/joueur/joueurB.bmp");
-    img_joueur[HAUT]=IMG_Load("res/joueur/joueurH.bmp");
-    img_joueur[GAUCHE]=IMG_Load("res/joueur/joueurG.bmp");
-    img_joueur[DROITE]=IMG_Load("res/joueur/joueurD.bmp");
+    //Chargement des images du joueur en textures
+    img_dir_joueur[BAS]=loadTexture("res/joueur/joueurB.png", renderer);
+    img_dir_joueur[HAUT]=loadTexture("res/joueur/joueurH.png", renderer);
+    img_dir_joueur[GAUCHE]=loadTexture("res/joueur/joueurG.png", renderer);
+    img_dir_joueur[DROITE]=loadTexture("res/joueur/joueurD.png", renderer);
 
-    if(!img_joueur[BAS] || !img_joueur[HAUT] || !img_joueur[GAUCHE] || !img_joueur[DROITE]){
+    if(!img_dir_joueur[BAS] || !img_dir_joueur[HAUT] || !img_dir_joueur[GAUCHE] || !img_dir_joueur[DROITE]){
         add_log("JEU","Erreur de chargement de l'image du joueur\n");
     }
 
-    orientation_joueur = img_joueur[BAS];
-    posJoueur.x = 0;
-    posJoueur.y = 0;
+    playerTexture = img_dir_joueur[HAUT]; //Orientation du joueur au démarrage
 
-    position.x = posJoueur.x;
-    position.y = posJoueur.y;
 
-    //Rectangle contenan; l'image du joueur
-    int h_joueur = 100;
-    int l_joueur = 100;
-    SDL_Rect destRect = { posJoueur.x, posJoueur.y, h_joueur, l_joueur};
-        
+
+
+
     SDL_Event event; //Variable qui reçoit l'évènement
 
     int continuer = 1;
     add_log("JEU","Entré dans while jeu()\n");
+
+    //Premier rendu des textures
+    SDL_RenderCopy(renderer, Mur->texture, NULL, NULL);
+    SDL_RenderCopy(renderer, playerTexture, NULL, &playerRect);
+    SDL_RenderPresent(renderer);
+    
     while(continuer){
-        SDL_BlitScaled(orientation_joueur, NULL, ecran, &destRect);
-        SDL_UpdateWindowSurface(window);
+
         SDL_WaitEvent(&event); //Modifie la variable event avec l'évènement reçu
+
         switch (event.type)
         {
             case SDL_QUIT:
                 continuer = 0;
                 break;
             case SDL_KEYDOWN:
-            //printf("Touche pressee\n");
-            mouvement(event, &posJoueur, &orientation_joueur, img_joueur);
-            
-            //On met à jour la position du joueur:
-            SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 0, 0, 0)); //Met la couleur noir à l'écran
-            destRect.x = posJoueur.x;
-            destRect.y = posJoueur.y;
-            SDL_BlitScaled(orientation_joueur, NULL, ecran, &destRect);
-            SDL_UpdateWindowSurface(window);
+            SDL_RenderClear(renderer); //Efface l'écran
+            mouvement(event, &playerRect, img_dir_joueur, &playerTexture); //Déplace le joueur
+            SDL_RenderCopy(renderer, Mur->texture, NULL, NULL); //Rend la texture des murs
+            SDL_RenderCopy(renderer, playerTexture, NULL, &playerRect); //Rend le joueur car sa position à changé
+            SDL_RenderPresent(renderer); //Présente le rendu
             break;
             default:
                 break;
         }
     }
     add_log("JEU","Sortie while jeu()\n");
-    sdl_utils_Quit(window, renderer);
+    //sdl_utils_Quit(window, renderer);
 }
