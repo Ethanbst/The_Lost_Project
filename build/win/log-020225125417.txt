@@ -1,0 +1,42 @@
+Log file created at Sun Feb  2 12:54:17 2025
+MENU: Menu principal.
+MENU: menu.wav chargee avec succes.
+MENU: Width = %d, Height = %d
+MENU: Jouer sélectionné
+JEU: Fonction jeu.
+JEU: Entré dans while jeu()
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+JEU: Sortie while jeu()

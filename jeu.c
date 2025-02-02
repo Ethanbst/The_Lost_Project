@@ -3,33 +3,34 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 
-typedef struct Texture_Rect{
+typedef struct Map{
     SDL_Texture *texture;
-    SDL_Rect *rect;
-}T_R;
+}Map;
 
 enum{HAUT, BAS, GAUCHE, DROITE};
 
-void mouvement(SDL_Event event, SDL_Rect *playerRect, SDL_Texture *img_dir_joueur[4], SDL_Texture **playerTexture){
-    if(event.key.keysym.sym == SDLK_z){
+void mouvement( const Uint8 *state, SDL_Rect *playerRect, SDL_Texture *img_dir_joueur[4], SDL_Texture **playerTexture){
+    if(state[SDL_SCANCODE_W]){
         add_log("MOUVEMENT","Z pressee\n");
-        playerRect->y -= 100;
+        playerRect->y -= 10;
         *playerTexture = img_dir_joueur[HAUT];
     }
 
-    if(event.key.keysym.sym == SDLK_q){
+    if(state[SDL_SCANCODE_A]){
         add_log("MOUVEMENT","Q pressee\n");
-        playerRect->x -= 100;
+        playerRect->x -= 10;
         *playerTexture = img_dir_joueur[GAUCHE];
     }
-    if(event.key.keysym.sym == SDLK_s){
+
+    if(state[SDL_SCANCODE_S]){
         add_log("MOUVEMENT","S pressee\n");
-        playerRect->y += 100;
+        playerRect->y += 10;
         *playerTexture = img_dir_joueur[BAS];
     }
-    if(event.key.keysym.sym == SDLK_d){
+
+    if(state[SDL_SCANCODE_D]){
         add_log("MOUVEMENT","D pressee\n");
-        playerRect->x += 100;
+        playerRect->x += 10;
         *playerTexture = img_dir_joueur[DROITE];
     }
     return;
@@ -114,7 +115,7 @@ SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
 }
 
 //Créér une texture pour les murs et la retourne
-T_R* render_map(SDL_Window *window, int **map){
+Map* render_map(SDL_Window *window, int **matrice){
 
     SDL_Renderer *renderer = SDL_GetRenderer(window);
 
@@ -137,7 +138,7 @@ T_R* render_map(SDL_Window *window, int **map){
 
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 20; j++) {
-            if (map[i][j] == 1) {
+            if (matrice[i][j] == 1) {
                 MurRect.x = j * MurRect.w;
                 MurRect.y = i * MurRect.h;
                 SDL_RenderCopy(renderer, mur_texture, NULL, &MurRect);
@@ -148,11 +149,10 @@ T_R* render_map(SDL_Window *window, int **map){
     SDL_SetRenderTarget(renderer, NULL);
 
     //Structure contenant la texture et le rectangle du mur
-    T_R *mur = (T_R*)malloc(sizeof(T_R));
-    mur->rect = NULL; // Pas besoin de rectangle unique pour la texture de la carte
-    mur->texture = map_texture;
+    Map *map = (Map*)malloc(sizeof(Map));
+    map->texture = map_texture;
 
-    return mur;
+    return map;
 }
 
 
@@ -161,16 +161,25 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
 
     add_log("JEU","Fonction jeu.\n");
 
-    int **map = read_map_from_file("res/map1.txt");
+    int **matrice = read_map_from_file("res/map1.txt");
 
-    T_R *Mur = render_map(window, map);
+    Map *map = render_map(window, matrice);
 
     if(IMG_Init(IMG_INIT_PNG) == 0){
         add_log("JEU","Erreur d'initialisation de SDL_image\n");
     }
 
     SDL_Texture *playerTexture = loadTexture("res/joueur/joueurB.png", renderer);
-    SDL_Rect playerRect = {150, 150, 150, 150}; //Rectange qui reçoit l'image du joueur
+
+    //On récupère la taille de la fenêtre pour bien placer les boutons par la suite
+    int width, height;
+    SDL_DisplayMode taille_fenetre;
+    SDL_GetCurrentDisplayMode(0, &taille_fenetre);
+    width = taille_fenetre.w;
+    height = taille_fenetre.h;
+
+
+    SDL_Rect playerRect = {width/20, width/20, width/20, width/20}; //Rectange qui reçoit l'image du joueur
 
 
 
@@ -197,35 +206,37 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
 
 
 
-    SDL_Event event; //Variable qui reçoit l'évènement
 
     int continuer = 1;
     add_log("JEU","Entré dans while jeu()\n");
 
     //Premier rendu des textures
-    SDL_RenderCopy(renderer, Mur->texture, NULL, NULL);
+    SDL_RenderCopy(renderer, map->texture, NULL, NULL);
     SDL_RenderCopy(renderer, playerTexture, NULL, &playerRect);
     SDL_RenderPresent(renderer);
+
+    SDL_Event event; //Variable qui reçoit l'évènement
+    const Uint8 *state = SDL_GetKeyboardState(NULL); //Récupère l'état du clavier
+    Uint32 lastTime = SDL_GetTicks(), currentTime; //Variables pour le temps
+
     
     while(continuer){
-
-        SDL_WaitEvent(&event); //Modifie la variable event avec l'évènement reçu
-
-        switch (event.type)
-        {
-            case SDL_QUIT:
+        /*currentTime = SDL_GetTicks(); //Récupère le temps actuel
+        Uint32 deltaTime = currentTime - lastTime; //Calcul du temps écoulé
+        lastTime = currentTime; //Mise à jour du temps*/
+        
+        while(SDL_PollEvent(&event)){
+            if(event.type == SDL_QUIT){
                 continuer = 0;
-                break;
-            case SDL_KEYDOWN:
-            SDL_RenderClear(renderer); //Efface l'écran
-            mouvement(event, &playerRect, img_dir_joueur, &playerTexture); //Déplace le joueur
-            SDL_RenderCopy(renderer, Mur->texture, NULL, NULL); //Rend la texture des murs
-            SDL_RenderCopy(renderer, playerTexture, NULL, &playerRect); //Rend le joueur car sa position à changé
-            SDL_RenderPresent(renderer); //Présente le rendu
-            break;
-            default:
-                break;
+            }
         }
+        mouvement(state, &playerRect, img_dir_joueur, &playerTexture); //Déplace le joueur
+        SDL_RenderClear(renderer); //Efface l'écran
+        SDL_RenderCopy(renderer, map->texture, NULL, NULL); //Rend la texture des murs
+        SDL_RenderCopy(renderer, playerTexture, NULL, &playerRect); //Rend le joueur car sa position à changé
+        SDL_RenderPresent(renderer); //Présente le rendu
+        
+        SDL_Delay(16); //Délai pour éviter de bouger trop vite
     }
     add_log("JEU","Sortie while jeu()\n");
     //sdl_utils_Quit(window, renderer);
