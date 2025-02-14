@@ -1,9 +1,9 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
-#include "logs_utils/log.c"
-#include "settings.c"
-#include "jeu.c"
+#include "../logs_utils/log.h"
+#include "../settings.c"
+#include "../jeu.c"
 
 //Fonction pour afficher du texte à l'écran
 SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, SDL_Color color){

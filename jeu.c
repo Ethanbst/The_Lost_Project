@@ -2,6 +2,7 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
+#include "logs_utils/log.h"
 
 
 

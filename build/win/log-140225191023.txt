@@ -1,0 +1,2272 @@
+Log file created at Fri Feb 14 19:10:23 2025
+
+MENU: Menu principal.
+MENU: menu.wav chargee avec succes.
+MENU: Width = %d, Height = %d
+MENU: Options sélectionné
+OPTIONS: Entré dans les Options.
+OPTIONS: Modifications appliquées.
+OPTIONS: Sortie des Options.
+MENU: Width = %d, Height = %d
+MENU: Jouer sélectionné
+JEU: Fonction jeu.
+JEU: Entré dans while jeu()
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+JEU: Obstacle!
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+JEU: Obstacle!
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Z pressee
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: Position dans la matrice mise à jour
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+JEU: Obstacle!
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: D pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: S pressee
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+JEU: Obstacle!
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Position dans la matrice mise à jour
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+MOUVEMENT: Q pressee
+JEU: Sortie while jeu()

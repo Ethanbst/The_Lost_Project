@@ -3,6 +3,8 @@
 #include <SDL_ttf.h>
 #include "GetScreenSize.c"
 #include <string.h>
+#include "logs_utils/log.h"
+#include <stdio.h>
 
 #define slider_width 600
 #define slider_height 40
