@@ -1,1 +1,2 @@
-build/
+build/win/log*.txt
+build/win/settings.txt

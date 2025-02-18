@@ -5,16 +5,10 @@
 #include <string.h>
 #include "logs_utils/log.h"
 #include <stdio.h>
+#include "cta_utils/cta.h"
 
 #define slider_width 600
-#define slider_height 40
-
-typedef struct _CTA{
-    int pos_x; //Position en x du CTA
-    int pox_y; //Position en y du CTA
-    int w; //Longueur du CTA
-    int h; //Largeur du CTA
-} CTA;
+#define slider_height 50
 
 
 //Retourne 1 si le fichier settings.txt existe, 0 sinon
@@ -121,55 +115,6 @@ void init_default_settings() {
     }
 }
 
-
-//void add_log(const char *tag, const char *message);
-
-CTA draw_slider(SDL_Renderer *renderer, int x, int y, int w, int h, int value, int max_value) {
-
-    SDL_Rect slider_bg = {x, y, w, h};
-    SDL_Rect slider_fg = {x, y, (w * value) / max_value, h};
-
-    // Draw background
-    SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255); // Background color (gray)
-    SDL_RenderFillRect(renderer, &slider_bg);
-
-    // Draw foreground
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Foreground color (light red)
-    SDL_RenderFillRect(renderer, &slider_fg);
-
-    // Draw border
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255); // Border color (black)
-    SDL_RenderDrawRect(renderer, &slider_bg);
-
-    CTA slider;
-    slider.h = h;
-    slider.w = w;
-    slider.pos_x = x;
-    slider.pox_y = y;
-
-    return slider;
-}
-
-
-
-void draw_button(SDL_Renderer *renderer, int x, int y, int multiply_size, const char *text, TTF_Font *font) {
-    SDL_Color textColor = {255, 255, 255, 255}; // Text color
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, text, textColor);
-    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-
-    int text_width = textSurface->w;
-    int text_height = textSurface->h;
-    SDL_Rect text_rect = {x, y, multiply_size*text_width, multiply_size*text_height}; //Taille et pos du texte
-    SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255); // Couleur du bouton
-    SDL_RenderFillRect(renderer, &text_rect);
-
-    SDL_RenderCopy(renderer, textTexture, NULL, &text_rect);
-
-    SDL_FreeSurface(textSurface);
-    SDL_DestroyTexture(textTexture);
-}
-
-
 void options(SDL_Renderer *renderer, SDL_Window *window) {
     add_log("OPTIONS", "Entré dans les Options.\n");
 
@@ -186,7 +131,7 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
         add_log("ERROR", "Failed to initialize TTF.\n");
         return;
     }
-    TTF_Font *font = TTF_OpenFont("res/font/Pixelfy.ttf", 24);
+    TTF_Font *font = TTF_OpenFont("res/font/Jersey10-Regular.ttf", 24);
     if (!font) {
         add_log("ERROR", "Failed to load font.\n");
         return;
@@ -195,13 +140,12 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
     SDL_DisplayMode displayMode;
     displayMode = GetScreenSize();
 
-
     // Dessiner les sliders
     CTA music_slider = draw_slider(renderer, displayMode.w/2-slider_width/2, 100, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
     CTA fx_slider = draw_slider(renderer, displayMode.w/2-slider_width/2, 200, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
 
     // Dessiner le bouton "Appliquer"
-    draw_button(renderer, displayMode.w/2-slider_width/2, 300, 2, "Appliquer", font);
+    CTA apply_button = draw_button(renderer, displayMode.w/2-slider_width/2, 300, 4, "Appliquer", font);
 
     //Afficher les éléments
     SDL_RenderPresent(renderer);
@@ -228,7 +172,7 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
                         int mouseY = event.button.y;
 
                         // Vérifier si le clic est sur le bouton "Appliquer"
-                        if (mouseX >= displayMode.w/2-slider_width/2 && mouseX <= displayMode.w/2+slider_width/2 && mouseY >= 300 && mouseY <= 350) {
+                        if (mouseX >= apply_button.pos_x && mouseX <= apply_button.pos_x+apply_button.w && mouseY >= apply_button.pox_y && mouseY <= apply_button.pox_y+apply_button.h) {
                             Mix_VolumeMusic(musicVolume);
                             //Mix_Volume(-1, sfxVolume);
                             add_log("OPTIONS", "Modifications appliquées.\n");

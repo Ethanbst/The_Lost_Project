@@ -14,12 +14,12 @@
  #include <SDL.h>
  #include <SDL_image.h>
  #include <SDL_mixer.h>
- #include <SDL_ttf.h>
+ //#include <SDL_ttf.h>
 #else
  #include <SDL2/SDL.h>
  #include <SDL2/SDL_image.h>
  #include <SDL2/SDL_mixer.h>
- #include <SDL2/SDL_ttf.h>
+ //#include <SDL2/SDL_ttf.h>
 #endif
 #include "common.h"
 #include "sdl_utils.h"
@@ -31,6 +31,7 @@ int main(int argc, char *args[])
 {
     SDL_Window *window;
     SDL_Renderer *renderer;
+    create_log_file();
 
     // Init SDL without texture filtering for better pixelart results
     if (sdl_utils_Init("The Lost Project", &window, &renderer, 0)) 
