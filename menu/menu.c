@@ -4,6 +4,7 @@
 #include "../logs_utils/log.h"
 #include "../settings.c"
 #include "../jeu.c"
+#include "../mouse_utils/mouse.h"
 
 //Fonction pour afficher du texte à l'écran
 SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, SDL_Color color){
@@ -45,20 +46,14 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     //Couleur pour le texte
     SDL_Color color = {255, 255, 255}; // Blanc
     
-    //On récupère la taille de la fenêtre pour bien placer les boutons par la suite
-    int width, height;
-    SDL_DisplayMode taille_fenetre = GetScreenSize();
-    width = taille_fenetre.w;
-    height = taille_fenetre.h;
+    int screen_width, screen_height;
+    //Récupère la taille de la fenêtre
+    SDL_GetRendererOutputSize(renderer, &screen_width, &screen_height);
 
+    int esp_bt = 100; //Espacement entre chaque bouton
 
-    int t_bt_x = 400; //Longueur d'un bouton
-    int t_bt_y = t_bt_x / 2; //Hauteur d'un bouton
-    int esp_bt = t_bt_x; //Espacement entre chaque bouton
-
-    int pos_bt_y = height - (height/3);
-    int pos_bt_x = width - (width/2 + t_bt_x/2);
-
+    int pos_bt_y = screen_height - (screen_height/3);
+    int pos_bt_x = screen_width/2;
 
     CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 2, "Jouer", font);
     CTA option_button  = draw_button(renderer, pos_bt_x, pos_bt_y+200, 2, "Options", font);
@@ -119,17 +114,19 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     menu_start(renderer, bg_menu_surface, bg_menu_texture, font, music);
 
     //On récupère la taille de la fenêtre pour bien placer les boutons par la suite
-    int width, height;
+    /*int width, height;
     SDL_DisplayMode taille_fenetre = GetScreenSize();
     width = taille_fenetre.w;
-    height = taille_fenetre.h;
+    height = taille_fenetre.h;*/
 
-    int t_bt_x = 400; //Longueur d'un bouton
-    int t_bt_y = t_bt_x / 2; //Hauteur d'un bouton
-    int esp_bt = t_bt_x; //Espacement entre chaque bouton
+    int screen_width, screen_height;
+    //Récupère la taille de la fenêtre
+    SDL_GetRendererOutputSize(renderer, &screen_width, &screen_height);
 
-    int pos_bt_y = height - (height/3);
-    int pos_bt_x = width - (width/2 + t_bt_x/2);
+    int esp_bt = 100; //Espacement entre chaque bouton
+
+    int pos_bt_y = screen_height - (screen_height/3);
+    int pos_bt_x = screen_width/2;
 
     CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 2, "Jouer", font);
     CTA option_button  = draw_button(renderer, pos_bt_x, pos_bt_y+200, 2, "Options", font);
@@ -143,6 +140,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     //Boucle principale:
     int running = 1;
     SDL_Event event;
+
     while (running) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -154,29 +152,46 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                 int y = event.button.y;
 
                 //Vérifier si "Jouer" est cliqué
-                if (x >= play_button.pos_x && x <= play_button.pos_x + play_button.w &&
-                    y >= play_button.pox_y && y < play_button.pox_y + play_button.h) {
+                if (is_mouse_on(play_button)) {
                     add_log("MENU","Jouer sélectionné\n");
                     Mix_FadeOutMusic(1000);
                     free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
+                    reset_cursor();
                     jeu(window, renderer);
                 }
 
                 //Vérifier si "Options" est cliqué
-                if (x >= option_button.pos_x && x <= option_button.pos_x + option_button.w &&
-                    y >= option_button.pox_y && y < option_button.pox_y + option_button.h) {
+                if (is_mouse_on(option_button)) {
                     add_log("MENU","Options sélectionné\n");
                     free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
+                    reset_cursor();
                     options(renderer, window);
                     menu_start(renderer, bg_menu_surface, bg_menu_texture, font, music);
                 }
 
                 // Vérifier si "Quitter" est cliqué
-                if (x >= quit_button.pos_x && x <= quit_button.pos_x + quit_button.w &&
-                    y >= quit_button.pox_y && y < quit_button.pox_y + quit_button.h) {
+                if (is_mouse_on(quit_button)) {
                     add_log("MENU","Quitter sélectionné\n");
                     running = 0;  // Quitter le menu
                 }
+            }
+            else if(event.type == SDL_MOUSEMOTION){ //évite le contrôle si la souris ne bouge pas
+                printf("Mouse moving\n");
+                //Récupération de la position de la souris
+                int x, y;
+                Uint32 mouse_state = SDL_GetMouseState(&x, &y);
+                int actual_cursor;
+
+                //Vérifier si passage sur un bouton
+                if (is_mouse_on(play_button) || is_mouse_on(option_button) || is_mouse_on(quit_button)) {
+                        if(actual_cursor != SDL_SYSTEM_CURSOR_HAND){
+                            actual_cursor = set_hand_cursor();
+                        }
+                }
+                else if(actual_cursor != SDL_SYSTEM_CURSOR_ARROW){
+                    actual_cursor = reset_cursor();
+                }
+
             }
         }
     }

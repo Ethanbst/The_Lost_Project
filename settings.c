@@ -6,6 +6,7 @@
 #include "logs_utils/log.h"
 #include <stdio.h>
 #include "cta_utils/cta.h"
+#include "mouse_utils/mouse.h"
 
 #define slider_width 600
 #define slider_height 50
@@ -153,6 +154,7 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
     // Boucle pour gérer les événements des options
     SDL_Event event;
     int running = 1;
+    int actual_cursor = SDL_SYSTEM_CURSOR_ARROW;
     while (running) {
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
@@ -172,24 +174,25 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
                         int mouseY = event.button.y;
 
                         // Vérifier si le clic est sur le bouton "Appliquer"
-                        if (mouseX >= apply_button.pos_x && mouseX <= apply_button.pos_x+apply_button.w && mouseY >= apply_button.pox_y && mouseY <= apply_button.pox_y+apply_button.h) {
+                        if (is_mouse_on(apply_button)) {
                             Mix_VolumeMusic(musicVolume);
                             //Mix_Volume(-1, sfxVolume);
                             add_log("OPTIONS", "Modifications appliquées.\n");
                             add_log("OPTIONS", "Sortie des Options.\n");
                             running = 0;
                             SDL_RenderClear(renderer);
+                            reset_cursor();
                             //On quitte les options
                         }
                     }
                     break;
                 case SDL_MOUSEMOTION:
+                    int mouseX = event.motion.x;
+                    int mouseY = event.motion.y;
                     if (event.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT)) {
-                        int mouseX = event.motion.x;
-                        int mouseY = event.motion.y;
 
                         // Vérifier si le curseur est sur le slider de la musique
-                        if (mouseX >= displayMode.w/2-music_slider.w/2 && mouseX <= displayMode.w/2+music_slider.w/2 && mouseY >= 100 && mouseY <= 100+music_slider.h) {
+                        if (is_mouse_on(music_slider)) {
                             musicVolume = (mouseX - (displayMode.w/2-slider_width/2)) * MIX_MAX_VOLUME / slider_width;
                             music_slider = draw_slider(renderer, music_slider.pos_x, music_slider.pox_y, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
                             set_setting_value("music_volume", musicVolume);
@@ -199,7 +202,7 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
 
 
                         // Vérifier si le curseur est sur le slider des effets sonores
-                        if (mouseX >= displayMode.w/2-fx_slider.w/2 && mouseX <= displayMode.w/2+fx_slider.w/2 && mouseY >= 200 && mouseY <= 200+fx_slider.h) {
+                        if (is_mouse_on(fx_slider)) {
                             sfxVolume = (mouseX - (displayMode.w/2-slider_width/2)) * MIX_MAX_VOLUME / slider_width;
                             fx_slider = draw_slider(renderer, displayMode.w/2-slider_width/2, 200, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
                             set_setting_value("fx_volume", sfxVolume);
@@ -207,7 +210,16 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
                             Mix_VolumeMusic(musicVolume);
                         }
                     }
-                    break;
+                    //Vérifier si passage sur bouton appliquer
+                    if(is_mouse_on(apply_button)) {
+                        if(actual_cursor != SDL_SYSTEM_CURSOR_HAND){
+                            actual_cursor = set_hand_cursor();
+                        }
+                    }
+                    else if(actual_cursor != SDL_SYSTEM_CURSOR_ARROW){
+                        actual_cursor = reset_cursor();
+                    }
+                    //break;
             }
         }
     }

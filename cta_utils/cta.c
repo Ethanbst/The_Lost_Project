@@ -2,10 +2,10 @@
 #include <SDL_ttf.h>
 
 typedef struct CTA{
-    int pos_x; //Position en x du CTA
-    int pox_y; //Position en y du CTA
-    int w; //Longueur du CTA
-    int h; //Largeur du CTA
+    int pos_x; //Position en x sur l'écran
+    int pox_y; //Position en y sur l'écran
+    int w; //Longueur en px du CTA
+    int h; //Largeur en px du CTA
 } CTA;
 
 CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size, const char *text, TTF_Font *font) {
@@ -15,10 +15,9 @@ CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size,
 
     int text_width = textSurface->w;
     int text_height = textSurface->h;
-    SDL_Rect text_rect = {pos_x, pos_y, multiply_size*text_width, multiply_size*text_height}; //Taille et pos du texte
+    SDL_Rect text_rect = {pos_x-((text_width/2)*multiply_size), pos_y, multiply_size*text_width, multiply_size*text_height}; //Taille et pos du texte
 
     //SDL_Rect bg_text_rect = {pos_x, pos_y, multiply_size*text_width, multiply_size*text_height}; //Taille et pos du texte
-
 
     SDL_RenderCopy(renderer, textTexture, NULL, &text_rect);
 
@@ -28,8 +27,8 @@ CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size,
     CTA button;
     button.h = text_rect.h;
     button.w = text_rect.w;
-    button.pos_x = pos_x;
-    button.pox_y = pos_y;
+    button.pos_x = text_rect.x;
+    button.pox_y = text_rect.y;
 
     return button;
 }

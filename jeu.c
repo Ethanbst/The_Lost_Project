@@ -390,7 +390,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
             if(event.type == SDL_QUIT){
                 continuer = 0;
             }
-            else if(event.key.keysym.sym == SDLK_ESCAPE){
+            else if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE){
                 pause(renderer);
             }
         }
