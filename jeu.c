@@ -116,75 +116,6 @@ void mouvement( const Uint8 *state, SDL_Rect *playerRect, SDL_Texture *img_dir_j
     }
 }
 
-
-//Génère une matrice de x lignes et y colonnes
-int** generate_map(int x, int y) {
-    int **matrix = (int**)malloc(x * sizeof(int*));
-    if (matrix == NULL) {
-        add_log("MATRIX", "Erreur d'allocation de mémoire pour les lignes\n");
-        return NULL;
-    }
-    for (int i = 0; i < x; i++) {
-        matrix[i] = (int *)malloc(y * sizeof(int));
-        if (matrix[i] == NULL) {
-            add_log("MATRIX", "Erreur d'allocation de mémoire pour les colonnes\n");
-            for (int j = 0; j < i; j++) {
-                free(matrix[j]);
-            }
-            free(matrix);
-            return NULL;
-        }
-        for (int j = 0; j < y; j++) {
-            matrix[i][j] = rand() % 2;
-        }
-    }
-    return matrix;
-}
-
-//Génère la matrice correspondante au fichier et la retourne
-/*int** read_map_from_file(const char* filename) {
-    FILE *file = fopen(filename, "r");
-    if (file == NULL) {
-        add_log("MAP", "Erreur d'ouverture du fichier\n");
-        return NULL;
-    }
-
-    int **matrix = (int**)malloc(10 * sizeof(int*));
-    if (matrix == NULL) {
-        add_log("MAP", "Erreur d'allocation de mémoire pour les lignes\n");
-        fclose(file);
-        return NULL;
-    }
-
-    for (int i = 0; i < 10; i++) {
-        matrix[i] = (int *)malloc(20 * sizeof(int));
-        if (matrix[i] == NULL) {
-            add_log("MAP", "Erreur d'allocation de mémoire pour les colonnes\n");
-            for (int j = 0; j < i; j++) {
-                free(matrix[j]);
-            }
-            free(matrix);
-            fclose(file);
-            return NULL;
-        }
-
-        for (int j = 0; j < 20; j++) {
-            if (fscanf(file, "%d", &matrix[i][j]) != 1) {
-                add_log("MAP", "Erreur de lecture du fichier\n");
-                for (int k = 0; k <= i; k++) {
-                    free(matrix[k]);
-                }
-                free(matrix);
-                fclose(file);
-                return NULL;
-            }
-        }
-    }
-
-    fclose(file);
-    return matrix;
-}*/
-
 //Génère la matrice correspondante au fichier et la retourne
 int** read_map_from_file2(const char* filename) {
     FILE *file = fopen(filename, "r");
@@ -237,47 +168,6 @@ SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
     }
     return texture;
 }
-
-//Créér une texture pour les murs et la retourne
-/*SDL_Texture* render_map(SDL_Window *window, int **matrice){
-
-    SDL_Renderer *renderer = SDL_GetRenderer(window);
-
-    //Texture du mur
-    SDL_Texture *mur_texture = loadTexture("res/mur.bmp", renderer);
-
-    //On récupère la taille de la fenêtre pour bien placer les boutons par la suite
-    int width, height;
-    SDL_DisplayMode taille_fenetre;
-    SDL_GetCurrentDisplayMode(0, &taille_fenetre);
-    width = taille_fenetre.w;
-    height = taille_fenetre.h;
-
-    SDL_Texture *map_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width, height);
-    SDL_SetRenderTarget(renderer, map_texture);
-
-    SDL_Rect MurRect;
-    MurRect.w = width / 20;
-    MurRect.h = MurRect.w;
-
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 20; j++) {
-            if (matrice[i][j] == 1) {
-                MurRect.x = j * MurRect.w;
-                MurRect.y = i * MurRect.h;
-                SDL_RenderCopy(renderer, mur_texture, NULL, &MurRect);
-            }
-        }
-    }
-
-    SDL_SetRenderTarget(renderer, NULL);
-
-    //Structure contenant la texture et le rectangle du mur
-    //Map *map = (Map*)malloc(sizeof(Map));
-    //map->texture = map_texture;
-
-    return map_texture;
-}*/
 
 //Créér une texture pour les murs et la retourne
 SDL_Texture* render_map2(SDL_Window *window, int **matrice){
@@ -391,7 +281,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
                 continuer = 0;
             }
             else if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE){
-                pause(renderer);
+                continuer = pause(renderer);
             }
         }
         mouvement(state, &playerRect, img_dir_joueur, &playerTexture, map); //Déplace le joueur
@@ -402,6 +292,19 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
         
         SDL_Delay(16); //Délai pour éviter de bouger trop vite
     }
+    
+    //Libération de ressources de la fonction jeu
+    for(int i=0;i<4;i++){
+        SDL_DestroyTexture(img_dir_joueur[i]);
+    }
+
+    SDL_DestroyTexture(map->texture);
+
+    for(int i=0;i<13;i++){
+        free(map->matrice[i]);
+    }
+
+    free(map->matrice);
+    free(map);
     add_log("JEU","Sortie while jeu()\n");
-    //sdl_utils_Quit(window, renderer);
 }

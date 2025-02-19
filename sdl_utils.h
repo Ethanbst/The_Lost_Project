@@ -5,12 +5,15 @@
  #ifdef _WIN64
   #include <SDL.h>
   #include <SDL_image.h>
+  #include <SDL_ttf.h>
 
  #else
   #include <SDL2/SDL.h>
   #include <SDL2/SDL_image.h>
+  #include <SDL2/SDL_ttf.h>
  #endif
 #endif
+#include <SDL_ttf.h>
 
 
 function inline bool
@@ -35,11 +38,12 @@ sdl_utils_Init(const char *title, SDL_Window **window, SDL_Renderer **renderer, 
     SDL_DisplayMode displayMode;
 
     // Obtenir la résolution de l'écran
-    if (SDL_GetCurrentDisplayMode(0, &displayMode) != 0) {
+    if (SDL_GetDesktopDisplayMode(0, &displayMode) != 0) {
         //add_log("SDL_UTILS", "Erreur lors de la récupération de la résolution de l'écran");
         SDL_Quit();
         return -1;
     }
+    
     int screenWidth = displayMode.w;
     int screenHeight = displayMode.h;
     //add_log("SDL_UTILS", "Résolution de l'écran récupérée avec succès");
@@ -48,7 +52,7 @@ sdl_utils_Init(const char *title, SDL_Window **window, SDL_Renderer **renderer, 
 
 
     //Création de la fenêtre en fonction de la taille de l'écran:
-    *window = SDL_CreateWindow(title, 0, 0, screenWidth, screenHeight, SDL_WINDOW_BORDERLESS);
+    *window = SDL_CreateWindow(title, 0, 0, screenWidth, screenHeight, SDL_WINDOW_FULLSCREEN_DESKTOP);
     if (window == 0)
     {
         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -77,10 +81,11 @@ function void
 sdl_utils_Quit(SDL_Window *window, SDL_Renderer *renderer)
 {
     printf("Fenetre fermee avec succès");
-    if (renderer) SDL_DestroyRenderer(renderer);
-    if (window) SDL_DestroyWindow(window);
+    if(renderer) SDL_DestroyRenderer(renderer);
+    if(window) SDL_DestroyWindow(window);
     
     Mix_Quit();
     IMG_Quit();
     SDL_Quit();
+    TTF_Quit();
 }

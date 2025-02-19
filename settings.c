@@ -7,38 +7,45 @@
 #include <stdio.h>
 #include "cta_utils/cta.h"
 #include "mouse_utils/mouse.h"
+#include <C:/cJSON-master/cJSON.h>
 
 #define slider_width 600
 #define slider_height 50
 
-
-//Retourne 1 si le fichier settings.txt existe, 0 sinon
-int exist_settings() {
-    FILE *file = fopen("settings.txt", "r");
-    if (file) {
+// Retourne 1 si le fichier settings.txt existe, 0 sinon
+int exist_settings2()
+{
+    FILE *file = fopen("settings.json", "r");
+    if (file)
+    {
         fclose(file);
         return 1;
-    } 
-    else 
+    }
+    else
     {
         return 0;
-    } 
+    }
 }
 
 // Fonction pour obtenir la valeur d'un paramètre dans le fichier settings.txt
-int get_setting_value(const char *setting_name) {
+int get_setting_value(const char *setting_name)
+{
     FILE *file = fopen("settings.txt", "r");
-    if (file == NULL) {
+    if (file == NULL)
+    {
         add_log("SETTINGS", "Erreur lors de l'ouverture du fichier settings.txt\n");
         return -1;
     }
 
     char line[256];
-    while (fgets(line, sizeof(line), file)) {
+    while (fgets(line, sizeof(line), file))
+    {
         char name[128];
         int value;
-        if (sscanf(line, "%127s %d", name, &value) == 2) {
-            if (strcmp(name, setting_name) == 0) {
+        if (sscanf(line, "%127s %d", name, &value) == 2)
+        {
+            if (strcmp(name, setting_name) == 0)
+            {
                 fclose(file);
                 return value;
             }
@@ -49,74 +56,142 @@ int get_setting_value(const char *setting_name) {
     return -1; // Retourne -1 si le paramètre n'est pas trouvé
 }
 
+// Fonction pour obtenir la valeur d'un paramètre dans le fichier settings.txt
+int get_setting_value2(const char *setting_name)
+{
+    // Lire le fichier JSON
+    const char *filename = "settings.json";
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        add_log("SETTINGS", "Erreur: Impossible d'ouvrir le fichier settings.json\n");
+        return -1;
+    }
+
+    fseek(file, 0, SEEK_END);
+    long length = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    char *data = (char *)malloc(length + 1);
+    if (!data) {
+        add_log("SETTINGS", "Erreur: Echec de l'allocation de memoire\n");
+        fclose(file);
+        return -1;
+    }
+    fread(data, 1, length, file);
+    fclose(file);
+
+    data[length] = '\0';
+
+    // Parser le JSON
+    cJSON *root = cJSON_Parse(data);
+    if (root) {
+        // Trouver le paramètre
+        cJSON *parameter = cJSON_GetObjectItem(root, setting_name);
+        if (parameter) {
+            int value = parameter->valueint;
+            cJSON_Delete(root);
+            free(data);
+            return value;
+        } else {
+            add_log("SETTINGS", "Erreur: Parametre non trouve dans le fichier JSON\n");
+        }
+        cJSON_Delete(root);
+    } else {
+        add_log("SETTINGS", "Erreur: Echec du parsing du fichier JSON\n");
+    }
+
+    free(data);
+    return -1;
+}
 
 // Fonction pour définir la valeur d'un paramètre dans le fichier settings.txt
-void set_setting_value(const char *setting_name, int value) {
-    FILE *file = fopen("settings.txt", "r");
-    if (file == NULL) {
-        add_log("SETTINGS", "Erreur lors de l'ouverture du fichier settings.txt\n");
+void set_setting_value2(const char *setting_name, int value){
+    // Lire le fichier JSON
+    const char *filename = "settings.json";
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        add_log("SETTINGS", "Erreur: Impossible d'ouvrir le fichier settings.json\n");
         return;
     }
 
-    FILE *temp = fopen("settings_tmp.txt", "w");
-    if (temp == NULL) {
-        add_log("SETTINGS", "Erreur lors de la création du fichier temporaire\n");
+    fseek(file, 0, SEEK_END);
+    long length = ftell(file);
+    fseek(file, 0, SEEK_SET);
+
+    char *data = (char *)malloc(length + 1);
+    if (!data) {
+        add_log("SETTINGS", "Erreur: Echec de l'allocation de memoire\n");
         fclose(file);
         return;
     }
-
-    char line[256];
-    int found = 0;
-
-    while (fgets(line, sizeof(line), file)) {
-        char name[128];
-        int current_value;
-        
-        if (sscanf(line, "%127s %d", name, &current_value) == 2) {
-            if (strcmp(name, setting_name) == 0) {
-                fprintf(temp, "%s %d\n", setting_name, value);
-                found = 1;
-            } else {
-                fprintf(temp, "%s %d\n", name, current_value);
-            }
-        } else {
-            fputs(line, temp); // Pour conserver les lignes invalides si nécessaire
-        }
-    }
-
-    if (!found) {
-        fprintf(temp, "%s %d\n", setting_name, value);
-    }
-
+    fread(data, 1, length, file);
     fclose(file);
-    fclose(temp);
 
-    // Remplace l'ancien fichier par le nouveau
-    remove("settings.txt");
-    rename("settings_tmp.txt", "settings.txt");
-}
+    data[length] = '\0';
 
-
-//Fonction pour initialiser les paramètres par défaut si le fichier n'existe pas déjà
-void init_default_settings() {
-    //Si le fichier existe, on ne fait rien
-    if(exist_settings()){
-        return;
-    }
-    else{
-        FILE *file = fopen("settings.txt", "w");
-        if (file == NULL) {
-            add_log("SETTINGS", "Erreur lors de l'ouverture du fichier settings.txt\n");
-            return;
+    // Parser le JSON
+    cJSON *root = cJSON_Parse(data);
+    if (root) {
+        // Trouver et mettre à jour le paramètre
+        cJSON *parameter = cJSON_GetObjectItem(root, setting_name);
+        if (parameter) {
+            add_log("SETTINGS", "Parametre trouve. Ancienne valeur mise a jour\n");
+            cJSON_SetIntValue(parameter, value);
+        } else {
+            add_log("SETTINGS", "Erreur: Parametre non trouve dans le fichier JSON\n");
         }
-        fprintf(file, "music_volume 50\n");
-        fprintf(file, "fx_volume 50\n");
-        fclose(file);
-        add_log("SETTINGS", "Fichier settings.txt écrit avec les valeurs par défaut\n");
+
+        // Convertir le JSON en chaîne de caractères
+        char *json_string = cJSON_Print(root);
+        if (json_string) {
+            // Écrire les modifications dans le fichier
+            file = fopen(filename, "w");
+            if (file) {
+                fwrite(json_string, 1, strlen(json_string), file);
+                fclose(file);
+                add_log("SETTINGS", "Fichier mis a jour avec succes\n");
+            } else {
+                add_log("SETTINGS", "Erreur: Impossible d'ouvrir le fichier pour ecrire\n");
+            }
+            free(json_string);
+        } else {
+            add_log("SETTINGS", "Erreur: Echec de la conversion du JSON en chaine de caracteres\n");
+        }
+
+        // Libérer la mémoire
+        cJSON_Delete(root);
+    } else {
+        add_log("SETTINGS", "Erreur: Echec du parsing du fichier JSON\n");
+    }
+
+    free(data);
+}
+
+void init_default_settings2()
+{
+    if (!exist_settings2())
+    {
+        // Objet JSON principal
+        cJSON *root = cJSON_CreateObject();
+
+        // On ajoute les paramètres par défaut au JSON
+        cJSON_AddNumberToObject(root, "music_volume", 50);
+        cJSON_AddNumberToObject(root, "fx_volume", 50);
+
+        FILE *file = fopen("settings.json", "w");
+        if (file)
+        {
+            fwrite(cJSON_Print(root), 1, strlen(cJSON_Print(root)), file);
+            fclose(file);
+        }
+
+        // Libérer la mémoire
+        cJSON_Delete(root);
     }
 }
 
-void options(SDL_Renderer *renderer, SDL_Window *window) {
+void options(SDL_Renderer *renderer)
+{
     add_log("OPTIONS", "Entré dans les Options.\n");
 
     // Effacer l'écran et présenter un écran noir
@@ -124,16 +199,18 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
     SDL_RenderClear(renderer);
 
     // Variables pour le volume
-    int musicVolume = get_setting_value("music_volume"); // Volume initial de la musique (50%)
-    int sfxVolume = get_setting_value("fx_volume");   // Volume initial des effets sonores (50%)
+    int musicVolume = get_setting_value2("music_volume"); // Volume initial de la musique (50%)
+    int sfxVolume = get_setting_value2("fx_volume");      // Volume initial des effets sonores (50%)
 
     // Initialisation de TTF
-    if (TTF_Init() == -1) {
+    if (TTF_Init() == -1)
+    {
         add_log("ERROR", "Failed to initialize TTF.\n");
         return;
     }
     TTF_Font *font = TTF_OpenFont("res/font/Jersey10-Regular.ttf", 24);
-    if (!font) {
+    if (!font)
+    {
         add_log("ERROR", "Failed to load font.\n");
         return;
     }
@@ -142,84 +219,94 @@ void options(SDL_Renderer *renderer, SDL_Window *window) {
     displayMode = GetScreenSize();
 
     // Dessiner les sliders
-    CTA music_slider = draw_slider(renderer, displayMode.w/2-slider_width/2, 100, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
-    CTA fx_slider = draw_slider(renderer, displayMode.w/2-slider_width/2, 200, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
+    CTA music_slider = draw_slider(renderer, displayMode.w / 2 - slider_width / 2, 100, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
+    CTA fx_slider = draw_slider(renderer, displayMode.w / 2 - slider_width / 2, 200, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
 
     // Dessiner le bouton "Appliquer"
-    CTA apply_button = draw_button(renderer, displayMode.w/2-slider_width/2, 300, 4, "Appliquer", font);
+    CTA apply_button = draw_button(renderer, displayMode.w / 2 - slider_width / 2, 300, 4, "Appliquer", font);
 
-    //Afficher les éléments
+    // Afficher les éléments
     SDL_RenderPresent(renderer);
 
     // Boucle pour gérer les événements des options
     SDL_Event event;
     int running = 1;
     int actual_cursor = SDL_SYSTEM_CURSOR_ARROW;
-    while (running) {
-        while (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_QUIT:
+    while (running)
+    {
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+            case SDL_QUIT:
+                running = 0;
+                break;
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym)
+                {
+                case SDLK_ESCAPE:
                     running = 0;
                     break;
-                case SDL_KEYDOWN:
-                    switch (event.key.keysym.sym) {
-                        case SDLK_ESCAPE:
-                            running = 0;
-                            break;
-                    }
-                    break;
-                case SDL_MOUSEBUTTONDOWN:
-                    if (event.button.button == SDL_BUTTON_LEFT) {
-                        int mouseX = event.button.x;
-                        int mouseY = event.button.y;
+                }
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                if (event.button.button == SDL_BUTTON_LEFT)
+                {
+                    int mouseX = event.button.x;
+                    int mouseY = event.button.y;
 
-                        // Vérifier si le clic est sur le bouton "Appliquer"
-                        if (is_mouse_on(apply_button)) {
-                            Mix_VolumeMusic(musicVolume);
-                            //Mix_Volume(-1, sfxVolume);
-                            add_log("OPTIONS", "Modifications appliquées.\n");
-                            add_log("OPTIONS", "Sortie des Options.\n");
-                            running = 0;
-                            SDL_RenderClear(renderer);
-                            reset_cursor();
-                            //On quitte les options
-                        }
+                    // Vérifier si le clic est sur le bouton "Appliquer"
+                    if (is_mouse_on(apply_button))
+                    {
+                        Mix_VolumeMusic(musicVolume);
+                        // Mix_Volume(-1, sfxVolume);
+                        add_log("OPTIONS", "Modifications appliquées.\n");
+                        add_log("OPTIONS", "Sortie des Options.\n");
+                        running = 0;
+                        SDL_RenderClear(renderer);
+                        reset_cursor();
+                        // On quitte les options
                     }
-                    break;
-                case SDL_MOUSEMOTION:
-                    int mouseX = event.motion.x;
-                    int mouseY = event.motion.y;
-                    if (event.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT)) {
+                }
+                break;
+            case SDL_MOUSEMOTION:
+                int mouseX = event.motion.x;
+                int mouseY = event.motion.y;
+                if (event.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT))
+                {
 
-                        // Vérifier si le curseur est sur le slider de la musique
-                        if (is_mouse_on(music_slider)) {
-                            musicVolume = (mouseX - (displayMode.w/2-slider_width/2)) * MIX_MAX_VOLUME / slider_width;
-                            music_slider = draw_slider(renderer, music_slider.pos_x, music_slider.pox_y, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
-                            set_setting_value("music_volume", musicVolume);
-                            SDL_RenderPresent(renderer);
-                            Mix_VolumeMusic(musicVolume);
-                        }
+                    // Vérifier si le curseur est sur le slider de la musique
+                    if (is_mouse_on(music_slider))
+                    {
+                        musicVolume = (mouseX - (displayMode.w / 2 - slider_width / 2)) * MIX_MAX_VOLUME / slider_width;
+                        music_slider = draw_slider(renderer, music_slider.pos_x, music_slider.pox_y, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
+                        set_setting_value2("music_volume", musicVolume);
+                        SDL_RenderPresent(renderer);
+                        Mix_VolumeMusic(musicVolume);
+                    }
 
-
-                        // Vérifier si le curseur est sur le slider des effets sonores
-                        if (is_mouse_on(fx_slider)) {
-                            sfxVolume = (mouseX - (displayMode.w/2-slider_width/2)) * MIX_MAX_VOLUME / slider_width;
-                            fx_slider = draw_slider(renderer, displayMode.w/2-slider_width/2, 200, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
-                            set_setting_value("fx_volume", sfxVolume);
-                            SDL_RenderPresent(renderer);
-                            Mix_VolumeMusic(musicVolume);
-                        }
+                    // Vérifier si le curseur est sur le slider des effets sonores
+                    if (is_mouse_on(fx_slider))
+                    {
+                        sfxVolume = (mouseX - (displayMode.w / 2 - slider_width / 2)) * MIX_MAX_VOLUME / slider_width;
+                        fx_slider = draw_slider(renderer, displayMode.w / 2 - slider_width / 2, 200, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
+                        set_setting_value2("fx_volume", sfxVolume);
+                        SDL_RenderPresent(renderer);
+                        Mix_VolumeMusic(musicVolume);
                     }
-                    //Vérifier si passage sur bouton appliquer
-                    if(is_mouse_on(apply_button)) {
-                        if(actual_cursor != SDL_SYSTEM_CURSOR_HAND){
-                            actual_cursor = set_hand_cursor();
-                        }
+                }
+                // Vérifier si passage sur bouton appliquer
+                if (is_mouse_on(apply_button))
+                {
+                    if (actual_cursor != SDL_SYSTEM_CURSOR_HAND)
+                    {
+                        actual_cursor = set_hand_cursor();
                     }
-                    else if(actual_cursor != SDL_SYSTEM_CURSOR_ARROW){
-                        actual_cursor = reset_cursor();
-                    }
-                    //break;
+                }
+                else if (actual_cursor != SDL_SYSTEM_CURSOR_ARROW)
+                {
+                    actual_cursor = reset_cursor();
+                }
             }
         }
     }

@@ -71,7 +71,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
 
     add_log("MENU","Menu principal.\n");
 
-    init_default_settings();
+    init_default_settings2();
 
     int music_volume = get_setting_value("music_volume"); //On récupère la valeur de notre fichier afin de l'appliquer
 
@@ -113,15 +113,14 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     }
     menu_start(renderer, bg_menu_surface, bg_menu_texture, font, music);
 
-    //On récupère la taille de la fenêtre pour bien placer les boutons par la suite
-    /*int width, height;
-    SDL_DisplayMode taille_fenetre = GetScreenSize();
-    width = taille_fenetre.w;
-    height = taille_fenetre.h;*/
-
     int screen_width, screen_height;
     //Récupère la taille de la fenêtre
-    SDL_GetRendererOutputSize(renderer, &screen_width, &screen_height);
+    //SDL_GetRendererOutputSize(renderer, &screen_width, &screen_height);
+
+    SDL_DisplayMode displayMode;
+    SDL_GetDesktopDisplayMode(0, &displayMode);
+    screen_height = displayMode.h;
+    screen_width = displayMode.w;
 
     int esp_bt = 100; //Espacement entre chaque bouton
 
@@ -132,10 +131,6 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     CTA option_button  = draw_button(renderer, pos_bt_x, pos_bt_y+200, 2, "Options", font);
     CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pox_y+200, 2, "Quitter", font);
     add_log("MENU","PASS\n");
-
-    //Présenter le rendu
-    //SDL_RenderPresent(renderer);
-    //free_menu(renderer, playTexture, optionsTexture, quitTexture, bg_menu_texture);*/
 
     //Boucle principale:
     int running = 1;
@@ -158,6 +153,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
                     reset_cursor();
                     jeu(window, renderer);
+                    menu_start(renderer, bg_menu_surface, bg_menu_texture, font, music);
                 }
 
                 //Vérifier si "Options" est cliqué
@@ -165,7 +161,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     add_log("MENU","Options sélectionné\n");
                     free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
                     reset_cursor();
-                    options(renderer, window);
+                    options(renderer);
                     menu_start(renderer, bg_menu_surface, bg_menu_texture, font, music);
                 }
 
@@ -197,9 +193,5 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     }
 
     //Libérer les ressources
-    //SDL_DestroyTexture(playTexture);
-    //SDL_DestroyTexture(optionsTexture);
-    //SDL_DestroyTexture(quitTexture);
-    //SDL_DestroyTexture(bg_menu_texture);
-    //TTF_Quit();
+    free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
 }
