@@ -28,35 +28,6 @@ int exist_settings2()
 }
 
 // Fonction pour obtenir la valeur d'un paramètre dans le fichier settings.txt
-int get_setting_value(const char *setting_name)
-{
-    FILE *file = fopen("settings.txt", "r");
-    if (file == NULL)
-    {
-        add_log("SETTINGS", "Erreur lors de l'ouverture du fichier settings.txt\n");
-        return -1;
-    }
-
-    char line[256];
-    while (fgets(line, sizeof(line), file))
-    {
-        char name[128];
-        int value;
-        if (sscanf(line, "%127s %d", name, &value) == 2)
-        {
-            if (strcmp(name, setting_name) == 0)
-            {
-                fclose(file);
-                return value;
-            }
-        }
-    }
-
-    fclose(file);
-    return -1; // Retourne -1 si le paramètre n'est pas trouvé
-}
-
-// Fonction pour obtenir la valeur d'un paramètre dans le fichier settings.txt
 int get_setting_value2(const char *setting_name)
 {
     // Lire le fichier JSON

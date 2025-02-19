@@ -73,7 +73,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
 
     init_default_settings2();
 
-    int music_volume = get_setting_value("music_volume"); //On récupère la valeur de notre fichier afin de l'appliquer
+    int music_volume = get_setting_value2("music_volume"); //On récupère la valeur de notre fichier afin de l'appliquer
 
     //Première initialisation du menu
     //Implémentation de l'audio du menu:
