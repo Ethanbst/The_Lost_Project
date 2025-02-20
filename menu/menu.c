@@ -19,13 +19,13 @@ void free_menu(SDL_Renderer *renderer, SDL_Texture *bg_menu_texture, SDL_Surface
     //Libération des ressources
     if (bg_menu_texture) SDL_DestroyTexture(bg_menu_texture);
     if (bg_menu_surface) SDL_FreeSurface(bg_menu_surface);
-    TTF_CloseFont(font);
+    //TTF_CloseFont(font);
     add_log("free_menu", "Ressources menu liberees.\n");
 }
 
 
 //Permet de réafficher le menu après être entré dans une autre fonction
-void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Texture *bg_menu_texture, TTF_Font *font, Mix_Music *music){
+void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Texture *bg_menu_texture, TTF_Font *font){
     add_log("menu_start()","\n");
     //Rechargement de l'image de fond du menu:
     //Réattribution de la texture*/
@@ -42,7 +42,6 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
         //return;
     }
 
-
     //Couleur pour le texte
     SDL_Color color = {255, 255, 255}; // Blanc
     
@@ -58,7 +57,6 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 2, "Jouer", font);
     CTA option_button  = draw_button(renderer, pos_bt_x, pos_bt_y+200, 2, "Options", font);
     CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pox_y+200, 2, "Quitter", font);
-
 
     //Présenter le rendu
     SDL_RenderPresent(renderer);
@@ -96,7 +94,6 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     //Texte pour les touches:
     if (TTF_Init() == -1) {
         add_log("MENU","Erreur d'initialisation SDL_ttf\n");
-        //return -1;
     }
     else{
         add_log("MENU","SDL_ttf initilise\n");
@@ -111,7 +108,8 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
         add_log("MENU","Erreur lors du chargement de la police\n");
         //return;
     }
-    menu_start(renderer, bg_menu_surface, bg_menu_texture, font, music);
+
+    menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
 
     int screen_width, screen_height;
     //Récupère la taille de la fenêtre
@@ -152,17 +150,21 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     Mix_FadeOutMusic(1000);
                     free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
                     reset_cursor();
+                    Mix_FadeOutMusic(1000);
+                    double music_pos = Mix_GetMusicPosition(music);
                     jeu(window, renderer);
-                    menu_start(renderer, bg_menu_surface, bg_menu_texture, font, music);
+                    //Mix_FreeMusic(music);
+                    menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
+                    Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
                 }
 
                 //Vérifier si "Options" est cliqué
                 if (is_mouse_on(option_button)) {
                     add_log("MENU","Options sélectionné\n");
-                    free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
+                    //free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
                     reset_cursor();
                     options(renderer);
-                    menu_start(renderer, bg_menu_surface, bg_menu_texture, font, music);
+                    menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
                 }
 
                 // Vérifier si "Quitter" est cliqué

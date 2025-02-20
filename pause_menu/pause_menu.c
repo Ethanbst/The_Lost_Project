@@ -45,6 +45,7 @@ int pause(SDL_Renderer *renderer){
                 add_log("PAUSE_MENU", "ESCAPE OR CONTINUE PRESSED\n");
                 reset_cursor();
                 continuer = 0;
+                TTF_CloseFont(font);
                 break;
             }
 
@@ -66,10 +67,12 @@ int pause(SDL_Renderer *renderer){
                     reset_cursor();
                     options(renderer);
                     continuer = 0;
+                    TTF_CloseFont(font);
                     break;
                 }
                 if(is_mouse_on(menu_button)){
                     reset_cursor();
+                    TTF_CloseFont(font);
                     return 0;
                 }
             }
