@@ -5,6 +5,7 @@
 #include "../settings.c"
 #include "../jeu.c"
 #include "../mouse_utils/mouse.h"
+#include "../worlds/worlds_utils.h"
 
 //Fonction pour afficher du texte à l'écran
 SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, SDL_Color color){
@@ -69,6 +70,8 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
 
     add_log("MENU","Menu principal.\n");
 
+    
+
     init_default_settings2();
 
     int music_volume = get_setting_value2("music_volume"); //On récupère la valeur de notre fichier afin de l'appliquer
@@ -78,7 +81,10 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     int init2 = Mix_Init(0);
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024); //Ouverture du fichier audio
     Mix_VolumeMusic(music_volume); // Réglez le volume de la musique en fonction de settings.txt
+    //Mix_PlayMusic(world.music, 1);
     
+    world world = get_world_info((char *)"world1.json");
+
     //Musique:
     Mix_Music *music = Mix_LoadMUS("res/music/menu.wav");
     if(!music){
@@ -87,8 +93,6 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     else{
         add_log("MENU","menu.wav chargee avec succes.\n");
     }
-
-    //Mix_PlayMusic(music, 1);
     Mix_FadeInMusic(music, -1, 2000);
 
     //Texte pour les touches:
