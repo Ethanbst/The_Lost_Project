@@ -8,19 +8,26 @@ typedef struct CTA{
     int h; //Largeur en px du CTA
 } CTA;
 
-CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size, const char *text, TTF_Font *font) {
+CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size, const char *text, TTF_Font *font, int need_bg) {
+
     SDL_Color textColor = {255, 255, 255, 255}; // Text color
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text, textColor);
     SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-
     int text_width = textSurface->w;
     int text_height = textSurface->h;
     SDL_Rect text_rect = {pos_x-((text_width/2)*multiply_size), pos_y, multiply_size*text_width, multiply_size*text_height}; //Taille et pos du texte
 
-    //SDL_Rect bg_text_rect = {pos_x, pos_y, multiply_size*text_width, multiply_size*text_height}; //Taille et pos du texte
+    if(need_bg){ //Texte supplémentaire pour effet 3D / Fond pour meilleurs lecture
+        SDL_Color textColor2 = {0, 0, 0, 0}; // Text color
+        SDL_Surface *textSurface2 = TTF_RenderText_Solid(font, text, textColor2);
+        SDL_Texture *textTexture2 = SDL_CreateTextureFromSurface(renderer, textSurface2);
+        SDL_Rect text_rect_bg = {text_rect.x, text_rect.y+10, text_rect.w, text_rect.h}; //Taille et pos du texte
+        SDL_RenderCopy(renderer, textTexture2, NULL, &text_rect_bg);
+        SDL_FreeSurface(textSurface2);
+        SDL_DestroyTexture(textTexture2);    
+    }
 
     SDL_RenderCopy(renderer, textTexture, NULL, &text_rect);
-
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
 

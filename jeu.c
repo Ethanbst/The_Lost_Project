@@ -278,7 +278,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
         
         while(SDL_PollEvent(&event)){
             if(event.type == SDL_QUIT){
-                continuer = 0;
+                continuer = pause(renderer);
             }
             else if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE){
                 continuer = pause(renderer);

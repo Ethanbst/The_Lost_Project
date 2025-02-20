@@ -54,9 +54,9 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     int pos_bt_y = screen_height - (screen_height/3);
     int pos_bt_x = screen_width/2;
 
-    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 2, "Jouer", font);
-    CTA option_button  = draw_button(renderer, pos_bt_x, pos_bt_y+200, 2, "Options", font);
-    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pox_y+200, 2, "Quitter", font);
+    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 2, "Jouer", font, 1);
+    CTA option_button  = draw_button(renderer, pos_bt_x, pos_bt_y+200, 2, "Options", font, 1);
+    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pox_y+200, 2, "Quitter", font, 1);
 
     //Présenter le rendu
     SDL_RenderPresent(renderer);
@@ -125,9 +125,9 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     int pos_bt_y = screen_height - (screen_height/3);
     int pos_bt_x = screen_width/2;
 
-    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 2, "Jouer", font);
-    CTA option_button  = draw_button(renderer, pos_bt_x, pos_bt_y+200, 2, "Options", font);
-    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pox_y+200, 2, "Quitter", font);
+    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 2, "Jouer", font, 1);
+    CTA option_button  = draw_button(renderer, pos_bt_x, pos_bt_y+200, 2, "Options", font, 1);
+    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pox_y+200, 2, "Quitter", font, 1);
     add_log("MENU","PASS\n");
 
     //Boucle principale:

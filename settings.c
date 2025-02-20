@@ -194,7 +194,7 @@ void options(SDL_Renderer *renderer)
     CTA fx_slider = draw_slider(renderer, displayMode.w / 2 - slider_width / 2, 200, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
 
     // Dessiner le bouton "Appliquer"
-    CTA apply_button = draw_button(renderer, displayMode.w / 2 - slider_width / 2, 300, 4, "Appliquer", font);
+    CTA apply_button = draw_button(renderer, displayMode.w / 2 - slider_width / 2, 300, 4, "Appliquer", font, 0);
 
     // Afficher les éléments
     SDL_RenderPresent(renderer);
