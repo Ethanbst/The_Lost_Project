@@ -26,7 +26,7 @@ int is_mouse_on(CTA cta){
     SDL_GetMouseState(&mouse_x, &mouse_y);
 
     if(mouse_x >= cta.pos_x && mouse_x <= cta.pos_x+cta.w && 
-       mouse_y >= cta.pox_y && mouse_y <= cta.pox_y+cta.h){
+       mouse_y >= cta.pos_y && mouse_y <= cta.pos_y+cta.h){
         return 1;
        }
     else{

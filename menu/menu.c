@@ -49,14 +49,14 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     //Récupère la taille de la fenêtre
     SDL_GetRendererOutputSize(renderer, &screen_width, &screen_height);
 
-    int esp_bt = 100; //Espacement entre chaque bouton
+    int esp_bt = screen_height / 8; // Espacement entre chaque bouton proportionnel à la hauteur de l'écran
 
-    int pos_bt_y = screen_height - (screen_height/3);
+    int pos_bt_y = screen_height - (screen_height/4);
     int pos_bt_x = screen_width/2;
 
-    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 2, "Jouer", font, 1);
-    CTA option_button  = draw_button(renderer, pos_bt_x, pos_bt_y+200, 2, "Options", font, 1);
-    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pox_y+200, 2, "Quitter", font, 1);
+    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 1, "Jouer", font, 1);
+    CTA option_button  = draw_button(renderer, pos_bt_x, play_button.pos_y+esp_bt, 1, "Options", font, 1);
+    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pos_y+esp_bt, 1, "Quitter", font, 1);
 
     //Présenter le rendu
     SDL_RenderPresent(renderer);
@@ -120,14 +120,14 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     screen_height = displayMode.h;
     screen_width = displayMode.w;
 
-    int esp_bt = 100; //Espacement entre chaque bouton
+    int esp_bt = screen_height / 8; // Espacement entre chaque bouton proportionnel à la hauteur de l'écran
 
-    int pos_bt_y = screen_height - (screen_height/3);
+    int pos_bt_y = screen_height - (screen_height/4);
     int pos_bt_x = screen_width/2;
 
-    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 2, "Jouer", font, 1);
-    CTA option_button  = draw_button(renderer, pos_bt_x, pos_bt_y+200, 2, "Options", font, 1);
-    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pox_y+200, 2, "Quitter", font, 1);
+    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 1, "Jouer", font, 1);
+    CTA option_button  = draw_button(renderer, pos_bt_x, play_button.pos_y+esp_bt, 1, "Options", font, 1);
+    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pos_y+esp_bt, 1, "Quitter", font, 1);
     add_log("MENU","PASS\n");
 
     //Boucle principale:

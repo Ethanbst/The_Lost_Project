@@ -29,10 +29,10 @@ int pause(SDL_Renderer *renderer){
     }
 
 
-    int space = 100; //Space between every button
-    CTA continue_button = draw_button(renderer, screen_width/2, screen_height/3, 2, "Continuer", font, 1);
-    CTA settings_button = draw_button(renderer, screen_width/2, screen_height/3+space*2, 2, "Option", font, 1);
-    CTA menu_button = draw_button(renderer, screen_width/2, screen_height/3+space*4, 2, "Menu", font, 1);
+    int esp_bt = screen_height / 14;
+    CTA settings_button = draw_button(renderer, screen_width/2, screen_height/2, 1, "Option", font, 1);
+    CTA continue_button = draw_button(renderer, screen_width/2, settings_button.pos_y-esp_bt, 1, "Continuer", font, 1);
+    CTA menu_button = draw_button(renderer, screen_width/2, settings_button.pos_y+(settings_button.h+esp_bt), 1, "Menu", font, 1);
 
     SDL_RenderPresent(renderer);
 

@@ -1,2 +1,2 @@
 build/win/log*.txt
-build/win/settings.txt
+build/win/settings.json

@@ -250,7 +250,7 @@ void options(SDL_Renderer *renderer)
                     if (is_mouse_on(music_slider))
                     {
                         musicVolume = (mouseX - (displayMode.w / 2 - slider_width / 2)) * MIX_MAX_VOLUME / slider_width;
-                        music_slider = draw_slider(renderer, music_slider.pos_x, music_slider.pox_y, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
+                        music_slider = draw_slider(renderer, music_slider.pos_x, music_slider.pos_y, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
                         set_setting_value2("music_volume", musicVolume);
                         SDL_RenderPresent(renderer);
                         Mix_VolumeMusic(musicVolume);

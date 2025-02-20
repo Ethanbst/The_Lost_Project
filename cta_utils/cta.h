@@ -7,7 +7,7 @@
 
 typedef struct CTA{
     int pos_x; //Position en x du CTA
-    int pox_y; //Position en y du CTA
+    int pos_y; //Position en y du CTA
     int w; //Longueur du CTA
     int h; //Largeur du CTA
 } CTA;

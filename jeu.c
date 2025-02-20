@@ -4,6 +4,7 @@
 #include <SDL_image.h>
 #include "logs_utils/log.h"
 #include "pause_menu/pause_menu.c"
+#include "debug_var.h"
 
 
 
@@ -269,7 +270,11 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
     SDL_Event event; //Variable qui reçoit l'évènement
     const Uint8 *state = SDL_GetKeyboardState(NULL); //Récupère l'état du clavier
     Uint32 lastTime = SDL_GetTicks(), currentTime; //Variables pour le temps
-
+    
+    SDL_Rect player_hitboxRect;
+    int centerX;
+    int centerY;
+    player_hitboxRect = playerRect;
     
     while(continuer){
         /*currentTime = SDL_GetTicks(); //Récupère le temps actuel
@@ -288,6 +293,16 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
         SDL_RenderClear(renderer); //Efface l'écran
         SDL_RenderCopy(renderer, map->texture, NULL, NULL); //Rend la texture des murs
         SDL_RenderCopy(renderer, playerTexture, NULL, &playerRect); //Rend le joueur car sa position à changé
+        if(player_hitbox){
+            centerX = playerRect.x + playerRect.w / 2;
+            centerY = playerRect.y + playerRect.h / 2;
+            player_hitboxRect.x = centerX - playerRect.w / 2;
+            player_hitboxRect.y = centerY - playerRect.h / 2;
+            player_hitboxRect.w = playerRect.w;
+            player_hitboxRect.h = playerRect.h;
+            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+            SDL_RenderDrawRect(renderer, &player_hitboxRect);
+        }
         SDL_RenderPresent(renderer); //Présente le rendu
         
         SDL_Delay(16); //Délai pour éviter de bouger trop vite
