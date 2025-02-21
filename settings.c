@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
-#include "GetScreenSize.c"
+#include "screen_utils/screen_utils.h"
 #include <string.h>
 #include "logs_utils/log.h"
 #include <stdio.h>

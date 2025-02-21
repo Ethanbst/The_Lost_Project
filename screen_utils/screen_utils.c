@@ -11,3 +11,4 @@ SDL_DisplayMode GetScreenSize()
     }
     return displayMode;
 };
+

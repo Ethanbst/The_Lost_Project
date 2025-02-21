@@ -5,6 +5,8 @@
 #include "logs_utils/log.h"
 #include "pause_menu/pause_menu.c"
 #include "debug_var.h"
+#include "worlds/worlds_utils.h"
+#include "player_utils/player.h"
 
 
 
@@ -18,7 +20,6 @@ typedef struct Map{
     int pPXposY; //Position du joueur en y sur la fenêtre
 }Map;
 
-enum Direction {HAUT, BAS, GAUCHE, DROITE};
 
 
 // Fonction pour vérifier les collisions en fonction du centre du joueur
@@ -57,6 +58,41 @@ int no_obstacle(enum Direction direction, Map *map, SDL_Rect *playerRect, int ce
     return 1;
 }
 
+// Fonction pour vérifier les collisions en fonction du centre du joueur
+int no_obstacle2(enum Direction direction, player *player, world world, int cellSize) {
+    int centerX = player->player_rect.x + player->player_rect.w / 2;
+    int centerY = player->player_rect.y + player->player_rect.h;
+
+    if (direction == HAUT) {
+        if (world.matrice[(centerY - 50) / cellSize][centerX / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
+            return 0;
+        }
+    }
+
+    if (direction == BAS) {
+        if (world.matrice[(centerY + 10) / cellSize][centerX / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
+            return 0;
+        }
+    }
+
+    if (direction == GAUCHE) {
+        if (world.matrice[centerY / cellSize][(centerX - 50) / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
+            return 0;
+        }
+    }
+
+    if (direction == DROITE) {
+        if (world.matrice[centerY / cellSize][(centerX + 50) / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
+            return 0;
+        }
+    }
+    return 1;
+}
+
 // Taille d'une cellule de la matrice en pixels
 int cellSize;
 //On récupère la taille de la fenêtre pour bien placer les boutons par la suite
@@ -75,6 +111,11 @@ void initWindowSize() {
 void updatePlayerPositionInMatrix(Map *map, SDL_Rect *playerRect, int cellSize) {
     map->pMposX = playerRect->x / cellSize;
     map->pMposY = playerRect->y / cellSize;
+}
+
+void updatePlayerPositionInMatrix2(world world, player *player, int cellSize) {
+    player->MposX = player->player_rect.x / cellSize;
+    player->MposY = player->player_rect.y / cellSize;
 }
 
 void mouvement( const Uint8 *state, SDL_Rect *playerRect, SDL_Texture *img_dir_joueur[4], SDL_Texture **playerTexture, Map *map){
@@ -117,6 +158,45 @@ void mouvement( const Uint8 *state, SDL_Rect *playerRect, SDL_Texture *img_dir_j
     }
 }
 
+
+void mouvement2(const Uint8 *state, world world, player *player){
+    int oldMposX = player->MposX;
+    int oldMposY = player->MposY;
+
+    printf("Joueur in matrix: %d, %d\n", player->MposX, player->MposY);
+    
+    if(state[SDL_SCANCODE_W] && no_obstacle2(HAUT, player, world, cellSize)){
+        add_log("MOUVEMENT","Z pressee\n");
+        player->player_rect.y -= 10;
+        player->player_texture = player->img_dir_joueur[HAUT];
+    }
+
+    if(state[SDL_SCANCODE_A] && no_obstacle2(GAUCHE, player, world, cellSize)){
+        add_log("MOUVEMENT","Q pressee\n");
+        player->player_rect.x -= 10;
+        player->player_texture = player->img_dir_joueur[GAUCHE];
+    }
+
+    if(state[SDL_SCANCODE_S] && no_obstacle2(BAS, player, world, cellSize)){
+        add_log("MOUVEMENT","S pressee\n");
+        player->player_rect.y += 10;
+        player->player_texture = player->img_dir_joueur[BAS];
+    }
+
+    if(state[SDL_SCANCODE_D] && no_obstacle2(DROITE, player, world, cellSize)){
+        add_log("MOUVEMENT","D pressee\n");
+        player->player_rect.x += 10;
+        player->player_texture = player->img_dir_joueur[DROITE];
+    }
+    
+    // Mettre à jour la position du joueur dans la matrice si elle a changé
+    updatePlayerPositionInMatrix2(world, player, cellSize);
+
+    // Vérifier si la position dans la matrice a changé
+    if (player->MposX != oldMposX || player->MposY != oldMposY) {
+        add_log("MOUVEMENT", "Position dans la matrice mise à jour\n");
+    }
+}
 //Génère la matrice correspondante au fichier et la retourne
 int** read_map_from_file2(const char* filename) {
     FILE *file = fopen(filename, "r");
@@ -161,6 +241,7 @@ int** read_map_from_file2(const char* filename) {
     return matrix;
 }
 
+/*
 // Fonction pour charger une texture à partir d'un fichier BMP
 SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
     SDL_Texture* texture = IMG_LoadTexture(renderer, path);
@@ -168,7 +249,7 @@ SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer) {
         add_log("TEXTURE", "Erreur de chargement de la texture\n");
     }
     return texture;
-}
+}*/
 
 //Créér une texture pour les murs et la retourne
 SDL_Texture* render_map2(SDL_Window *window, int **matrice){
@@ -211,17 +292,69 @@ SDL_Texture* render_map2(SDL_Window *window, int **matrice){
     return map_texture;
 }
 
-//Fonction de lancement du jeu
-void jeu(SDL_Window *window, SDL_Renderer *renderer){
 
+//Créér une texture pour les murs et la retourne
+SDL_Texture* get_world_texture(SDL_Window *window, world world){
+
+    SDL_Renderer *renderer = SDL_GetRenderer(window);
+
+    //Texture du mur
+    SDL_Texture *mur_texture = loadTexture(world.wall_texture_path, renderer);
+
+    //On récupère la taille de la fenêtre pour bien placer les boutons par la suite
+    int width, height;
+    SDL_DisplayMode taille_fenetre;
+    SDL_GetCurrentDisplayMode(0, &taille_fenetre);
+    width = taille_fenetre.w;
+    height = taille_fenetre.h;
+
+    SDL_Texture *world_texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, width, height);
+    SDL_SetRenderTarget(renderer, world_texture);
+
+    SDL_Rect MurRect;
+    MurRect.w = width / 20;
+    MurRect.h = MurRect.w;
+
+    for (int i = 0; i < 13; i++) {
+        for (int j = 0; j < 20; j++) {
+            if (world.matrice[i][j] == 1) {
+                MurRect.x = j * MurRect.w;
+                MurRect.y = i * MurRect.h;
+                SDL_RenderCopy(renderer, mur_texture, NULL, &MurRect);
+            }
+        }
+    }
+
+    SDL_SetRenderTarget(renderer, NULL);
+
+    world.global_texture = world_texture;
+    //Structure contenant la texture et le rectangle du mur
+    //Map *map = (Map*)malloc(sizeof(Map));
+    //map->texture = map_texture;
+
+    return world_texture;
+}
+
+//Fonction de lancement du jeu
+void jeu(SDL_Window *window, SDL_Renderer *renderer, world *world){
+
+    SDL_RenderClear(renderer);
     initWindowSize();
 
-    add_log("JEU","Fonction jeu.\n");
-    Map *map = (Map*)malloc(sizeof(Map));
-    map->matrice = read_map_from_file2("res/map2.txt");
-    map->texture = render_map2(window, map->matrice);
+    Mix_FadeInMusic(world->music, -1, 2000);
 
-    if(IMG_Init(IMG_INIT_PNG) == 0){
+    add_log("JEU","Fonction jeu.\n");
+    //Map *map = (Map*)malloc(sizeof(Map));
+    //map->matrice = read_map_from_file2("res/map2.txt");
+    //map->texture = render_map2(window, map->matrice);
+
+    world->global_texture = get_world_texture(window, *world);
+
+    player player = init_player(renderer, *world);
+    player.img_dir_joueur[BAS]=loadTexture("res/joueur/joueurB.png", renderer);
+
+
+    /*if(IMG_Init(IMG_INIT_PNG) == 0){
         add_log("JEU","Erreur d'initialisation de SDL_image\n");
     }
     SDL_Texture *playerTexture = loadTexture("res/joueur/joueurB.png", renderer);
@@ -234,8 +367,8 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
     height = taille_fenetre.h;
 
     //Positionnement du joueur au départ dans la matrice
-    map->pMposX = 1;
-    map->pMposY = 1;
+    map->pMposX = world->start_spawn.x;
+    map->pMposY = world->start_spawn.y;
     //Positionnement du joueur au départ sur la fenêtre
     map->pPXposX = width/20*map->pMposX;
     map->pPXposY = width/20*map->pMposY;
@@ -256,15 +389,16 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
         add_log("JEU","Erreur de chargement de l'image du joueur\n");
     }
 
-    playerTexture = img_dir_joueur[HAUT]; //Orientation du joueur au démarrage
+    playerTexture = img_dir_joueur[HAUT]; //Orientation du joueur au démarrage*/
 
 
     int continuer = 1;
     add_log("JEU","Entré dans while jeu()\n");
 
     //Premier rendu des textures
-    SDL_RenderCopy(renderer, map->texture, NULL, NULL);
-    SDL_RenderCopy(renderer, playerTexture, NULL, &playerRect);
+    //SDL_RenderCopy(renderer, map->texture, NULL, NULL);
+    SDL_RenderCopy(renderer, world->global_texture, NULL, NULL);
+    SDL_RenderCopy(renderer, player.player_texture, NULL, &player.player_rect);
     SDL_RenderPresent(renderer);
 
     SDL_Event event; //Variable qui reçoit l'évènement
@@ -274,7 +408,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
     SDL_Rect player_hitboxRect;
     int centerX;
     int centerY;
-    player_hitboxRect = playerRect;
+    player_hitboxRect = player.player_rect;
     
     while(continuer){
         /*currentTime = SDL_GetTicks(); //Récupère le temps actuel
@@ -289,17 +423,18 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
                 continuer = pause(renderer);
             }
         }
-        mouvement(state, &playerRect, img_dir_joueur, &playerTexture, map); //Déplace le joueur
-        SDL_RenderClear(renderer); //Efface l'écran
-        SDL_RenderCopy(renderer, map->texture, NULL, NULL); //Rend la texture des murs
-        SDL_RenderCopy(renderer, playerTexture, NULL, &playerRect); //Rend le joueur car sa position à changé
+        //mouvement(state, &player.player_rect, player.img_dir_joueur, &player.player_texture, map); //Déplace le joueur
+        mouvement2(state, *world, &player); //Déplace le joueur
+        //SDL_RenderClear(renderer); //Efface l'écran
+        SDL_RenderCopy(renderer, world->global_texture, NULL, NULL); //Rend la texture des murs
+        SDL_RenderCopy(renderer, player.player_texture, NULL, &player.player_rect); //Rend le joueur car sa position à changé
         if(player_hitbox){
-            centerX = playerRect.x + playerRect.w / 2;
-            centerY = playerRect.y + playerRect.h / 2;
-            player_hitboxRect.x = centerX - playerRect.w / 2;
-            player_hitboxRect.y = centerY - playerRect.h / 2;
-            player_hitboxRect.w = playerRect.w;
-            player_hitboxRect.h = playerRect.h;
+            centerX = player.player_rect.x + player.player_rect.w / 2;
+            centerY = player.player_rect.y + player.player_rect.h / 2;
+            player_hitboxRect.x = centerX - player.player_rect.w / 2;
+            player_hitboxRect.y = centerY - player.player_rect.h / 2;
+            player_hitboxRect.w = player.player_rect.w;
+            player_hitboxRect.h = player.player_rect.h;
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
             SDL_RenderDrawRect(renderer, &player_hitboxRect);
         }
@@ -309,7 +444,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
     }
     
     //Libération de ressources de la fonction jeu
-    for(int i=0;i<4;i++){
+    /*for(int i=0;i<4;i++){
         SDL_DestroyTexture(img_dir_joueur[i]);
     }
 
@@ -320,6 +455,6 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer){
     }
 
     free(map->matrice);
-    free(map);
+    free(map);*/
     add_log("JEU","Sortie while jeu()\n");
 }

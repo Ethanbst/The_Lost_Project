@@ -82,8 +82,6 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024); //Ouverture du fichier audio
     Mix_VolumeMusic(music_volume); // Réglez le volume de la musique en fonction de settings.txt
     //Mix_PlayMusic(world.music, 1);
-    
-    world world = get_world_info((char *)"world1.json");
 
     //Musique:
     Mix_Music *music = Mix_LoadMUS("res/music/menu.wav");
@@ -156,7 +154,9 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     reset_cursor();
                     Mix_FadeOutMusic(1000);
                     double music_pos = Mix_GetMusicPosition(music);
-                    jeu(window, renderer);
+                    
+                    world world = get_world_info((char *)"world2.json");
+                    jeu(window, renderer, &world);
                     //Mix_FreeMusic(music);
                     menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
                     Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);

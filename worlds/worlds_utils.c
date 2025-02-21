@@ -19,16 +19,33 @@ typedef struct end_spawn{
 
 //Contient les informations d'un monde (matrice, texture, positions du joueur dans la matrice et sur l'écran)
 typedef struct world{
-    int matrice; //Matrice de la map
+    int matrice[13][20]; //Matrice de la map
     start_spawn start_spawn; //Coordonnées X.Y d'apparition du joueur sur le monde de la map
     end_spawn end_spawn; //Coordonnées X.Y d'apparition du joueur si il reviens dans le monde
     Mix_Music *music; //Musique du monde
     char *next_world; //Nom du monde suivant "worldX+1"
     char *previous_world; //Nom du monde précédent "worldX-1"
     char *actual_world; //Nom du monde actuel "worldX"
-    SDL_Texture *texture; //Texture des murs
+    SDL_Texture *global_texture; //Texture globale
+    char *wall_texture_path;
 }world;
 
+void print_world_info(world w) {
+    printf("Actual World: %s\n", w.actual_world);
+    printf("Next World: %s\n", w.next_world);
+    printf("Previous World: %s\n", w.previous_world);
+    printf("Start Spawn: (%d, %d)\n", w.start_spawn.x, w.start_spawn.y);
+    printf("End Spawn: (%d, %d)\n", w.end_spawn.x, w.end_spawn.y);
+    printf("Wall Texture Path: %s\n", w.wall_texture_path);
+
+    printf("Map Matrix:\n");
+    for (int i = 0; i < 13; i++) {
+        for (int j = 0; j < 20; j++) {
+            printf("%d ", w.matrice[i][j]);
+        }
+        printf("\n");
+    }
+}
 
 //Récupère les information d'un fichier worldX.json donné en paramètre et retourne une structure contenant ces paramètres
 world get_world_info(char world_name[256]){
@@ -94,11 +111,10 @@ world get_world_info(char world_name[256]){
         parameter = cJSON_GetObjectItem(root, "music");
         world.music = Mix_LoadMUS(parameter->valuestring);
         
-            // Accéder à l'objet "map"
+        // Accéder à l'objet "map"
         cJSON *map = cJSON_GetObjectItemCaseSensitive(root, "map");
         if (cJSON_IsArray(map)) {
-            // Déclarer un tableau 2D pour stocker la matrice
-            int matrix[13][20];
+            // Déclarer un tableau 2D pour stocker la matrices
             // Parcourir les lignes de la matrice
             for (int i = 0; i < 13; i++) {
                 cJSON *row = cJSON_GetArrayItem(map, i);
@@ -107,16 +123,36 @@ world get_world_info(char world_name[256]){
                     for (int j = 0; j < 20; j++) {
                         cJSON *item = cJSON_GetArrayItem(row, j);
                         if (cJSON_IsNumber(item)) {
-                            matrix[i][j] = item->valueint;
-                        } else {
+                            world.matrice[i][j] = item->valueint;
+                        } 
+                        else {
                             fprintf(stderr, "Erreur : L'élément de la matrice n'est pas un nombre.\n");
-                            matrix[i][j] = 0; // Valeur par défaut en cas d'erreur
+                            world.matrice[i][j] = 0; // Valeur par défaut en cas d'erreur
                         }
                     }
                 } 
                 else {
                     fprintf(stderr, "Erreur : La ligne de la matrice n'est pas un tableau.\n");
                 }
+            }
+            //printf("worlds_utils 1:1=%d", world.matrice[1][1]);
+        }
+
+        parameter = cJSON_GetObjectItem(root, "wall_texture");
+        if(!parameter){
+            printf("texture mur non trouvee.\n");
+        }
+        else{
+            char location[] = "res/";
+            char texture_path[256];
+            strcpy(texture_path, location);
+            strcat(texture_path, parameter->valuestring);
+            printf("Mur: %s\n", texture_path);
+            world.wall_texture_path = (char *)malloc(strlen(texture_path) + 1);
+            if (world.wall_texture_path) {
+                strcpy(world.wall_texture_path, texture_path);
+            } else {
+                fprintf(stderr, "Erreur : Echec de l'allocation de memoire pour wall_texture_path.\n");
             }
         }
     }

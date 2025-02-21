@@ -25,6 +25,7 @@
     "music": "res/music/menu.wav",
     "actual_world": "world2",
     "previous_world": "world1",
-    "next_world": "world3"
+    "next_world": "world3",
+    "wall_texture" : "mur.bmp"
   }
   
