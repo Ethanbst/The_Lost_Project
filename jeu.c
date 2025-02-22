@@ -8,6 +8,8 @@
 #include "worlds/worlds_utils.h"
 #include "player_utils/player.h"
 
+#define PLAYER_OFFSET 50
+
 
 // Fonction pour vérifier les collisions en fonction du centre du joueur
 int no_obstacle2(enum Direction direction, player *player, world world, int cellSize) {
@@ -15,29 +17,29 @@ int no_obstacle2(enum Direction direction, player *player, world world, int cell
     int centerY = player->player_rect.y + player->player_rect.h / 2;
 
     if (direction == HAUT) {
-        if (world.matrice[(centerY - 50) / cellSize][centerX / cellSize] == 1) {
-            // add_log("JEU", "Obstacle!\n");
+        if (world.matrice[(centerY - PLAYER_OFFSET) / cellSize][centerX / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
             return 0;
         }
     }
 
     if (direction == BAS) {
-        if (world.matrice[(centerY) / cellSize][centerX / cellSize] == 1) {
-            // add_log("JEU", "Obstacle!\n");
+        if (world.matrice[(centerY + PLAYER_OFFSET) / cellSize][centerX / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
             return 0;
         }
     }
 
     if (direction == GAUCHE) {
-        if (world.matrice[centerY / cellSize][(centerX - 50) / cellSize] == 1) {
-            // add_log("JEU", "Obstacle!\n");
+        if (world.matrice[centerY / cellSize][(centerX - PLAYER_OFFSET) / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
             return 0;
         }
     }
 
     if (direction == DROITE) {
-        if (world.matrice[centerY / cellSize][(centerX + 50) / cellSize] == 1) {
-            // add_log("JEU", "Obstacle!\n");
+        if (world.matrice[centerY / cellSize][(centerX + PLAYER_OFFSET) / cellSize] == 1) {
+            add_log("JEU", "Obstacle!\n");
             return 0;
         }
     }
@@ -59,8 +61,10 @@ void initWindowSize() {
 }
 
 void updatePlayerPositionInMatrix2(world world, player *player, int cellSize) {
-    player->MposX = player->player_rect.x / cellSize;
-    player->MposY = player->player_rect.y / cellSize;
+    int centerX = player->player_rect.x + player->player_rect.w / 2;
+    int centerY = player->player_rect.y + player->player_rect.h / 2;
+    player->MposX = centerX/cellSize;
+    player->MposY = centerY/cellSize;
     printf("POS: %d:%d\n", player->MposX, player->MposY);
 }
 
@@ -68,8 +72,6 @@ int mouvement2(const Uint8 *state, world world, player *player){
     int oldMposX = player->MposX;
     int oldMposY = player->MposY;
 
-    // printf("Joueur in matrix: %d, %d\n", player->MposX, player->MposY);
-    
     if(state[SDL_SCANCODE_W] && no_obstacle2(HAUT, player, world, cellSize)){
         // add_log("MOUVEMENT","Z pressee\n");
         player->player_rect.y -= 10;
@@ -94,13 +96,9 @@ int mouvement2(const Uint8 *state, world world, player *player){
         player->player_texture = player->img_dir_joueur[DROITE];
     }
     
-    // Mettre à jour la position du joueur dans la matrice si elle a changé
     updatePlayerPositionInMatrix2(world, player, cellSize);
-
-    // Vérifier si la position dans la matrice a changé
-    if (player->MposX != oldMposX || player->MposY != oldMposY) {
-        // add_log("MOUVEMENT", "Position dans la matrice mise à jour\n");
-    }
+    
+    //printf("Old: %d:%d | Actual: %d:%d\n", oldMposX, oldMposY, player->MposX, player->MposY);
 
     if(player->MposX == world.next_portal.x && player->MposY == world.next_portal.y){ //Indication de passage au prochain niveau
         return 1;
@@ -190,12 +188,10 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world){
         SDL_RenderCopy(renderer, actual_world->global_texture, NULL, NULL); //Rend la texture des murs
         SDL_RenderCopy(renderer, player.player_texture, NULL, &player.player_rect); //Rend le joueur car sa position à changé
         if(player_hitbox){
-            centerX = player.player_rect.x + player.player_rect.w / 2;
-            centerY = player.player_rect.y + player.player_rect.h / 2;
-            player_hitboxRect.x = centerX - player.player_rect.w / 2;
-            player_hitboxRect.y = centerY - player.player_rect.h / 2;
-            player_hitboxRect.w = player.player_rect.w;
-            player_hitboxRect.h = player.player_rect.h;
+            player_hitboxRect.x = player.player_rect.x + 20;
+            player_hitboxRect.y = player.player_rect.y + 20;
+            player_hitboxRect.w = player.player_rect.w - 50;
+            player_hitboxRect.h = player.player_rect.h - 50;;
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
             SDL_RenderDrawRect(renderer, &player_hitboxRect);
         }
