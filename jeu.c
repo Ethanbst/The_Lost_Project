@@ -12,32 +12,32 @@
 // Fonction pour vérifier les collisions en fonction du centre du joueur
 int no_obstacle2(enum Direction direction, player *player, world world, int cellSize) {
     int centerX = player->player_rect.x + player->player_rect.w / 2;
-    int centerY = player->player_rect.y + player->player_rect.h;
+    int centerY = player->player_rect.y + player->player_rect.h / 2;
 
     if (direction == HAUT) {
         if (world.matrice[(centerY - 50) / cellSize][centerX / cellSize] == 1) {
-            add_log("JEU", "Obstacle!\n");
+            // add_log("JEU", "Obstacle!\n");
             return 0;
         }
     }
 
     if (direction == BAS) {
-        if (world.matrice[(centerY + 10) / cellSize][centerX / cellSize] == 1) {
-            add_log("JEU", "Obstacle!\n");
+        if (world.matrice[(centerY) / cellSize][centerX / cellSize] == 1) {
+            // add_log("JEU", "Obstacle!\n");
             return 0;
         }
     }
 
     if (direction == GAUCHE) {
         if (world.matrice[centerY / cellSize][(centerX - 50) / cellSize] == 1) {
-            add_log("JEU", "Obstacle!\n");
+            // add_log("JEU", "Obstacle!\n");
             return 0;
         }
     }
 
     if (direction == DROITE) {
         if (world.matrice[centerY / cellSize][(centerX + 50) / cellSize] == 1) {
-            add_log("JEU", "Obstacle!\n");
+            // add_log("JEU", "Obstacle!\n");
             return 0;
         }
     }
@@ -61,6 +61,7 @@ void initWindowSize() {
 void updatePlayerPositionInMatrix2(world world, player *player, int cellSize) {
     player->MposX = player->player_rect.x / cellSize;
     player->MposY = player->player_rect.y / cellSize;
+    printf("POS: %d:%d\n", player->MposX, player->MposY);
 }
 
 int mouvement2(const Uint8 *state, world world, player *player){
@@ -101,11 +102,11 @@ int mouvement2(const Uint8 *state, world world, player *player){
         // add_log("MOUVEMENT", "Position dans la matrice mise à jour\n");
     }
 
-    if(player->MposX == world.end_spawn.x && player->MposY == world.end_spawn.y){ //Indication de passage au prochain niveau
+    if(player->MposX == world.next_portal.x && player->MposY == world.next_portal.y){ //Indication de passage au prochain niveau
         return 1;
     }
-    if(player->MposX == world.start_spawn.x && player->MposY == world.start_spawn.y){ //Indication de passage au niveau précédant
-        //return -1;
+    if(player->MposX == world.back_portal.x && player->MposY == world.back_portal.y && strcmp(world.previous_world, "null") != 0){ //Indication de passage au niveau précédant
+        return -1;
     }
     else{
         return 0;
@@ -159,6 +160,7 @@ SDL_Texture* get_world_texture(SDL_Window *window, world world){
 //Fonction de lancement du jeu
 void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world){
 
+    print_world_info(actual_world);
 
     SDL_RenderClear(renderer);
     initWindowSize();
@@ -215,13 +217,27 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world){
     free_player(player);
     SDL_RenderClear(renderer); //Efface l'écran
 
-    /*if(continuer == -1){ //Retour précédent
-        add_log("JEU:", "PREVIOUS_WORLD\n");
-        world previous_world = get_world_info((char *)actual_world->previous_world);
-        jeu(window, renderer, &previous_world);
-    }*/
+    if(continuer == -1){ //Retour précédent
+        print_world_info(actual_world);
 
-    if(continuer == 1){ //Aller monde suivant
+        char *previous_world = (char*)malloc(strlen(actual_world->previous_world) + 1);
+        if (previous_world == NULL) {
+            add_log("JEU", "Memory allocation failed for next_world\n");
+            return;
+        }
+        strcpy(previous_world, actual_world->previous_world);
+
+        free_world(actual_world);
+        actual_world = get_world_info(previous_world);
+        actual_world->start_spawn = actual_world->end_spawn;
+        print_world_info(actual_world);
+        jeu(window, renderer, actual_world);
+    }
+
+    if(continuer == 1){ //Monde suivant
+
+        print_world_info(actual_world);
+
         char *next_world = (char*)malloc(strlen(actual_world->next_world) + 1);
         if (next_world == NULL) {
             add_log("JEU", "Memory allocation failed for next_world\n");
@@ -229,12 +245,10 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world){
         }
         strcpy(next_world, actual_world->next_world);
 
-        printf("\nnext:%s\n", actual_world->next_world);
-
-        //free_world(actual_world);
-
-        //actual_world = get_world_info(next_world);
-        //jeu(window, renderer, &next_world);
+        free_world(actual_world);
+        actual_world = get_world_info(next_world);
+        print_world_info(actual_world);
+        jeu(window, renderer, actual_world);
     }
     add_log("JEU","Sortie while jeu()\n");
 }

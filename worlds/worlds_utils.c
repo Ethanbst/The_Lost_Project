@@ -6,22 +6,18 @@
 #include "../logs_utils/log.h"
 
 //Coordonnées x:y d'apparition du joueur lorsqu'il démarre sur le monde
-typedef struct start_spawn{
+typedef struct coords{
     int x;
     int y;
-}start_spawn;
-
-//Coordonnées x:y d'apparition du joueur lorsqu'il revient sur le monde
-typedef struct end_spawn{
-    int x;
-    int y;
-}end_spawn;
+}coords;
 
 //Contient les informations d'un monde (matrice, texture, positions du joueur dans la matrice et sur l'écran)
 typedef struct world{
     int matrice[13][20]; //Matrice de la map
-    start_spawn start_spawn; //Coordonnées X.Y d'apparition du joueur sur le monde de la map
-    end_spawn end_spawn; //Coordonnées X.Y d'apparition du joueur si il reviens dans le monde
+    coords start_spawn; //Coordonnées X.Y d'apparition du joueur sur le monde de la map
+    coords end_spawn; //Coordonnées X.Y d'apparition du joueur si il reviens dans le monde
+    coords back_portal; //Coordonnées X.Y du trigger pour téléporter le joueur au monde précédent
+    coords next_portal; //Coordonnées X.Y du trigger pour téléporter le joueur au monde suivant
     Mix_Music *music; //Musique du monde
     char *next_world; //Nom du monde suivant "worldX+1"
     char *previous_world; //Nom du monde précédent "worldX-1"
@@ -36,7 +32,9 @@ void print_world_info(world *w) {
     printf("Next World: %s\n", w->next_world);
     printf("Previous World: %s\n", w->previous_world);
     printf("Start Spawn: (%d:%d)\n", w->start_spawn.x, w->start_spawn.y);
+    printf("Next Portal: (%d:%d)\n", w->next_portal.x, w->next_portal.y);
     printf("End Spawn: (%d:%d)\n", w->end_spawn.x, w->end_spawn.y);
+    printf("Back Portal: (%d:%d)\n", w->back_portal.x, w->back_portal.y);
     printf("Wall Texture Path: %s\n", w->wall_texture_path);
 
     printf("Matrice:\n");
@@ -87,13 +85,16 @@ world* get_world_info(char world_name[256]){
     if (root) {
         // Récupération des paramètres
         cJSON *parameter = cJSON_GetObjectItem(root, "actual_world");
-        world->actual_world = parameter->valuestring;
+        world->actual_world = (char *)malloc(strlen(parameter->valuestring) + 1);
+        if (world->actual_world) strcpy(world->actual_world, parameter->valuestring);
 
         parameter = cJSON_GetObjectItem(root, "next_world");
-        world->next_world = parameter->valuestring;
+        world->next_world = (char *)malloc(strlen(parameter->valuestring) + 1);
+        if (world->next_world) strcpy(world->next_world, parameter->valuestring);
 
         parameter = cJSON_GetObjectItem(root, "previous_world");
-        world->previous_world = parameter->valuestring;
+        world->previous_world = (char *)malloc(strlen(parameter->valuestring) + 1);
+        if (world->previous_world) strcpy(world->previous_world, parameter->valuestring);
 
         parameter = cJSON_GetObjectItem(root, "start_spawn");
         cJSON *x = cJSON_GetObjectItem(parameter, "x");
@@ -106,6 +107,18 @@ world* get_world_info(char world_name[256]){
         y = cJSON_GetObjectItem(parameter, "y");
         world->end_spawn.x = x->valueint;
         world->end_spawn.y = y->valueint;
+
+        parameter = cJSON_GetObjectItem(root, "next_door");
+        x = cJSON_GetObjectItem(parameter, "x");
+        y = cJSON_GetObjectItem(parameter, "y");
+        world->next_portal.x = x->valueint;
+        world->next_portal.y = y->valueint;
+
+        parameter = cJSON_GetObjectItem(root, "back_door");
+        x = cJSON_GetObjectItem(parameter, "x");
+        y = cJSON_GetObjectItem(parameter, "y");
+        world->back_portal.x = x->valueint;
+        world->back_portal.y = y->valueint;
 
         parameter = cJSON_GetObjectItem(root, "music");
         world->music = Mix_LoadMUS(parameter->valuestring);

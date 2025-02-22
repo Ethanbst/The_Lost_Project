@@ -4,22 +4,18 @@
 #include <SDL.h>
 #include <SDL_mixer.h>
 //Coordonnées x:y d'apparition du joueur lorsqu'il démarre sur le monde
-typedef struct start_spawn{
+typedef struct coords{
     int x;
     int y;
-}start_spawn;
-
-//Coordonnées x:y d'apparition du joueur lorsqu'il revient sur le monde
-typedef struct end_spawn{
-    int x;
-    int y;
-}end_spawn;
+}coords;
 
 //Contient les informations d'un monde (matrice, texture, positions du joueur dans la matrice et sur l'écran)
 typedef struct world{
     int matrice[13][20]; //Matrice de la map
-    start_spawn start_spawn; //Coordonnées X.Y d'apparition du joueur sur le monde de la map
-    end_spawn end_spawn; //Coordonnées X.Y d'apparition du joueur si il reviens dans le monde
+    coords start_spawn; //Coordonnées X.Y d'apparition du joueur sur le monde de la map
+    coords end_spawn; //Coordonnées X.Y d'apparition du joueur si il reviens dans le monde
+    coords back_portal; //Coordonnées X.Y du trigger pour téléporter le joueur au monde précédent
+    coords next_portal; //Coordonnées X.Y du trigger pour téléporter le joueur au monde suivant
     Mix_Music *music; //Musique du monde
     char *next_world; //Nom du monde suivant "worldX+1"
     char *previous_world; //Nom du monde précédent "worldX-1"
