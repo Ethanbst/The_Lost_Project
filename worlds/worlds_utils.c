@@ -30,36 +30,35 @@ typedef struct world{
     char *wall_texture_path;
 }world;
 
-void print_world_info(world w) {
-    printf("Actual World: %s\n", w.actual_world);
-    printf("Next World: %s\n", w.next_world);
-    printf("Previous World: %s\n", w.previous_world);
-    printf("Start Spawn: (%d, %d)\n", w.start_spawn.x, w.start_spawn.y);
-    printf("End Spawn: (%d, %d)\n", w.end_spawn.x, w.end_spawn.y);
-    printf("Wall Texture Path: %s\n", w.wall_texture_path);
+void print_world_info(world *w) {
+    printf("\n###########################################################\n");
+    printf("Actual World: %s\n", w->actual_world);
+    printf("Next World: %s\n", w->next_world);
+    printf("Previous World: %s\n", w->previous_world);
+    printf("Start Spawn: (%d:%d)\n", w->start_spawn.x, w->start_spawn.y);
+    printf("End Spawn: (%d:%d)\n", w->end_spawn.x, w->end_spawn.y);
+    printf("Wall Texture Path: %s\n", w->wall_texture_path);
 
-    printf("Map Matrix:\n");
+    printf("Matrice:\n");
     for (int i = 0; i < 13; i++) {
         for (int j = 0; j < 20; j++) {
-            printf("%d ", w.matrice[i][j]);
+            printf("%d ", w->matrice[i][j]);
         }
         printf("\n");
     }
+    printf("\n###########################################################\n");
 }
 
 //Récupère les information d'un fichier worldX.json donné en paramètre et retourne une structure contenant ces paramètres
-world get_world_info(char world_name[256]){
-
-    //printf("name: %s\n", world_name);
-    add_log("GET_WORLD", "Entree\n");
+world* get_world_info(char world_name[256]){
+    add_log("get_world_info()", "\n");
     char location[] = "res/worlds/";
     char world_path[256];
     strcpy(world_path, location);
     strcat(world_path, world_name);
-    printf("%s\n", world_path);
 
     // Structure pour accueillir les données
-    world world;
+    world *world = (struct world *)malloc(sizeof(struct world));
 
     // Lire le fichier JSON
     FILE *file = fopen(world_path, "r");
@@ -88,28 +87,28 @@ world get_world_info(char world_name[256]){
     if (root) {
         // Récupération des paramètres
         cJSON *parameter = cJSON_GetObjectItem(root, "actual_world");
-        world.actual_world = parameter->valuestring;
+        world->actual_world = parameter->valuestring;
 
         parameter = cJSON_GetObjectItem(root, "next_world");
-        world.next_world = parameter->valuestring;
+        world->next_world = parameter->valuestring;
 
         parameter = cJSON_GetObjectItem(root, "previous_world");
-        world.previous_world = parameter->valuestring;
+        world->previous_world = parameter->valuestring;
 
         parameter = cJSON_GetObjectItem(root, "start_spawn");
         cJSON *x = cJSON_GetObjectItem(parameter, "x");
         cJSON *y = cJSON_GetObjectItem(parameter, "y");
-        world.start_spawn.x = x->valueint;
-        world.start_spawn.y = y->valueint;
+        world->start_spawn.x = x->valueint;
+        world->start_spawn.y = y->valueint;
 
         parameter = cJSON_GetObjectItem(root, "end_spawn");
         x = cJSON_GetObjectItem(parameter, "x");
         y = cJSON_GetObjectItem(parameter, "y");
-        world.end_spawn.x = x->valueint;
-        world.end_spawn.y = y->valueint;
+        world->end_spawn.x = x->valueint;
+        world->end_spawn.y = y->valueint;
 
         parameter = cJSON_GetObjectItem(root, "music");
-        world.music = Mix_LoadMUS(parameter->valuestring);
+        world->music = Mix_LoadMUS(parameter->valuestring);
         
         // Accéder à l'objet "map"
         cJSON *map = cJSON_GetObjectItemCaseSensitive(root, "map");
@@ -123,11 +122,11 @@ world get_world_info(char world_name[256]){
                     for (int j = 0; j < 20; j++) {
                         cJSON *item = cJSON_GetArrayItem(row, j);
                         if (cJSON_IsNumber(item)) {
-                            world.matrice[i][j] = item->valueint;
+                            world->matrice[i][j] = item->valueint;
                         } 
                         else {
                             fprintf(stderr, "Erreur : L'élément de la matrice n'est pas un nombre.\n");
-                            world.matrice[i][j] = 0; // Valeur par défaut en cas d'erreur
+                            world->matrice[i][j] = 0; // Valeur par défaut en cas d'erreur
                         }
                     }
                 } 
@@ -147,21 +146,45 @@ world get_world_info(char world_name[256]){
             char texture_path[256];
             strcpy(texture_path, location);
             strcat(texture_path, parameter->valuestring);
-            printf("Mur: %s\n", texture_path);
-            world.wall_texture_path = (char *)malloc(strlen(texture_path) + 1);
-            if (world.wall_texture_path) {
-                strcpy(world.wall_texture_path, texture_path);
+            world->wall_texture_path = (char *)malloc(strlen(texture_path) + 1);
+            if (world->wall_texture_path) {
+                strcpy(world->wall_texture_path, texture_path);
             } else {
                 fprintf(stderr, "Erreur : Echec de l'allocation de memoire pour wall_texture_path.\n");
             }
         }
     }
     else {
-        add_log("GET_WORLD", "Erreur: Echec du parsing du fichier JSON\n");
+        add_log("\nGET_WORLD", "Erreur: Echec du parsing du fichier JSON\n");
         return world;
     }
 
     cJSON_Delete(root);
     free(data);
     return world;
+}
+
+//Libère les ressources utilisées par world
+void free_world(world *world) {
+    if (world) {
+        if (world->music) {
+            Mix_FreeMusic(world->music);
+        }
+        if (world->next_world) {
+            free(world->next_world);
+        }
+        if (world->previous_world) {
+            free(world->previous_world);
+        }
+        if (world->actual_world) {
+            free(world->actual_world);
+        }
+        if (world->global_texture) {
+            SDL_DestroyTexture(world->global_texture);
+        }
+        if (world->wall_texture_path) {
+            free(world->wall_texture_path);
+        }
+        free(world);
+    }
 }

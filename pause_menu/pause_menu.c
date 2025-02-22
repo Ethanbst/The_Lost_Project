@@ -73,10 +73,11 @@ int pause(SDL_Renderer *renderer){
                 if(is_mouse_on(menu_button)){
                     reset_cursor();
                     TTF_CloseFont(font);
-                    return 0;
+                    printf("MENU cliqué\n");
+                    return -2;
                 }
             }
         }
     }
-    return 1;
+    return 0;
 }

@@ -32,7 +32,7 @@ player init_player(SDL_Renderer *renderer, world world){
         player player;
 
         if(IMG_Init(IMG_INIT_PNG) == 0){
-            add_log("JEU","Erreur d'initialisation de SDL_image\n");
+            //add_log("JEU","Erreur d'initialisation de SDL_image\n");
         }
 
         player.img_dir_joueur[BAS]=loadTexture("res/joueur/joueurB.png", renderer);
@@ -40,7 +40,7 @@ player init_player(SDL_Renderer *renderer, world world){
         player.img_dir_joueur[GAUCHE]=loadTexture("res/joueur/joueurG.png", renderer);
         player.img_dir_joueur[DROITE]=loadTexture("res/joueur/joueurD.png", renderer);
         if(!player.img_dir_joueur[BAS] || !player.img_dir_joueur[HAUT] || !player.img_dir_joueur[GAUCHE] || !player.img_dir_joueur[DROITE]){
-            add_log("JEU","Erreur de chargement de l'image du joueur\n");
+            //add_log("JEU","Erreur de chargement de l'image du joueur\n");
         }
 
         player.player_texture = player.img_dir_joueur[BAS]; //Orientation du joueur dès de départ
@@ -54,4 +54,18 @@ player init_player(SDL_Renderer *renderer, world world){
         player.player_rect = playerRect;
 
         return player;
+}
+
+void free_player(player player){
+    
+    for(int i=0; i<4; i++){
+        if(player.img_dir_joueur[i]){
+            SDL_DestroyTexture(player.img_dir_joueur[i]);
+        }
+    }
+
+    /*if(player.player_texture){
+        free(player.player_texture);
+    }*/
+
 }

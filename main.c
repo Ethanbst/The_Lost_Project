@@ -47,6 +47,7 @@ int main(int argc, char *args[])
         }
 
         //On passe au Menu si l'initialisation de la fenêtre est réussie
+        add_log("MAIN", "Entrée dans menu\n");
         menu(renderer, window);
     }
 

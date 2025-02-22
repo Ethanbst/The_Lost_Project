@@ -155,9 +155,8 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     Mix_FadeOutMusic(1000);
                     double music_pos = Mix_GetMusicPosition(music);
                     
-                    world world = get_world_info((char *)"world2.json");
-                    jeu(window, renderer, &world);
-                    //Mix_FreeMusic(music);
+                    world *world = get_world_info((char *)"world1.json");
+                    jeu(window, renderer, world);
                     menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
                     Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
                 }
@@ -178,7 +177,6 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                 }
             }
             else if(event.type == SDL_MOUSEMOTION){ //évite le contrôle si la souris ne bouge pas
-                printf("Mouse moving\n");
                 //Récupération de la position de la souris
                 int x, y;
                 Uint32 mouse_state = SDL_GetMouseState(&x, &y);

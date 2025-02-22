@@ -20,4 +20,6 @@ typedef struct player{
 player init_player(SDL_Renderer *renderer, world world);
 
 SDL_Texture* loadTexture(const char* path, SDL_Renderer* renderer);
+
+void free_player(player player);
 #endif
