@@ -7,5 +7,6 @@
 
 void create_log_file();
 void add_log(const char *origine, const char *texte);
-//void add_log2(const char *texte);
+void add_log_error(const char *origine, const char *texte);
+void add_log_info(const char *origine, const char *texte);
 #endif

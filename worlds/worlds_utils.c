@@ -49,9 +49,34 @@ void print_world_info(world *w) {
     printf("\n###########################################################\n");
 }
 
+//Libère les ressources utilisées par world
+void free_world(world *world) {
+    if (world) {
+        if (world->music_path) {
+            free(world->music_path);
+        }
+        if (world->next_world) {
+            free(world->next_world);
+        }
+        if (world->previous_world) {
+            free(world->previous_world);
+        }
+        if (world->actual_world) {
+            free(world->actual_world);
+        }
+        if (world->global_texture) {
+            SDL_DestroyTexture(world->global_texture);
+        }
+        if (world->wall_texture_path) {
+            free(world->wall_texture_path);
+        }
+        free(world);
+    }
+}
+
 //Récupère les information d'un fichier worldX.json donné en paramètre et retourne une structure contenant ces paramètres
 world* get_world_info(char world_name[256]){
-    add_log("get_world_info()", "\n");
+    add_log("worlds_utils.c - get_world_info()", "Recuperzaion des informations du monde.");
     char location[] = "res/worlds/";
     char world_path[256];
     strcpy(world_path, location);
@@ -63,7 +88,7 @@ world* get_world_info(char world_name[256]){
     // Lire le fichier JSON
     FILE *file = fopen(world_path, "r");
     if (!file) {
-        add_log("GET_WORLD", "Erreur: Impossible d'ouvrir le fichier worldX.json\n");
+        add_log_error("worlds_utils.c - get_world_info()", "Impossible d'ouvrir le fichier worldX.json");
         return world;
     }
 
@@ -73,7 +98,7 @@ world* get_world_info(char world_name[256]){
 
     char *data = (char *)malloc(length + 1);
     if (!data) {
-        add_log("GET_WORLD", "Erreur: Echec de l'allocation de memoire\n");
+        add_log_error("worlds_utils.c - get_world_info()", "Echec de l'allocation de memoire pour data.");
         fclose(file);
         return world;
     }
@@ -89,14 +114,29 @@ world* get_world_info(char world_name[256]){
         cJSON *parameter = cJSON_GetObjectItem(root, "actual_world");
         world->actual_world = (char *)malloc(strlen(parameter->valuestring) + 1);
         if (world->actual_world) strcpy(world->actual_world, parameter->valuestring);
+        else {
+            add_log_error("worlds_utils.c - get_world_info()", "Echec de l'allocation de memoire pour actual_world.");
+            free_world(world);
+            return world;
+        }
 
         parameter = cJSON_GetObjectItem(root, "next_world");
         world->next_world = (char *)malloc(strlen(parameter->valuestring) + 1);
         if (world->next_world) strcpy(world->next_world, parameter->valuestring);
+        else {
+            add_log_error("worlds_utils.c - get_world_info()", "Echec de l'allocation de memoire pour next_world.");
+            free_world(world);
+            return world;
+        }
 
         parameter = cJSON_GetObjectItem(root, "previous_world");
         world->previous_world = (char *)malloc(strlen(parameter->valuestring) + 1);
         if (world->previous_world) strcpy(world->previous_world, parameter->valuestring);
+        else {
+            add_log_error("worlds_utils.c - get_world_info()", "Echec de l'allocation de memoire pour previous_world.");
+            free_world(world);
+            return world;
+        }
 
         parameter = cJSON_GetObjectItem(root, "start_spawn");
         cJSON *x = cJSON_GetObjectItem(parameter, "x");
@@ -123,7 +163,6 @@ world* get_world_info(char world_name[256]){
         world->back_portal.y = y->valueint;
 
         parameter = cJSON_GetObjectItem(root, "music");
-        //world->music = Mix_LoadMUS(parameter->valuestring);
         world->music_path = (char *)malloc(strlen(parameter->valuestring) + 1);
         if (world->music_path) strcpy(world->music_path, parameter->valuestring);
 
@@ -144,19 +183,22 @@ world* get_world_info(char world_name[256]){
                         else {
                             fprintf(stderr, "Erreur : L'élément de la matrice n'est pas un nombre.\n");
                             world->matrice[i][j] = 0; // Valeur par défaut en cas d'erreur
+                            add_log_error("worlds_utils.c - get_world_info()", "Erreur : L'élément de la matrice n'est pas un nombre.");
                         }
                     }
                 } 
                 else {
                     fprintf(stderr, "Erreur : La ligne de la matrice n'est pas un tableau.\n");
+                    add_log_error("worlds_utils.c - get_world_info()", "Erreur : La ligne de la matrice n'est pas un tableau.");
                 }
             }
-            //printf("worlds_utils 1:1=%d", world.matrice[1][1]);
         }
 
         parameter = cJSON_GetObjectItem(root, "wall_texture");
         if(!parameter){
-            printf("texture mur non trouvee.\n");
+            add_log_error("worlds_utils.c - get_world_info()", "Erreur : Aucun chemin de texture de mur n'a été trouvé.");
+            free_world(world);
+            return world;
         }
         else{
             char location[] = "res/";
@@ -166,42 +208,22 @@ world* get_world_info(char world_name[256]){
             world->wall_texture_path = (char *)malloc(strlen(texture_path) + 1);
             if (world->wall_texture_path) {
                 strcpy(world->wall_texture_path, texture_path);
-            } else {
+            } 
+            else {
                 fprintf(stderr, "Erreur : Echec de l'allocation de memoire pour wall_texture_path.\n");
+                add_log_error("worlds_utils.c - get_world_info()", "Erreur : Echec de l'allocation de memoire pour wall_texture_path.");
+                free_world(world);
+                return world;
             }
         }
     }
     else {
         add_log("\nGET_WORLD", "Erreur: Echec du parsing du fichier JSON\n");
+        free_world(world);
         return world;
     }
 
     cJSON_Delete(root);
     free(data);
     return world;
-}
-
-//Libère les ressources utilisées par world
-void free_world(world *world) {
-    if (world) {
-        /*if (world->music) {
-            Mix_FreeMusic(world->music);
-        }*/
-        if (world->next_world) {
-            free(world->next_world);
-        }
-        if (world->previous_world) {
-            free(world->previous_world);
-        }
-        if (world->actual_world) {
-            free(world->actual_world);
-        }
-        if (world->global_texture) {
-            SDL_DestroyTexture(world->global_texture);
-        }
-        if (world->wall_texture_path) {
-            free(world->wall_texture_path);
-        }
-        free(world);
-    }
 }

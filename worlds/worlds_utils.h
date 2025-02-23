@@ -28,7 +28,7 @@ typedef struct world{
 //Récupère les information d'un fichier worldX.json donné en paramètre et retourne une structure contenant ces paramètres
 world* get_world_info(char world_name[256]);
 
-void print_world_info(world *w);
-
 void free_world(world *world);
+
+void print_world_info(world *w);
 #endif

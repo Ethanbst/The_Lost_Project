@@ -74,13 +74,41 @@ void add_log2(const char *texte) {
 }
 */
 
-//Ajoute une chaine de caractère au dernier fichier de log
+//Ajoute la chaine au journal d'évènements et l'affiche également dans la console
 void add_log(const char *origine, const char *texte) {
     
     FILE *file = fopen(last_logfile, "a");
     if (file != NULL) {
-        printf("%s: %s", origine, texte);
-        fprintf(file, "%s: %s", origine, texte);
+        printf("[%s] %s\n", origine, texte);
+        fprintf(file, "[%s] %s\n", origine, texte);
+        fclose(file);
+    } 
+    else {
+        perror("Error opening last_logfile");
+    }
+}
+
+//Ajoute la chaine au journal d'évènements et l'affiche également dans la console en bleu
+void add_log_info(const char *origine, const char *texte) {
+    
+    FILE *file = fopen(last_logfile, "a");
+    if (file != NULL) {
+        printf("\033[0;36m[%s] %s\033[0m\n", origine, texte);
+        fprintf(file, "[%s] %s\n", origine, texte);
+        fclose(file);
+    } 
+    else {
+        perror("Error opening last_logfile");
+    }
+}
+
+//Ajoute la chaine au journal d'évènements et l'affiche également dans la console en rouge signalant une erreur
+void add_log_error(const char *origine, const char *texte) {
+    
+    FILE *file = fopen(last_logfile, "a");
+    if (file != NULL) {
+        printf("\033[0;31m[%s] %s\033[0m\n", origine, texte);
+        fprintf(file, "[%s] %s\n", origine, texte);
         fclose(file);
     } 
     else {

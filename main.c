@@ -26,9 +26,9 @@
 #include "menu/menu.h"
 #include "logs_utils/log.h"
 
-
 int main(int argc, char *args[])
 {
+    add_log_info("main.c", "Démarrage du programme.");
     SDL_Window *window;
     SDL_Renderer *renderer;
     create_log_file();
@@ -40,19 +40,19 @@ int main(int argc, char *args[])
         SDL_Surface *icon = NULL;
         icon = SDL_LoadBMP("res/icon.bmp");
         if(!icon){
-            add_log("MAIN","Echec du chargement de l'icone.\n");
+            add_log_error("main.c","Echec du chargement de l'icone.");
         }
         else{
             SDL_SetWindowIcon(window, icon);
         }
 
         //On passe au Menu si l'initialisation de la fenêtre est réussie
-        add_log("MAIN", "Entrée dans menu\n");
+        add_log_info("mainc.c", "Appel à menu()");
         menu(renderer, window);
     }
 
     else{
-        add_log("MAIN","Echec initialisation de la fenetre.\n");
+        add_log_error("main.c","Echec d'initialisation de la fenetre.");
         return -1;
     }
     
