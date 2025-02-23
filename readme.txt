@@ -1,7 +1,8 @@
 ➡️ The Lost Projet ⬅️
+🔄️ 60% done 🔄️
 
 🪧- Description
-The Lost Projet un jeu vidéo développé en langage C pour mon projet de 3ème année de Licence Informatique à l'INSA Valenciennes.
+The Lost Projet est un jeu vidéo développé en langage C pour mon projet de 3ème année de Licence Informatique à l'INSA Valenciennes.
 
 🛜 - Installation
 Pour installer et exécuter The Lost Projet, suivez ces étapes :
