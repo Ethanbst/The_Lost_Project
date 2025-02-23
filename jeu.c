@@ -156,15 +156,28 @@ SDL_Texture* get_world_texture(SDL_Window *window, world world){
 }
 
 //Fonction de lancement du jeu
-void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world){
+void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *current_music_path){
 
     print_world_info(actual_world);
 
     SDL_RenderClear(renderer);
     initWindowSize();
 
-    Mix_FadeInMusic(actual_world->music, -1, 2000);
-
+    if(strcmp(current_music_path, actual_world->music_path) != 0){ //Joue la musique du monde uniquement si elle est différente de l'ancienne
+        Mix_FadeOutMusic(1000);
+        Mix_FadeInMusic(Mix_LoadMUS(actual_world->music_path), -1, 2000);
+        printf("last_music: %s size: %d\n", current_music_path, sizeof(current_music_path));
+        printf("current_music: %s size: %d\n", actual_world->music_path, sizeof(actual_world->music_path));
+        free(current_music_path);
+        current_music_path = (char *)malloc(strlen(actual_world->music_path)+1);
+        if(!current_music_path){
+            add_log("JEU","Erreur de realloc");
+            return;
+        }
+        printf("new current size=%d\n", sizeof(current_music_path));
+        strcpy(current_music_path, actual_world->music_path);
+    }
+    
     actual_world->global_texture = get_world_texture(window, *actual_world);
 
     player player = init_player(renderer, *actual_world);
@@ -213,6 +226,8 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world){
     free_player(player);
     SDL_RenderClear(renderer); //Efface l'écran
 
+
+
     if(continuer == -1){ //Retour précédent
         print_world_info(actual_world);
 
@@ -227,7 +242,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world){
         actual_world = get_world_info(previous_world);
         actual_world->start_spawn = actual_world->end_spawn;
         print_world_info(actual_world);
-        jeu(window, renderer, actual_world);
+        jeu(window, renderer, actual_world, current_music_path);
     }
 
     if(continuer == 1){ //Monde suivant
@@ -244,7 +259,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world){
         free_world(actual_world);
         actual_world = get_world_info(next_world);
         print_world_info(actual_world);
-        jeu(window, renderer, actual_world);
+        jeu(window, renderer, actual_world, current_music_path);
     }
     add_log("JEU","Sortie while jeu()\n");
 }

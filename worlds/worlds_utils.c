@@ -18,7 +18,8 @@ typedef struct world{
     coords end_spawn; //Coordonnées X.Y d'apparition du joueur si il reviens dans le monde
     coords back_portal; //Coordonnées X.Y du trigger pour téléporter le joueur au monde précédent
     coords next_portal; //Coordonnées X.Y du trigger pour téléporter le joueur au monde suivant
-    Mix_Music *music; //Musique du monde
+    //Mix_Music *music; //Musique du monde
+    char *music_path; //Musique du monde
     char *next_world; //Nom du monde suivant "worldX+1"
     char *previous_world; //Nom du monde précédent "worldX-1"
     char *actual_world; //Nom du monde actuel "worldX"
@@ -36,6 +37,7 @@ void print_world_info(world *w) {
     printf("End Spawn: (%d:%d)\n", w->end_spawn.x, w->end_spawn.y);
     printf("Back Portal: (%d:%d)\n", w->back_portal.x, w->back_portal.y);
     printf("Wall Texture Path: %s\n", w->wall_texture_path);
+    printf("Music Path: %s\n", w->music_path);
 
     printf("Matrice:\n");
     for (int i = 0; i < 13; i++) {
@@ -121,8 +123,10 @@ world* get_world_info(char world_name[256]){
         world->back_portal.y = y->valueint;
 
         parameter = cJSON_GetObjectItem(root, "music");
-        world->music = Mix_LoadMUS(parameter->valuestring);
-        
+        //world->music = Mix_LoadMUS(parameter->valuestring);
+        world->music_path = (char *)malloc(strlen(parameter->valuestring) + 1);
+        if (world->music_path) strcpy(world->music_path, parameter->valuestring);
+
         // Accéder à l'objet "map"
         cJSON *map = cJSON_GetObjectItemCaseSensitive(root, "map");
         if (cJSON_IsArray(map)) {
@@ -180,9 +184,9 @@ world* get_world_info(char world_name[256]){
 //Libère les ressources utilisées par world
 void free_world(world *world) {
     if (world) {
-        if (world->music) {
+        /*if (world->music) {
             Mix_FreeMusic(world->music);
-        }
+        }*/
         if (world->next_world) {
             free(world->next_world);
         }

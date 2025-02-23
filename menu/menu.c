@@ -156,9 +156,16 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     double music_pos = Mix_GetMusicPosition(music);
                     
                     world *world = get_world_info((char *)"world1.json");
-                    jeu(window, renderer, world);
-                    menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
-                    Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
+                    char *current_music_path = (char *)malloc(sizeof("res/music/menu.wav"));
+                    strcpy(current_music_path, "res/music/menu.wav");
+                    if(current_music_path){
+                        jeu(window, renderer, world, current_music_path);
+                        menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
+                        Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
+                    }
+                    else{
+                        add_log("MENU","Echec allocation memoire pour musique");
+                    }
                 }
 
                 //Vérifier si "Options" est cliqué

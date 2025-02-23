@@ -16,7 +16,8 @@ typedef struct world{
     coords end_spawn; //Coordonnées X.Y d'apparition du joueur si il reviens dans le monde
     coords back_portal; //Coordonnées X.Y du trigger pour téléporter le joueur au monde précédent
     coords next_portal; //Coordonnées X.Y du trigger pour téléporter le joueur au monde suivant
-    Mix_Music *music; //Musique du monde
+    //Mix_Music *music; //Musique du monde
+    char *music_path;
     char *next_world; //Nom du monde suivant "worldX+1"
     char *previous_world; //Nom du monde précédent "worldX-1"
     char *actual_world; //Nom du monde actuel "worldX"
