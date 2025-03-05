@@ -152,7 +152,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     
                     reset_cursor();
                     
-                    Mix_FadeOutMusic(1000);
+                    //Mix_FadeOutMusic(1000);
                     
                     double music_pos = Mix_GetMusicPosition(music);
 
@@ -171,18 +171,16 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                         return;
                     }
 
-                    char *current_music_path = (char *)malloc(sizeof("res/music/menu.wav"));
+                    char *current_music_path = (char *)malloc(sizeof("res/music/menu.wav")); //Variable contenante le chemin de la musique actuelle
+                    if(current_music_path == NULL){
+                        add_log_error("menu.c - menu()","Echec allocation memoire pour la musique");
+                        return;
+                    }
                     strcpy(current_music_path, "res/music/menu.wav");
                     
-                    if(current_music_path){
-                        //free_menu(renderer, bg_menu_texture, bg_menu_surface);
-                        jeu(window, renderer, world, current_music_path);
-                        menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
-                        Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
-                    }
-                    else{
-                        add_log_error("menu.c - menu()","Echec allocation memoire pour la musique");
-                    }
+                    jeu(window, renderer, world, current_music_path);
+                    menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
+                    Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
                 }
 
                 //Vérifier si "Options" est cliqué
@@ -219,4 +217,6 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
             }
         }
     }
+    TTF_CloseFont(font);
+    Mix_FreeMusic(music);
 }

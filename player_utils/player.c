@@ -31,10 +31,6 @@ player init_player(SDL_Renderer *renderer, world world){
         //Tableau contenant les textures de chaques direction du joueur
         player player;
 
-        if(IMG_Init(IMG_INIT_PNG) == 0){
-            //add_log("JEU","Erreur d'initialisation de SDL_image\n");
-        }
-
         player.img_dir_joueur[BAS]=loadTexture("res/joueur/joueurB.png", renderer);
         player.img_dir_joueur[HAUT]=loadTexture("res/joueur/joueurH.png", renderer);
         player.img_dir_joueur[GAUCHE]=loadTexture("res/joueur/joueurG.png", renderer);
@@ -63,9 +59,4 @@ void free_player(player player){
             SDL_DestroyTexture(player.img_dir_joueur[i]);
         }
     }
-
-    /*if(player.player_texture){
-        free(player.player_texture);
-    }*/
-
 }

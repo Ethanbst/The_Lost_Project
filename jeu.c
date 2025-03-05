@@ -291,6 +291,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
     add_log_info("jeu.c - jeu()", "Libération de la mémoire du monde");
     save_progress(actual_world->actual_world);
     free_world(actual_world);
+    free(current_music_path);
     add_log_info("jeu.c - jeu()", "Fin de la partie");
     return;
 }

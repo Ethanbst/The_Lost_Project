@@ -46,6 +46,12 @@ int main(int argc, char *args[])
             SDL_SetWindowIcon(window, icon);
         }
 
+        //Initialisation de SDL_image
+        if(IMG_Init(IMG_INIT_PNG) == 0){
+            add_log_error("main.c","Echec d'initialisation de SDL_image.");
+            return -1;
+        }
+
         //On passe au Menu si l'initialisation de la fenêtre est réussie
         add_log_info("mainc.c", "Appel à menu()");
         menu(renderer, window);
