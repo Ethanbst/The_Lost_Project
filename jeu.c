@@ -7,6 +7,7 @@
 #include "debug_var.h"
 #include "worlds/worlds_utils.h"
 #include "player_utils/player.h"
+#include "save_utils/save.h"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -162,9 +163,9 @@ SDL_Texture* get_world_texture(SDL_Window *window, world world){
 
 //Lance la partie à partir du monde donné
 void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *current_music_path){
+    add_log_info("jeu.c - jeu()", "Lancement de la partie");
     int jeu = 1; //Variable permettant revenir au menu principal si = 0
     while(jeu != 0){
-        add_log_info("jeu.c - jeu()", "Lancement de la partie");
         print_world_info(actual_world);
     
         SDL_RenderClear(renderer);
@@ -288,7 +289,8 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
 
     //Libération de la mémoire
     add_log_info("jeu.c - jeu()", "Libération de la mémoire du monde");
-    //free_world(actual_world);
+    save_progress(actual_world->actual_world);
+    free_world(actual_world);
     add_log_info("jeu.c - jeu()", "Fin de la partie");
     return;
 }

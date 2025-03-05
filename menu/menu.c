@@ -6,6 +6,7 @@
 #include "../jeu.c"
 #include "../mouse_utils/mouse.h"
 #include "../worlds/worlds_utils.h"
+#include "../save_utils/save.h"
 
 //Fonction pour afficher du texte à l'écran
 SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, SDL_Color color){
@@ -16,7 +17,8 @@ SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, 
 }
 
 //Libère les ressources du menu une fois qu'elles ont été rendu.
-void free_menu(SDL_Renderer *renderer, SDL_Texture *bg_menu_texture, SDL_Surface *bg_menu_surface, TTF_Font *font) {
+void free_menu(SDL_Renderer *renderer, SDL_Texture *bg_menu_texture, SDL_Surface *bg_menu_surface) {
+    add_log_info("menu.c - free_menu()", "Liberation des ressources du menu.");
     //Libération des ressources
     if (bg_menu_texture) SDL_DestroyTexture(bg_menu_texture);
     if (bg_menu_surface) SDL_FreeSurface(bg_menu_surface);
@@ -37,11 +39,11 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     bg_menu_texture = SDL_CreateTextureFromSurface(renderer, bg_menu_surface);
     SDL_RenderCopy(renderer, bg_menu_texture, NULL, NULL);
 
-    font = TTF_OpenFont("res/font/Jersey10-Regular.ttf", 72);
+    /*font = TTF_OpenFont("res/font/Jersey10-Regular.ttf", 72);
     if (!font) {
         add_log_error("menu.c - menu_start()","Erreur lors du chargement de la police.");
         return;
-    }
+    }*/
 
     //Couleur pour le texte
     SDL_Color color = {255, 255, 255}; // Blanc
@@ -62,7 +64,7 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     //Présenter le rendu
     SDL_RenderPresent(renderer);
     //On libère les ressources maintenant qu'elles sont déjà rendu.
-    free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
+    free_menu(renderer, bg_menu_texture, bg_menu_surface);
 }
 
 //Fonction de gestion du menu principal:
@@ -148,23 +150,32 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     
                     Mix_FadeOutMusic(1000);
                     
-                    free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
-                    
                     reset_cursor();
                     
                     Mix_FadeOutMusic(1000);
                     
                     double music_pos = Mix_GetMusicPosition(music);
-                    
-                    world *world = get_world_info((char *)"world1.json");
-                    if(!world){
+
+                    world *world = NULL;
+                    //Contrôle si sauvegarde déjà existante
+                    if(exist_save()){ //Si une sauvegarde existe on charge à partir du dernier monde sauvegardé
+                        world = get_world_info(getlastworldname());
+                    }
+                    else{ //Sinon on charge le monde 1
+                        add_log_info("menu.c - menu()","Aucune sauvegarde trouvée, chargement du monde 1.");
+                        world = get_world_info((char *)"world1.json");
+                    }
+
+                    if(world == NULL){
                         add_log_error("menu.c - menu()","Echec de récupération des informations du monde");
                         return;
                     }
+
                     char *current_music_path = (char *)malloc(sizeof("res/music/menu.wav"));
                     strcpy(current_music_path, "res/music/menu.wav");
                     
                     if(current_music_path){
+                        //free_menu(renderer, bg_menu_texture, bg_menu_surface);
                         jeu(window, renderer, world, current_music_path);
                         menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
                         Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
@@ -208,6 +219,4 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
             }
         }
     }
-    //Libérer les ressources
-    free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
 }

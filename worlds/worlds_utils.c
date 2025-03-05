@@ -85,7 +85,7 @@ void free_world(world *world) {
 
 //Récupère les information d'un fichier worldX.json donné en paramètre et retourne une structure contenant ces paramètres
 world* get_world_info(char world_name[256]){
-    add_log("worlds_utils.c - get_world_info()", "Recuperzaion des informations du monde.");
+    add_log("worlds_utils.c - get_world_info()", "Recuperation des informations du monde.");
     char location[] = "res/worlds/";
     char world_path[256];
     strcpy(world_path, location);
@@ -98,6 +98,7 @@ world* get_world_info(char world_name[256]){
     FILE *file = fopen(world_path, "r");
     if (!file) {
         add_log_error("worlds_utils.c - get_world_info()", "Impossible d'ouvrir le fichier worldX.json");
+        world = NULL;
         return world;
     }
 
@@ -109,6 +110,7 @@ world* get_world_info(char world_name[256]){
     if (!data) {
         add_log_error("worlds_utils.c - get_world_info()", "Echec de l'allocation de memoire pour data.");
         fclose(file);
+        world = NULL;
         return world;
     }
     fread(data, 1, length, file);
@@ -126,6 +128,7 @@ world* get_world_info(char world_name[256]){
         else {
             add_log_error("worlds_utils.c - get_world_info()", "Echec de l'allocation de memoire pour actual_world.");
             free_world(world);
+            world = NULL;
             return world;
         }
 
@@ -135,6 +138,7 @@ world* get_world_info(char world_name[256]){
         else {
             add_log_error("worlds_utils.c - get_world_info()", "Echec de l'allocation de memoire pour next_world.");
             free_world(world);
+            world = NULL;
             return world;
         }
 
@@ -144,6 +148,7 @@ world* get_world_info(char world_name[256]){
         else {
             add_log_error("worlds_utils.c - get_world_info()", "Echec de l'allocation de memoire pour previous_world.");
             free_world(world);
+            world = NULL;
             return world;
         }
 
@@ -207,6 +212,7 @@ world* get_world_info(char world_name[256]){
         if(!parameter){
             add_log_error("worlds_utils.c - get_world_info()", "Erreur : Aucun chemin de texture de mur n'a été trouvé.");
             free_world(world);
+            world = NULL;
             return world;
         }
         else{
@@ -222,6 +228,7 @@ world* get_world_info(char world_name[256]){
                 fprintf(stderr, "Erreur : Echec de l'allocation de memoire pour wall_texture_path.\n");
                 add_log_error("worlds_utils.c - get_world_info()", "Erreur : Echec de l'allocation de memoire pour wall_texture_path.");
                 free_world(world);
+                world = NULL;
                 return world;
             }
         }
@@ -229,6 +236,7 @@ world* get_world_info(char world_name[256]){
     else {
         add_log("\nGET_WORLD", "Erreur: Echec du parsing du fichier JSON\n");
         free_world(world);
+        world = NULL;
         return world;
     }
 
