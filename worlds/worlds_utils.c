@@ -54,23 +54,32 @@ void free_world(world *world) {
     if (world) {
         if (world->music_path) {
             free(world->music_path);
+            world->music_path = NULL;
         }
         if (world->next_world) {
             free(world->next_world);
+            world->next_world = NULL;
         }
         if (world->previous_world) {
             free(world->previous_world);
+            world->previous_world = NULL;
         }
         if (world->actual_world) {
             free(world->actual_world);
+            world->actual_world = NULL;
         }
         if (world->global_texture) {
             SDL_DestroyTexture(world->global_texture);
+            world->global_texture = NULL;
         }
         if (world->wall_texture_path) {
             free(world->wall_texture_path);
+            world->wall_texture_path = NULL;
         }
-        free(world);
+        if(world){
+            free(world);
+            world = NULL;
+        }
     }
 }
 

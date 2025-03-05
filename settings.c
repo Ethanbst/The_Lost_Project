@@ -176,13 +176,13 @@ void options(SDL_Renderer *renderer)
     // Initialisation de TTF
     if (TTF_Init() == -1)
     {
-        add_log("ERROR", "Failed to initialize TTF.\n");
+        add_log_error("settings.c - options()", "Failed to initialize TTF.");
         return;
     }
     TTF_Font *font = TTF_OpenFont("res/font/Jersey10-Regular.ttf", 24);
     if (!font)
     {
-        add_log("ERROR", "Failed to load font.\n");
+        add_log_error("settings.c - options()", "Failed to load font.");
         return;
     }
 
@@ -190,11 +190,15 @@ void options(SDL_Renderer *renderer)
     displayMode = GetScreenSize();
 
     // Dessiner les sliders
-    CTA music_slider = draw_slider(renderer, displayMode.w / 2 - slider_width / 2, 100, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
-    CTA fx_slider = draw_slider(renderer, displayMode.w / 2 - slider_width / 2, 200, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
+
+    CTA music_vol_txt = draw_button(renderer, displayMode.w / 2, displayMode.h/3, 2, "Volume de la musique", font, 0);
+    CTA music_slider = draw_slider(renderer,  displayMode.w/2+slider_width, displayMode.h/3, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
+
+    CTA fx_vol_txt = draw_button(renderer, displayMode.w / 2, music_vol_txt.pos_y+music_vol_txt.h*2, 2, "Volume des effets", font, 0);
+    CTA fx_slider = draw_slider(renderer, displayMode.w/2+slider_width, music_vol_txt.pos_y+music_vol_txt.h*2, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
 
     // Dessiner le bouton "Appliquer"
-    CTA apply_button = draw_button(renderer, displayMode.w / 2 - slider_width / 2, 300, 4, "Appliquer", font, 0);
+    CTA apply_button = draw_button(renderer, displayMode.w/2, fx_slider.pos_y+fx_slider.pos_y/2, 2, "Appliquer", font, 0);
 
     // Afficher les éléments
     SDL_RenderPresent(renderer);
@@ -243,14 +247,15 @@ void options(SDL_Renderer *renderer)
             case SDL_MOUSEMOTION:
                 int mouseX = event.motion.x;
                 int mouseY = event.motion.y;
-                if (event.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT))
+                if (event.motion.state & SDL_BUTTON(SDL_BUTTON_LEFT)) //Si mouvement souris ET clique
                 {
-
                     // Vérifier si le curseur est sur le slider de la musique
                     if (is_mouse_on(music_slider))
                     {
-                        musicVolume = (mouseX - (displayMode.w / 2 - slider_width / 2)) * MIX_MAX_VOLUME / slider_width;
-                        music_slider = draw_slider(renderer, music_slider.pos_x, music_slider.pos_y, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
+                        musicVolume = (mouseX - music_slider.pos_x) * MIX_MAX_VOLUME / slider_width;
+                        if (musicVolume < 0) musicVolume = 0;
+                        if (musicVolume > MIX_MAX_VOLUME) musicVolume = MIX_MAX_VOLUME;
+                        music_slider = draw_slider(renderer, displayMode.w/2+slider_width, displayMode.h/3, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
                         set_setting_value2("music_volume", musicVolume);
                         SDL_RenderPresent(renderer);
                         Mix_VolumeMusic(musicVolume);
@@ -259,8 +264,8 @@ void options(SDL_Renderer *renderer)
                     // Vérifier si le curseur est sur le slider des effets sonores
                     if (is_mouse_on(fx_slider))
                     {
-                        sfxVolume = (mouseX - (displayMode.w / 2 - slider_width / 2)) * MIX_MAX_VOLUME / slider_width;
-                        fx_slider = draw_slider(renderer, displayMode.w / 2 - slider_width / 2, 200, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
+                        sfxVolume = (mouseX - fx_slider.pos_x) * MIX_MAX_VOLUME / slider_width;
+                        fx_slider = draw_slider(renderer, displayMode.w/2+slider_width, music_vol_txt.pos_y+music_vol_txt.h*2, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
                         set_setting_value2("fx_volume", sfxVolume);
                         SDL_RenderPresent(renderer);
                         Mix_VolumeMusic(musicVolume);

@@ -63,8 +63,8 @@ CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size,
 CTA draw_slider(SDL_Renderer *renderer, int pos_x, int pos_y, int w, int h, int value, int max_value) {
 
     // Rectangle contenant les éléments du slider
-    SDL_Rect slider_bg = {pos_x, pos_y, w, h}; //Rectangle contenant le fond du slider
-    SDL_Rect slider_fg = {pos_x, pos_y, (w * value) / max_value, h}; //Rectangle contenant le remplissage du slider
+    SDL_Rect slider_bg = {pos_x-(w/2), pos_y-(h/2), w, h}; //Rectangle contenant le fond du slider
+    SDL_Rect slider_fg = {pos_x-(w/2), pos_y-(h/2), (w * value) / max_value, h}; //Rectangle contenant le remplissage du slider
 
     // Draw background
     SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255); // Background color (gray)
@@ -79,10 +79,10 @@ CTA draw_slider(SDL_Renderer *renderer, int pos_x, int pos_y, int w, int h, int 
     SDL_RenderDrawRect(renderer, &slider_bg);
 
     CTA slider;
-    slider.h = h;
-    slider.w = w;
-    slider.pos_x = pos_x;
-    slider.pos_y = pos_y;
+    slider.h = slider_bg.h;
+    slider.w = slider_bg.w;
+    slider.pos_x = slider_bg.x;
+    slider.pos_y = slider_bg.y;
 
     return slider;
 }

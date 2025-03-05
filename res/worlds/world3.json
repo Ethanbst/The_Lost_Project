@@ -21,7 +21,7 @@
     "music": "res/music/Digital-Sunrise.wav",
     "actual_world": "world3.json",
     "previous_world": "world2.json",
-    "next_world": "world5.json",
+    "next_world": "world4.json",
     "wall_texture": "mur.bmp"
   }
   

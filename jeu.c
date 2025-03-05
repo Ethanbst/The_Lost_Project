@@ -19,14 +19,14 @@ int no_obstacle2(enum Direction direction, player *player, world world, int cell
     int centerY = player->player_rect.y + player->player_rect.h / 2;
 
     if (direction == HAUT) {
-        if (world.matrice[(centerY - PLAYER_OFFSET) / cellSize][centerX / cellSize] == 1) {
+        if (world.matrice[(centerY - (PLAYER_OFFSET+10)) / cellSize][centerX / cellSize] == 1) {
             add_log("jeu.c - no_obstacle()", "Obstacle!");
             return 0;
         }
     }
 
     if (direction == BAS) {
-        if (world.matrice[(centerY + PLAYER_OFFSET) / cellSize][centerX / cellSize] == 1) {
+        if (world.matrice[(centerY + (PLAYER_OFFSET+20)) / cellSize][centerX / cellSize] == 1) {
             add_log("jeu.c - no_obstacle()", "Obstacle!");
             return 0;
         }
@@ -162,126 +162,133 @@ SDL_Texture* get_world_texture(SDL_Window *window, world world){
 
 //Lance la partie à partir du monde donné
 void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *current_music_path){
-    add_log_info("jeu.c - jeu()", "Lancement de la partie");
-    print_world_info(actual_world);
-
-    SDL_RenderClear(renderer);
-    initWindowSize();
-
-    if(strcmp(current_music_path, actual_world->music_path) != 0){ //Joue la musique du monde uniquement si elle est différente de l'ancienne
-        Mix_FadeOutMusic(1000);
-        Mix_FadeInMusic(Mix_LoadMUS(actual_world->music_path), -1, 2000);
-        printf("last_music: %s size: %d\n", current_music_path, sizeof(current_music_path));
-        printf("current_music: %s size: %d\n", actual_world->music_path, sizeof(actual_world->music_path));
-        free(current_music_path);
-        current_music_path = (char *)malloc(strlen(actual_world->music_path)+1);
+    int jeu = 1; //Variable permettant revenir au menu principal si = 0
+    while(jeu != 0){
+        add_log_info("jeu.c - jeu()", "Lancement de la partie");
+        print_world_info(actual_world);
+    
+        SDL_RenderClear(renderer);
+        initWindowSize();
+    
+        if(strcmp(current_music_path, actual_world->music_path) != 0){ //Joue la musique du monde uniquement si elle est différente de l'ancienne
+            Mix_FadeOutMusic(1000);
+            Mix_FadeInMusic(Mix_LoadMUS(actual_world->music_path), -1, 2000);
+            printf("last_music: %s size: %d\n", current_music_path, sizeof(current_music_path));
+            printf("current_music: %s size: %d\n", actual_world->music_path, sizeof(actual_world->music_path));
+            free(current_music_path);
+            current_music_path = (char *)malloc(strlen(actual_world->music_path)+1);
+            
+            if(!current_music_path){
+                add_log_error("jeu.c - jeu()","Erreur de realloc");
+                return;
+            }
+    
+            strcpy(current_music_path, actual_world->music_path);
+        }
         
-        if(!current_music_path){
-            add_log_error("jeu.c - jeu()","Erreur de realloc");
+        actual_world->global_texture = get_world_texture(window, *actual_world);
+    
+        player player = init_player(renderer, *actual_world);
+        if(player.player_texture == NULL){
+            add_log_error("jeu.c - jeu()","Erreur d'initialisation du joueur");
             return;
         }
-
-        strcpy(current_music_path, actual_world->music_path);
-    }
     
-    actual_world->global_texture = get_world_texture(window, *actual_world);
-
-    player player = init_player(renderer, *actual_world);
-    if(player.player_texture == NULL){
-        add_log_error("jeu.c - jeu()","Erreur d'initialisation du joueur");
-        return;
-    }
-
-    player.img_dir_joueur[BAS]=loadTexture("res/joueur/joueurB.png", renderer);
-    if(player.img_dir_joueur[BAS] == NULL){
-        add_log_error("jeu.c - jeu()","Erreur de chargement de l'image du joueur");
-        return;
-    }
-
-    int continuer = 0;
-
-    SDL_Event event; //Variable qui reçoit l'évènement
-    const Uint8 *state = SDL_GetKeyboardState(NULL); //Récupère l'état du clavier
-    Uint32 lastTime = SDL_GetTicks(), currentTime; //Variables pour le temps
+        player.img_dir_joueur[BAS]=loadTexture("res/joueur/joueurB.png", renderer);
+        if(player.img_dir_joueur[BAS] == NULL){
+            add_log_error("jeu.c - jeu()","Erreur de chargement de l'image du joueur");
+            return;
+        }
     
-    SDL_Rect player_hitboxRect;
-    int centerX;
-    int centerY;
-    player_hitboxRect = player.player_rect; //rectangle de debugage du joueur
+        int continuer = 0;
     
-    while(continuer == 0){
+        SDL_Event event; //Variable qui reçoit l'évènement
+        const Uint8 *state = SDL_GetKeyboardState(NULL); //Récupère l'état du clavier
+        Uint32 lastTime = SDL_GetTicks(), currentTime; //Variables pour le temps
         
-        continuer = mouvement2(state, *actual_world, &player); //Déplace le joueur
+        SDL_Rect player_hitboxRect;
+        int centerX;
+        int centerY;
+        player_hitboxRect = player.player_rect; //rectangle de debugage du joueur
+        
+        while(continuer == 0){
+            
+            continuer = mouvement2(state, *actual_world, &player); //Déplace le joueur
+            SDL_RenderClear(renderer); //Efface l'écran
+            SDL_RenderCopy(renderer, actual_world->global_texture, NULL, NULL); //Rend la texture des murs
+            SDL_RenderCopy(renderer, player.player_texture, NULL, &player.player_rect); //Rend le joueur car sa position à changé
+            
+            if(player_hitbox){
+                player_hitboxRect.x = player.player_rect.x+30;
+                player_hitboxRect.y = player.player_rect.y+20;
+                player_hitboxRect.w = player.player_rect.w-60;
+                player_hitboxRect.h = player.player_rect.h-30;
+                SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                SDL_RenderDrawRect(renderer, &player_hitboxRect);
+            }
+    
+            SDL_RenderPresent(renderer); //Présente le rendu
+            
+            SDL_Delay(16); //Délai pour éviter de bouger trop vite
+    
+            while(SDL_PollEvent(&event)){
+                if(event.type == SDL_QUIT){
+                    continuer = -2;
+                    jeu = 0;
+                }
+                else if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE){
+                    continuer = pause(renderer);
+                    jeu = continuer+2;
+                }
+            }
+        }
+        
+        //Libération de ressources de la fonction jeu
+        free_player(player);
         SDL_RenderClear(renderer); //Efface l'écran
-        SDL_RenderCopy(renderer, actual_world->global_texture, NULL, NULL); //Rend la texture des murs
-        SDL_RenderCopy(renderer, player.player_texture, NULL, &player.player_rect); //Rend le joueur car sa position à changé
-        
-        if(player_hitbox){
-            player_hitboxRect.x = player.player_rect.x + 20;
-            player_hitboxRect.y = player.player_rect.y + 20;
-            player_hitboxRect.w = player.player_rect.w - 50;
-            player_hitboxRect.h = player.player_rect.h - 50;;
-            SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-            SDL_RenderDrawRect(renderer, &player_hitboxRect);
-        }
-
-        SDL_RenderPresent(renderer); //Présente le rendu
-        
-        SDL_Delay(16); //Délai pour éviter de bouger trop vite
-
-        while(SDL_PollEvent(&event)){
-            if(event.type == SDL_QUIT){
-                continuer = -2;
-            }
-            else if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE){
-                continuer = pause(renderer);
-            }
-        }
-    }
     
-    //Libération de ressources de la fonction jeu
-    free_player(player);
-    SDL_RenderClear(renderer); //Efface l'écran
-
-    if(continuer == -1){ //Retour au monde précédent
-
-        char *previous_world = (char*)malloc(strlen(actual_world->previous_world) + 1);
-        if (previous_world == NULL) {
-            add_log_error("jeu.c - jeu()", "Erreur de malloc pour previous_world");
-            return;
+        if(continuer == -1){ //Retour au monde précédent
+    
+            char *previous_world = (char*)malloc(strlen(actual_world->previous_world) + 1);
+            if (previous_world == NULL) {
+                add_log_error("jeu.c - jeu()", "Erreur de malloc pour previous_world");
+                return;
+            }
+            strcpy(previous_world, actual_world->previous_world);
+    
+            free_world(actual_world);
+            actual_world = get_world_info(previous_world);
+            if(actual_world == NULL){
+                add_log_error("jeu.c - jeu()", "Erreur de récupération des informations du monde précédent");
+                return;
+            }
+            actual_world->start_spawn = actual_world->end_spawn;
+    
+            //jeu(window, renderer, actual_world, current_music_path);
         }
-        strcpy(previous_world, actual_world->previous_world);
-
-        free_world(actual_world);
-        actual_world = get_world_info(previous_world);
-        if(actual_world == NULL){
-            add_log_error("jeu.c - jeu()", "Erreur de récupération des informations du monde précédent");
-            return;
+    
+        if(continuer == 1){ //Aller au monde suivant
+    
+            char *next_world = (char*)malloc(strlen(actual_world->next_world) + 1);
+            if (next_world == NULL) {
+                add_log_error("jeu.c - jeu()", "Erreur de malloc pour next_world");
+                return;
+            }
+            strcpy(next_world, actual_world->next_world);
+    
+            free_world(actual_world);
+            actual_world = get_world_info(next_world);
+            if(actual_world == NULL){
+                add_log_error("jeu.c - jeu()", "Erreur de récupération des informations du monde suivant");
+            }
+    
+            //jeu(window, renderer, actual_world, current_music_path);
         }
-        actual_world->start_spawn = actual_world->end_spawn;
-
-        jeu(window, renderer, actual_world, current_music_path);
     }
 
-    if(continuer == 1){ //Aller au monde suivant
-
-        char *next_world = (char*)malloc(strlen(actual_world->next_world) + 1);
-        if (next_world == NULL) {
-            add_log_error("jeu.c - jeu()", "Erreur de malloc pour next_world");
-            return;
-        }
-        strcpy(next_world, actual_world->next_world);
-
-        free_world(actual_world);
-        actual_world = get_world_info(next_world);
-        if(actual_world == NULL){
-            add_log_error("jeu.c - jeu()", "Erreur de récupération des informations du monde suivant");
-        }
-
-        jeu(window, renderer, actual_world, current_music_path);
-    }
-
-    free_world(actual_world);
+    //Libération de la mémoire
+    add_log_info("jeu.c - jeu()", "Libération de la mémoire du monde");
+    //free_world(actual_world);
     add_log_info("jeu.c - jeu()", "Fin de la partie");
     return;
 }
