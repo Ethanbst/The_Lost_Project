@@ -129,6 +129,12 @@ SDL_Texture* get_world_texture(SDL_Window *window, world world){
     //Texture du mur
     SDL_Texture *mur_texture = loadTexture(world.wall_texture_path, renderer);
 
+    SDL_Texture *floor_texture = loadTexture(world.floor_texture_path, renderer);
+    if(floor_texture == NULL){
+        add_log_error("jeu.c - get_world_texture()", "Erreur de chargement de la texture du sol");
+        return NULL;
+    }
+
     //On récupère la taille de la fenêtre pour bien placer les boutons par la suite
     int width, height;
     SDL_DisplayMode taille_fenetre;
@@ -151,6 +157,11 @@ SDL_Texture* get_world_texture(SDL_Window *window, world world){
                 MurRect.x = j * MurRect.w;
                 MurRect.y = i * MurRect.h;
                 SDL_RenderCopy(renderer, mur_texture, NULL, &MurRect);
+            }
+            else{
+                MurRect.x = j * MurRect.w;
+                MurRect.y = i * MurRect.h;
+                SDL_RenderCopy(renderer, floor_texture, NULL, &MurRect);
             }
         }
     }
