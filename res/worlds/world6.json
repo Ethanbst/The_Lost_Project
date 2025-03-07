@@ -22,5 +22,6 @@
   "actual_world": "world6.json",
   "previous_world": "world5.json",
   "next_world": "world7.json",
-  "wall_texture": "mur.bmp"
+  "wall_texture": "wall1.bmp",
+  "floor_texture": "floor1.bmp"
 }
