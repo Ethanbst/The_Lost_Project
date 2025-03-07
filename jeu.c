@@ -8,6 +8,7 @@
 #include "worlds/worlds_utils.h"
 #include "player_utils/player.h"
 #include "save_utils/save.h"
+#include "tutorial_utils/tutorial_utils.h"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -165,6 +166,13 @@ SDL_Texture* get_world_texture(SDL_Window *window, world world){
 void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *current_music_path){
     add_log_info("jeu.c - jeu()", "Lancement de la partie");
     int jeu = 1; //Variable permettant revenir au menu principal si = 0
+    
+    int tutorial = 0;
+    int Z_pressed = 0;
+    int Q_pressed = 0;
+    int S_pressed = 0;
+    int D_pressed = 0;
+
     while(jeu != 0){
         print_world_info(actual_world);
     
@@ -212,29 +220,20 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
         int centerY;
         player_hitboxRect = player.player_rect; //rectangle de debugage du joueur
 
-        int tutorial = 0;
-        int Z_pressed = 0;
-        int Q_pressed = 0;
-        int S_pressed = 0;
-        int D_pressed = 0;
+        
         //Partie tutorial
-        if(exist_save() == 0){
-        add_log_info("jeu.c - jeu()", "Début du tutoriel");
-        int tutorial = 1;
-        int Z_pressed = 0;
-        int Q_pressed = 0;
-        int S_pressed = 0;
-        int D_pressed = 0;
+        if(exist_save() == 0 && tutorial == 0){
+            add_log_info("jeu.c - jeu()", "Début du tutoriel");
+            tutorial = 1;
+            Z_pressed = 0;
+            Q_pressed = 0;
+            S_pressed = 0;
+            D_pressed = 0;
         }
 
         
         while(continuer == 0){
 
-            //Partie tutorial
-            if(tutorial && !Z_pressed || !Q_pressed || !S_pressed || !D_pressed){
-                display_controls(renderer, width/2, height/2);
-            }
-            
             continuer = mouvement2(state, *actual_world, &player); //Déplace le joueur
             SDL_RenderClear(renderer); //Efface l'écran
             SDL_RenderCopy(renderer, actual_world->global_texture, NULL, NULL); //Rend la texture des murs
@@ -248,8 +247,28 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
                 SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
                 SDL_RenderDrawRect(renderer, &player_hitboxRect);
             }
+
+            //Partie tutorial
+            printf("Z:%d, Q:%d, S:%d, D:%d\n", Z_pressed, Q_pressed, S_pressed, D_pressed);
+            printf("Tutorial: %d\n", tutorial);
+            if(tutorial && (!Z_pressed || !Q_pressed || !S_pressed || !D_pressed)){
+                display_controls(renderer, width/2, height/2);
+                if(state[SDL_SCANCODE_W]){
+                    Z_pressed = 1;
+                }
+                if(state[SDL_SCANCODE_A]){
+                    Q_pressed = 1;
+                }
+                if(state[SDL_SCANCODE_S]){
+                    S_pressed = 1;
+                }
+                if(state[SDL_SCANCODE_D]){
+                    D_pressed = 1;
+                }
+            }
     
             SDL_RenderPresent(renderer); //Présente le rendu
+
             
             SDL_Delay(16); //Délai pour éviter de bouger trop vite
     

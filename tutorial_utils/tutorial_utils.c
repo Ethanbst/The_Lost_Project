@@ -13,9 +13,12 @@ void display_controls(SDL_Renderer *renderer, int x, int y){
         return;
     }
 
-    draw_button(renderer, x, y, 2, "Z", font, 1);
-    draw_button(renderer, x-100, y+100, 2, "Q", font, 1);
-    draw_button(renderer, x, y+100, 2, "S", font, 1);
-    draw_button(renderer, x+100, y+100, 2, "D", font, 1);
+    CTA lettre = draw_button(renderer, x, y, 2, "Z", font, 1); //Lettre de placement initial
+
+    draw_button(renderer, x, y-lettre.h/2-lettre.h/6, 1, "Fais bouger ton personnage", font, 1);
+    
+    draw_button(renderer, x, y+lettre.h/2+lettre.h/6, 2, "S", font, 1);
+    draw_button(renderer, x-lettre.w, y+lettre.h/2+lettre.h/6, 2, "Q", font, 1);
+    draw_button(renderer, x+lettre.w, y+lettre.h/2+lettre.h/6, 2, "D", font, 1);
 
 }
