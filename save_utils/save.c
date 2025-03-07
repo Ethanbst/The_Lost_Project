@@ -4,6 +4,10 @@
 #include "../logs_utils/log.h"
 #include <string.h>
 
+//Structure contenant les informations de la sauvegarde
+typedef struct save {
+    char *world_name;
+} save;
 
 //Modifie le fichier save.json en y ajoutant le nom du denrier monde joué
 void save_progress(char* world_name) {
