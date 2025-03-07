@@ -17,7 +17,7 @@ SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, 
 }
 
 //Libère les ressources du menu une fois qu'elles ont été rendu.
-void free_menu(SDL_Renderer *renderer, SDL_Texture *bg_menu_texture, SDL_Surface *bg_menu_surface) {
+void free_menu(SDL_Renderer *renderer, SDL_Texture *bg_menu_texture, SDL_Surface *bg_menu_surface, SDL_Texture *logo_menu_texture, SDL_Surface *logo_menu_surface) {
     add_log_info("menu.c - free_menu()", "Liberation des ressources du menu.");
     //Libération des ressources
     if (bg_menu_texture) SDL_DestroyTexture(bg_menu_texture);
@@ -27,7 +27,7 @@ void free_menu(SDL_Renderer *renderer, SDL_Texture *bg_menu_texture, SDL_Surface
 
 
 //Permet de réafficher le menu après être entré dans une autre fonction
-void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Texture *bg_menu_texture, TTF_Font *font){
+void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Texture *bg_menu_texture, SDL_Texture *logo_menu_texture, SDL_Surface *logo_menu_surface){
     add_log_info("menu.c - menu_start()", "Reaffichage du menu.");
     //Rechargement de l'image de fond du menu:
     //Réattribution de la texture*/
@@ -39,11 +39,25 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     bg_menu_texture = SDL_CreateTextureFromSurface(renderer, bg_menu_surface);
     SDL_RenderCopy(renderer, bg_menu_texture, NULL, NULL);
 
-    /*font = TTF_OpenFont("res/font/Jersey10-Regular.ttf", 72);
-    if (!font) {
-        add_log_error("menu.c - menu_start()","Erreur lors du chargement de la police.");
+    //Logo du jeu pour le menu
+    logo_menu_surface = IMG_Load("res/bg/logo.png");
+    if(!logo_menu_surface){
+        add_log_error("menu.c - menu_start()","Erreur lors du chargement de l'image du logo.");
         return;
-    }*/
+    }
+    logo_menu_texture = SDL_CreateTextureFromSurface(renderer, logo_menu_surface);
+
+    SDL_DisplayMode ecran = GetScreenSize();
+    // Définir la position et la taille du rectangle pour le logo
+    SDL_Rect logo_rect;
+    logo_rect.w = logo_menu_surface->w/2;
+    logo_rect.h = logo_menu_surface->h/2;
+    logo_rect.x = ecran.w/2 - logo_rect.w/2; // Centrer horizontalement
+    logo_rect.y = -100; // Positionner en haut de l'écran
+    SDL_RenderCopy(renderer, logo_menu_texture, NULL, &logo_rect);
+
+    draw_button(renderer, ecran.w-200, ecran.h-50, 1, "Alpha 0.28.8", 1, 48);
+
 
     //Couleur pour le texte
     SDL_Color color = {255, 255, 255}; // Blanc
@@ -65,14 +79,14 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
         playButtonText = "Jouer";
     }
 
-    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 1, playButtonText, font, 1);
-    CTA option_button  = draw_button(renderer, pos_bt_x, play_button.pos_y+esp_bt, 1, "Options", font, 1);
-    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pos_y+esp_bt, 1, "Quitter", font, 1);
+    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 1, playButtonText, 1, 72);
+    CTA option_button  = draw_button(renderer, pos_bt_x, play_button.pos_y+esp_bt, 1, "Options", 1, 72);
+    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pos_y+esp_bt, 1, "Quitter", 1, 72);
 
     //Présenter le rendu
     SDL_RenderPresent(renderer);
     //On libère les ressources maintenant qu'elles sont déjà rendu.
-    free_menu(renderer, bg_menu_texture, bg_menu_surface);
+    free_menu(renderer, bg_menu_texture, bg_menu_surface, logo_menu_texture, logo_menu_surface);
 }
 
 //Fonction de gestion du menu principal:
@@ -113,14 +127,11 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
 
     SDL_Surface *bg_menu_surface;
     SDL_Texture *bg_menu_texture;
-    TTF_Font *font;
-    font = TTF_OpenFont("res/font/Jersey10-Regular.ttf", 72);
-    if (!font) {
-        add_log_error("menu.c - menu()", "Erreur lors du chargement de la police.");
-        return;
-    }
 
-    menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
+    SDL_Surface *logo_menu_surface;
+    SDL_Texture *logo_menu_texture;
+
+    menu_start(renderer, bg_menu_surface, bg_menu_texture, logo_menu_texture, logo_menu_surface);
 
     int screen_width, screen_height;
 
@@ -142,9 +153,9 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
         playButtonText = "Jouer";
     }
 
-    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 1, playButtonText, font, 1);
-    CTA option_button  = draw_button(renderer, pos_bt_x, play_button.pos_y+esp_bt, 1, "Options", font, 1);
-    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pos_y+esp_bt, 1, "Quitter", font, 1);
+    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 1, playButtonText, 1, 72);
+    CTA option_button  = draw_button(renderer, pos_bt_x, play_button.pos_y+esp_bt, 1, "Options", 1, 72);
+    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pos_y+esp_bt, 1, "Quitter", 1, 72);
 
     //Boucle principale:
     int running = 1;
@@ -195,7 +206,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     strcpy(current_music_path, "res/music/menu.wav");
                     
                     jeu(window, renderer, world, current_music_path);
-                    menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
+                    menu_start(renderer, bg_menu_surface, bg_menu_texture, logo_menu_texture, logo_menu_surface);
                     Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
                 }
 
@@ -205,7 +216,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     //free_menu(renderer, bg_menu_texture, bg_menu_surface, font);
                     reset_cursor();
                     options(renderer);
-                    menu_start(renderer, bg_menu_surface, bg_menu_texture, font);
+                    menu_start(renderer, bg_menu_surface, bg_menu_texture, logo_menu_texture, logo_menu_surface);
                 }
 
                 // Vérifier si "Quitter" est cliqué
@@ -233,6 +244,5 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
             }
         }
     }
-    TTF_CloseFont(font);
     Mix_FreeMusic(music);
 }

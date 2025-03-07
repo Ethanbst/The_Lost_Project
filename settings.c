@@ -173,12 +173,6 @@ void options(SDL_Renderer *renderer)
     int musicVolume = get_setting_value2("music_volume"); // Volume initial de la musique (50%)
     int sfxVolume = get_setting_value2("fx_volume");      // Volume initial des effets sonores (50%)
 
-    // Initialisation de TTF
-    if (TTF_Init() == -1)
-    {
-        add_log_error("settings.c - options()", "Failed to initialize TTF.");
-        return;
-    }
     TTF_Font *font = TTF_OpenFont("res/font/Jersey10-Regular.ttf", 24);
     if (!font)
     {
@@ -191,14 +185,14 @@ void options(SDL_Renderer *renderer)
 
     // Dessiner les sliders
 
-    CTA music_vol_txt = draw_button(renderer, displayMode.w / 2, displayMode.h/3, 2, "Volume de la musique", font, 0);
+    CTA music_vol_txt = draw_button(renderer, displayMode.w / 2, displayMode.h/3, 2, "Volume de la musique", 0, 24);
     CTA music_slider = draw_slider(renderer,  displayMode.w/2+slider_width, displayMode.h/3, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
 
-    CTA fx_vol_txt = draw_button(renderer, displayMode.w / 2, music_vol_txt.pos_y+music_vol_txt.h*2, 2, "Volume des effets", font, 0);
+    CTA fx_vol_txt = draw_button(renderer, displayMode.w / 2, music_vol_txt.pos_y+music_vol_txt.h*2, 2, "Volume des effets", 0, 24);
     CTA fx_slider = draw_slider(renderer, displayMode.w/2+slider_width, music_vol_txt.pos_y+music_vol_txt.h*2, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
 
     // Dessiner le bouton "Appliquer"
-    CTA apply_button = draw_button(renderer, displayMode.w/2, fx_slider.pos_y+fx_slider.pos_y/2, 2, "Appliquer", font, 0);
+    CTA apply_button = draw_button(renderer, displayMode.w/2, fx_slider.pos_y+fx_slider.pos_y/2, 2, "Appliquer", 0, 24);
 
     // Afficher les éléments
     SDL_RenderPresent(renderer);
