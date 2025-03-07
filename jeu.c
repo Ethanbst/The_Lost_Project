@@ -15,35 +15,38 @@
 
 #define PLAYER_OFFSET 50
 
-// Fonction pour vérifier les collisions en fonction du centre du joueur
+// Fonction pour vérifier les collisions en fonction du rectangle de collisions du joueur
 int no_obstacle2(enum Direction direction, player *player, world world, int cellSize) {
-    int centerX = player->player_rect.x + player->player_rect.w / 2;
-    int centerY = player->player_rect.y + player->player_rect.h / 2;
+    SDL_Rect hitbox = player->player_hitbox_rect;
 
     if (direction == HAUT) {
-        if (world.matrice[(centerY - (PLAYER_OFFSET+10)) / cellSize][centerX / cellSize] == 1) {
-            add_log("jeu.c - no_obstacle()", "Obstacle!");
+        if (world.matrice[(hitbox.y - 10) / cellSize][hitbox.x / cellSize] == 1 ||
+            world.matrice[(hitbox.y - 10) / cellSize][(hitbox.x + hitbox.w) / cellSize] == 1) {
+            add_log("jeu.c - no_obstacle2()", "Obstacle en haut!");
             return 0;
         }
     }
 
     if (direction == BAS) {
-        if (world.matrice[(centerY + (PLAYER_OFFSET+20)) / cellSize][centerX / cellSize] == 1) {
-            add_log("jeu.c - no_obstacle()", "Obstacle!");
+        if (world.matrice[(hitbox.y + hitbox.h + 10) / cellSize][hitbox.x / cellSize] == 1 ||
+            world.matrice[(hitbox.y + hitbox.h + 10) / cellSize][(hitbox.x + hitbox.w) / cellSize] == 1) {
+            add_log("jeu.c - no_obstacle2()", "Obstacle en bas!");
             return 0;
         }
     }
 
     if (direction == GAUCHE) {
-        if (world.matrice[centerY / cellSize][(centerX - PLAYER_OFFSET) / cellSize] == 1) {
-            add_log("jeu.c - no_obstacle()", "Obstacle!");
+        if (world.matrice[hitbox.y / cellSize][(hitbox.x - 10) / cellSize] == 1 ||
+            world.matrice[(hitbox.y + hitbox.h) / cellSize][(hitbox.x - 10) / cellSize] == 1) {
+            add_log("jeu.c - no_obstacle2()", "Obstacle à gauche!");
             return 0;
         }
     }
 
     if (direction == DROITE) {
-        if (world.matrice[centerY / cellSize][(centerX + PLAYER_OFFSET) / cellSize] == 1) {
-            add_log("jeu.c - no_obstacle()", "Obstacle!");
+        if (world.matrice[hitbox.y / cellSize][(hitbox.x + hitbox.w + 10) / cellSize] == 1 ||
+            world.matrice[(hitbox.y + hitbox.h) / cellSize][(hitbox.x + hitbox.w + 10) / cellSize] == 1) {
+            add_log("jeu.c - no_obstacle2()", "Obstacle à droite!");
             return 0;
         }
     }
@@ -258,7 +261,12 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
             
             if(player_hitbox){
                 SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                SDL_RenderDrawRect(renderer, &player.player_hitbox_rect);
+                SDL_Rect player_hitbox_rect_temp = player.player_hitbox_rect;
+                player_hitbox_rect_temp.x -= 5;
+                player_hitbox_rect_temp.y -= 5;
+                player_hitbox_rect_temp.w += 15;
+                player_hitbox_rect_temp.h += 15;
+                SDL_RenderDrawRect(renderer, &player_hitbox_rect_temp);
             }
 
             //Partie tutorial
