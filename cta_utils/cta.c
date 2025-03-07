@@ -10,8 +10,10 @@ typedef struct CTA{
     int h; //Largeur en px du CTA
 } CTA;
 
-CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size, const char *text, TTF_Font *font, int need_bg) {
+CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size, const char *text, int need_bg, int font_size) {
     
+    TTF_Font *font = TTF_OpenFont("res/font/Jersey10-Regular.ttf", font_size);
+
     SDL_Color textColor = {255, 255, 255, 255}; // Text color
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text, textColor);
     SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
@@ -44,6 +46,7 @@ CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size,
     SDL_RenderCopy(renderer, textTexture, NULL, &text_rect);
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
+    TTF_CloseFont(font);
 
     CTA button;
     button.h = text_rect.h;
