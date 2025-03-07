@@ -3,6 +3,13 @@
 #include <stdio.h>
 #include "../debug_var.h"
 
+typedef struct color{
+    int r; //Red
+    int g; //Green
+    int b; //Blue
+    int a; //Alpha
+} color;
+
 typedef struct CTA{
     int pos_x; //Position en x sur l'écran
     int pos_y; //Position en y sur l'écran
@@ -10,11 +17,15 @@ typedef struct CTA{
     int h; //Largeur en px du CTA
 } CTA;
 
-CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size, const char *text, int need_bg, int font_size) {
+CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size, const char *text, int need_bg, int font_size, color couleur) {
     
     TTF_Font *font = TTF_OpenFont("res/font/Jersey10-Regular.ttf", font_size);
 
-    SDL_Color textColor = {255, 255, 255, 255}; // Text color
+    SDL_Color textColor; // Text color
+    textColor.r = couleur.r;
+    textColor.g = couleur.g;
+    textColor.b = couleur.b;
+    textColor.a = couleur.a;
     SDL_Surface *textSurface = TTF_RenderText_Solid(font, text, textColor);
     SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     int text_width = textSurface->w;
