@@ -211,8 +211,29 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
         int centerX;
         int centerY;
         player_hitboxRect = player.player_rect; //rectangle de debugage du joueur
+
+        int tutorial = 0;
+        int Z_pressed = 0;
+        int Q_pressed = 0;
+        int S_pressed = 0;
+        int D_pressed = 0;
+        //Partie tutorial
+        if(exist_save() == 0){
+        add_log_info("jeu.c - jeu()", "Début du tutoriel");
+        int tutorial = 1;
+        int Z_pressed = 0;
+        int Q_pressed = 0;
+        int S_pressed = 0;
+        int D_pressed = 0;
+        }
+
         
         while(continuer == 0){
+
+            //Partie tutorial
+            if(tutorial && !Z_pressed || !Q_pressed || !S_pressed || !D_pressed){
+                display_controls(renderer, width/2, height/2);
+            }
             
             continuer = mouvement2(state, *actual_world, &player); //Déplace le joueur
             SDL_RenderClear(renderer); //Efface l'écran
