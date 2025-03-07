@@ -23,6 +23,7 @@ typedef struct world{
     char *actual_world; //Nom du monde actuel "worldX"
     SDL_Texture *global_texture; //Texture globale
     char *wall_texture_path;
+    char *floor_texture_path;
 }world;
 
 //Récupère les information d'un fichier worldX.json donné en paramètre et retourne une structure contenant ces paramètres

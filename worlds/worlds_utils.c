@@ -25,6 +25,7 @@ typedef struct world{
     char *actual_world; //Nom du monde actuel "worldX"
     SDL_Texture *global_texture; //Texture globale
     char *wall_texture_path;
+    char *floor_texture_path;
 }world;
 
 void print_world_info(world *w) {
@@ -216,7 +217,7 @@ world* get_world_info(char world_name[256]){
             return world;
         }
         else{
-            char location[] = "res/";
+            char location[] = "res/textures/wall/";
             char texture_path[256];
             strcpy(texture_path, location);
             strcat(texture_path, parameter->valuestring);
@@ -227,6 +228,31 @@ world* get_world_info(char world_name[256]){
             else {
                 fprintf(stderr, "Erreur : Echec de l'allocation de memoire pour wall_texture_path.\n");
                 add_log_error("worlds_utils.c - get_world_info()", "Erreur : Echec de l'allocation de memoire pour wall_texture_path.");
+                free_world(world);
+                world = NULL;
+                return world;
+            }
+        }
+
+        parameter = cJSON_GetObjectItem(root, "floor_texture");
+        if(!parameter){
+            add_log_error("worlds_utils.c - get_world_info()", "Erreur : Aucun chemin de texture de sol n'a été trouvé.");
+            free_world(world);
+            world = NULL;
+            return world;
+        }
+        else{
+            char location[] = "res/textures/floor/";
+            char texture_path[256];
+            strcpy(texture_path, location);
+            strcat(texture_path, parameter->valuestring);
+            world->floor_texture_path = (char *)malloc(strlen(texture_path) + 1);
+            if (world->floor_texture_path) {
+                strcpy(world->floor_texture_path, texture_path);
+            } 
+            else {
+                fprintf(stderr, "Erreur : Echec de l'allocation de memoire pour floor_texture_path.\n");
+                add_log_error("worlds_utils.c - get_world_info()", "Erreur : Echec de l'allocation de memoire pour floor_texture_path.");
                 free_world(world);
                 world = NULL;
                 return world;
