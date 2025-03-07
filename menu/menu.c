@@ -56,7 +56,8 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     logo_rect.y = -100; // Positionner en haut de l'écran
     SDL_RenderCopy(renderer, logo_menu_texture, NULL, &logo_rect);
 
-    draw_button(renderer, ecran.w-200, ecran.h-50, 1, "Alpha 0.28.9", 1, 48);
+    CTA version = draw_button(renderer, ecran.w-200, ecran.h-120, 1, "Alpha 0.28.11", 1, 48);
+    draw_button(renderer, ecran.w-200, version.pos_y+version.h+20, 1, "By E. Bastien", 1, 48);
 
 
     //Couleur pour le texte
