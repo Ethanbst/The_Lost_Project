@@ -9,6 +9,7 @@ enum Direction {HAUT, BAS, GAUCHE, DROITE};
 //Contient les informations du joueur
 typedef struct player{
     SDL_Rect player_rect; //Rectangle qui reçoit la texture du joueur
+    SDL_Rect player_hitbox; //Rectangle de taille réduite pour la hitbox du joueur
     SDL_Texture *player_texture; //Texture actuelle du joueur
     SDL_Texture *img_dir_joueur[4]; //tableau contenant les textures du joueurs pour chaque direction
     int MposX; //Position du joueur en x dans la matrice
@@ -47,7 +48,10 @@ player init_player(SDL_Renderer *renderer, world world){
         SDL_DisplayMode ecran =  GetScreenSize();
         SDL_Rect playerRect = {ecran.w/20*player.MposX, ecran.w/20*player.MposY, ecran.w/20, ecran.w/20};
 
+        SDL_Rect playerHitbox = {playerRect.x+30, playerRect.y+20, playerRect.w-60, playerRect.h-30};
+
         player.player_rect = playerRect;
+        player.player_hitbox = playerHitbox;
 
         return player;
 }
