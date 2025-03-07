@@ -28,11 +28,12 @@ int pause(SDL_Renderer *renderer){
         //return;
     }
 
+    color couleur = {255, 255, 255, 255}; //Couleur blanche
 
     int esp_bt = screen_height / 14;
-    CTA settings_button = draw_button(renderer, screen_width/2, screen_height/2, 1, "Option", 1, 72);
-    CTA continue_button = draw_button(renderer, screen_width/2, settings_button.pos_y-esp_bt, 1, "Continuer", 1, 72);
-    CTA menu_button = draw_button(renderer, screen_width/2, settings_button.pos_y+(settings_button.h+esp_bt), 1, "Menu", 1, 72);
+    CTA settings_button = draw_button(renderer, screen_width/2, screen_height/2, 1, "Option", 1, 72, couleur);
+    CTA continue_button = draw_button(renderer, screen_width/2, settings_button.pos_y-esp_bt, 1, "Continuer", 1, 72, couleur);
+    CTA menu_button = draw_button(renderer, screen_width/2, settings_button.pos_y+(settings_button.h+esp_bt), 1, "Menu", 1, 72, couleur);
 
     SDL_RenderPresent(renderer);
 

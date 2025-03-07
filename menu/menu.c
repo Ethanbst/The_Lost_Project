@@ -56,8 +56,10 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     logo_rect.y = -100; // Positionner en haut de l'écran
     SDL_RenderCopy(renderer, logo_menu_texture, NULL, &logo_rect);
 
-    CTA version = draw_button(renderer, ecran.w-200, ecran.h-120, 1, "Alpha 0.28.11", 1, 48);
-    draw_button(renderer, ecran.w-200, version.pos_y+version.h+20, 1, "By E. Bastien", 1, 48);
+    color couleur = {255, 255, 255, 255}; //Couleur blanche
+
+    CTA version = draw_button(renderer, ecran.w-200, ecran.h-120, 1, "Alpha 0.28.11", 1, 48, couleur);
+    draw_button(renderer, ecran.w-200, version.pos_y+version.h+20, 1, "By E. Bastien", 1, 48, couleur);
 
 
     //Couleur pour le texte
@@ -80,9 +82,10 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
         playButtonText = "Jouer";
     }
 
-    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 1, playButtonText, 1, 72);
-    CTA option_button  = draw_button(renderer, pos_bt_x, play_button.pos_y+esp_bt, 1, "Options", 1, 72);
-    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pos_y+esp_bt, 1, "Quitter", 1, 72);
+
+    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 1, playButtonText, 1, 72, couleur);
+    CTA option_button  = draw_button(renderer, pos_bt_x, play_button.pos_y+esp_bt, 1, "Options", 1, 72, couleur);
+    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pos_y+esp_bt, 1, "Quitter", 1, 72, couleur);
 
     //Présenter le rendu
     SDL_RenderPresent(renderer);
@@ -154,9 +157,11 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
         playButtonText = "Jouer";
     }
 
-    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 1, playButtonText, 1, 72);
-    CTA option_button  = draw_button(renderer, pos_bt_x, play_button.pos_y+esp_bt, 1, "Options", 1, 72);
-    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pos_y+esp_bt, 1, "Quitter", 1, 72);
+    color couleur = {255, 255, 255, 255}; //Couleur blanche
+
+    CTA play_button  = draw_button(renderer, pos_bt_x, pos_bt_y, 1, playButtonText, 1, 72, couleur);
+    CTA option_button  = draw_button(renderer, pos_bt_x, play_button.pos_y+esp_bt, 1, "Options", 1, 72, couleur);
+    CTA quit_button  = draw_button(renderer, pos_bt_x, option_button.pos_y+esp_bt, 1, "Quitter", 1, 72, couleur);
 
     //Boucle principale:
     int running = 1;

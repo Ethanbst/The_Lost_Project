@@ -22,7 +22,8 @@ int no_obstacle2(enum Direction direction, player *player, world world, int cell
     if (direction == HAUT) {
         if (world.matrice[(hitbox.y - 10) / cellSize][hitbox.x / cellSize] == 1 ||
             world.matrice[(hitbox.y - 10) / cellSize][(hitbox.x + hitbox.w) / cellSize] == 1) {
-            add_log("jeu.c - no_obstacle2()", "Obstacle en haut!");
+                printf(" Obstacle en haut!");
+                fflush(stdout);
             return 0;
         }
     }
@@ -30,7 +31,8 @@ int no_obstacle2(enum Direction direction, player *player, world world, int cell
     if (direction == BAS) {
         if (world.matrice[(hitbox.y + hitbox.h + 10) / cellSize][hitbox.x / cellSize] == 1 ||
             world.matrice[(hitbox.y + hitbox.h + 10) / cellSize][(hitbox.x + hitbox.w) / cellSize] == 1) {
-            add_log("jeu.c - no_obstacle2()", "Obstacle en bas!");
+                printf(" Obstacle en bas!");
+                fflush(stdout);
             return 0;
         }
     }
@@ -38,7 +40,8 @@ int no_obstacle2(enum Direction direction, player *player, world world, int cell
     if (direction == GAUCHE) {
         if (world.matrice[hitbox.y / cellSize][(hitbox.x - 10) / cellSize] == 1 ||
             world.matrice[(hitbox.y + hitbox.h) / cellSize][(hitbox.x - 10) / cellSize] == 1) {
-            add_log("jeu.c - no_obstacle2()", "Obstacle à gauche!");
+            printf(" Obstacle a gauche!");
+            fflush(stdout);
             return 0;
         }
     }
@@ -46,10 +49,12 @@ int no_obstacle2(enum Direction direction, player *player, world world, int cell
     if (direction == DROITE) {
         if (world.matrice[hitbox.y / cellSize][(hitbox.x + hitbox.w + 10) / cellSize] == 1 ||
             world.matrice[(hitbox.y + hitbox.h) / cellSize][(hitbox.x + hitbox.w + 10) / cellSize] == 1) {
-            add_log("jeu.c - no_obstacle2()", "Obstacle à droite!");
+            printf(" Obstacle a droite!");
+            fflush(stdout);
             return 0;
         }
     }
+    fflush(stdout);
     return 1;
 }
 
@@ -270,10 +275,8 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
             }
 
             //Partie tutorial
-            printf("Z:%d, Q:%d, S:%d, D:%d\n", Z_pressed, Q_pressed, S_pressed, D_pressed);
-            printf("Tutorial: %d\n", tutorial);
             if(tutorial && (!Z_pressed || !Q_pressed || !S_pressed || !D_pressed)){
-                display_controls(renderer, width/2, height/2);
+                display_controls(renderer, width/2, height/2, Z_pressed, Q_pressed, S_pressed, D_pressed);
                 if(state[SDL_SCANCODE_W]){
                     Z_pressed = 1;
                 }

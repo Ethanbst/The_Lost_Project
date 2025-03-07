@@ -183,16 +183,18 @@ void options(SDL_Renderer *renderer)
     SDL_DisplayMode displayMode;
     displayMode = GetScreenSize();
 
+    color couleur = {255, 255, 255, 255}; // Couleur blanche
+
     // Dessiner les sliders
 
-    CTA music_vol_txt = draw_button(renderer, displayMode.w / 2, displayMode.h/3, 2, "Volume de la musique", 0, 24);
+    CTA music_vol_txt = draw_button(renderer, displayMode.w / 2, displayMode.h/3, 2, "Volume de la musique", 0, 24, couleur);
     CTA music_slider = draw_slider(renderer,  displayMode.w/2+slider_width, displayMode.h/3, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
 
-    CTA fx_vol_txt = draw_button(renderer, displayMode.w / 2, music_vol_txt.pos_y+music_vol_txt.h*2, 2, "Volume des effets", 0, 24);
+    CTA fx_vol_txt = draw_button(renderer, displayMode.w / 2, music_vol_txt.pos_y+music_vol_txt.h*2, 2, "Volume des effets", 0, 24, couleur);
     CTA fx_slider = draw_slider(renderer, displayMode.w/2+slider_width, music_vol_txt.pos_y+music_vol_txt.h*2, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
 
     // Dessiner le bouton "Appliquer"
-    CTA apply_button = draw_button(renderer, displayMode.w/2, fx_slider.pos_y+fx_slider.pos_y/2, 2, "Appliquer", 0, 24);
+    CTA apply_button = draw_button(renderer, displayMode.w/2, fx_slider.pos_y+fx_slider.pos_y/2, 2, "Appliquer", 0, 24, couleur);
 
     // Afficher les éléments
     SDL_RenderPresent(renderer);
