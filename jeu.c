@@ -82,24 +82,32 @@ int mouvement2(const Uint8 *state, world world, player *player){
     if(state[SDL_SCANCODE_W] && no_obstacle2(HAUT, player, world, cellSize)){ //Si appuie sur W et qu'il n'y a pas d'obstacle
         // add_log("MOUVEMENT","Z pressee\n");
         player->player_rect.y -= 10;
+        player->player_hitbox_rect.y -= 10;
+
         player->player_texture = player->img_dir_joueur[HAUT];
     }
 
     if(state[SDL_SCANCODE_A] && no_obstacle2(GAUCHE, player, world, cellSize)){ //Si appuie sur A et qu'il n'y a pas d'obstacle
         // add_log("MOUVEMENT","Q pressee\n");
         player->player_rect.x -= 10;
+        player->player_hitbox_rect.x -= 10;
+
         player->player_texture = player->img_dir_joueur[GAUCHE];
     }
 
     if(state[SDL_SCANCODE_S] && no_obstacle2(BAS, player, world, cellSize)){ //Si appuie sur S et qu'il n'y a pas d'obstacle
         // add_log("MOUVEMENT","S pressee\n");
         player->player_rect.y += 10;
+        player->player_hitbox_rect.y += 10;
+
         player->player_texture = player->img_dir_joueur[BAS];
     }
 
     if(state[SDL_SCANCODE_D] && no_obstacle2(DROITE, player, world, cellSize)){ //Si appuie sur D et qu'il n'y a pas d'obstacle
         // add_log("MOUVEMENT","D pressee\n");
         player->player_rect.x += 10;
+        player->player_hitbox_rect.x += 10;
+
         player->player_texture = player->img_dir_joueur[DROITE];
     }
     
@@ -229,9 +237,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
         SDL_Rect player_hitboxRect;
         int centerX;
         int centerY;
-        player_hitboxRect = player.player_rect; //rectangle de debugage du joueur
 
-        
         //Partie tutorial
         if(exist_save() == 0 && tutorial == 0){
             add_log_info("jeu.c - jeu()", "Début du tutoriel");
@@ -251,12 +257,8 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
             SDL_RenderCopy(renderer, player.player_texture, NULL, &player.player_rect); //Rend le joueur car sa position à changé
             
             if(player_hitbox){
-                player_hitboxRect.x = player.player_rect.x+30;
-                player_hitboxRect.y = player.player_rect.y+20;
-                player_hitboxRect.w = player.player_rect.w-60;
-                player_hitboxRect.h = player.player_rect.h-30;
                 SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-                SDL_RenderDrawRect(renderer, &player_hitboxRect);
+                SDL_RenderDrawRect(renderer, &player.player_hitbox_rect);
             }
 
             //Partie tutorial
