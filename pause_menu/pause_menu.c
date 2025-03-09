@@ -2,7 +2,7 @@
 #include "../cta_utils/cta.h"
 #include "../logs_utils/log.h"
 
-//Affiche un menu de pause avec 3 choix: continuer, ouvrir les options et quitter le jeu.
+//Affiche un menu de pause avec 3 choix, retourne 0 si le joueur veut continuer, -2 si il veut retourner au menu
 int pause(SDL_Renderer *renderer){
     add_log("PAUSE MENU","Entered");
     
