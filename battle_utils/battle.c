@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sdl.h>
 #include "../logs_utils/log.h"
 #include "../pause_menu/pause_menu.h"
 #include <time.h>
 #include "../cta_utils/cta.h"
 #include "../mouse_utils/mouse.h"
+#include <C:/cJSON-master/cJSON.h>
+#include <SDL_mixer.h>
+#include <SDL.h>
 
 #define PLAYER_SIZE 40
 #define LOOT_SIZE 20
@@ -14,12 +16,20 @@
 #define MOVEMENT_SPEED 5
 #define MAX_HEALTH 100
 
+typedef struct battle_info {
+    int num_enemies;
+    int num_loots;
+    int e_min_speed;
+    int e_max_speed;
+    char *music_path;
+} battle_info;
+
 // Initialise les ennemis avec des positions et des vitesses aléatoires
 void initialize_enemies(SDL_Rect *enemies, int *enemy_speeds, SDL_Rect boundary, int num_enemies, int max_speed, int min_speed) {
     for (int i = 0; i < num_enemies; i++) {
         int size = rand() % 50 + 20;
         enemies[i].x = rand() % (boundary.w - size) + boundary.x;
-        enemies[i].y = boundary.y;
+        enemies[i].y = rand() % 100 + boundary.y - 100;
         enemies[i].w = size;
         enemies[i].h = size;
         enemy_speeds[i] = (rand() % max_speed) + min_speed;
@@ -179,9 +189,85 @@ void display_loose_screen(SDL_Renderer *renderer, int window_width, int window_h
     }
 }
 
+// Lit les paramètres depuis un fichier JSON et les stocke dans une structure battle_info
+battle_info* get_battle_info(int id) {
+
+    battle_info *info = (battle_info *)malloc(sizeof(battle_info));
+    char filename[20];
+    sprintf(filename, "res/battle/%d.json", id);
+    
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        perror("Erreur lors de l'ouverture du fichier JSON");
+        return info;
+    }
+
+    fseek(file, 0, SEEK_END);
+    long length = ftell(file);
+    fseek(file, 0, SEEK_SET);
+    char *data = (char *)malloc(length + 1);
+    if (!data) {
+        perror("Erreur lors de l'allocation de mémoire");
+        fclose(file);
+        return info;
+    }
+
+    fread(data, 1, length, file);
+    fclose(file);
+    data[length] = '\0';
+
+    cJSON *json = cJSON_Parse(data);
+    if (!json) {
+        perror("Erreur lors de l'analyse du fichier JSON");
+        free(data);
+        return info;
+    }
+
+    cJSON *enemy_speed = cJSON_GetObjectItem(json, "ennemy_speed");
+    if (enemy_speed) {
+        info->e_max_speed = cJSON_GetObjectItem(enemy_speed, "max")->valueint;
+        info->e_min_speed = cJSON_GetObjectItem(enemy_speed, "min")->valueint;
+    }
+
+    info->num_enemies = cJSON_GetObjectItem(json, "ennemy_number")->valueint;
+    info->num_loots = cJSON_GetObjectItem(json, "loot_number")->valueint;
+
+    cJSON *music_path = cJSON_GetObjectItem(json, "music");
+    if (music_path) {
+        info->music_path = (char *)malloc(strlen(music_path->valuestring) + 1);
+        strcpy(info->music_path, music_path->valuestring);
+    }
+
+    cJSON_Delete(json);
+    free(data);
+    return info;
+}
+
+void display_battle_info(battle_info *info) {
+    printf("Nombre d'ennemis: %d\n", info->num_enemies);
+    printf("Nombre de loots: %d\n", info->num_loots);
+    printf("Vitesse minimale des ennemis: %d\n", info->e_min_speed);
+    printf("Vitesse maximale des ennemis: %d\n", info->e_max_speed);
+    printf("Chemin de la musique: %s\n", info->music_path);
+}
+
+
 // Démarre la bataille, initialise les éléments et gère la boucle principale du combat
-int start_battle(SDL_Renderer *renderer, int num_enemies, int num_loots, int e_min_speed, int e_max_speed) {
+int start_battle(SDL_Renderer *renderer, int id) {
+
     add_log_info("battle.c - start_battle()", "Lancement du combat");
+
+    battle_info *info = get_battle_info(id);
+    display_battle_info(info);
+
+    
+    Mix_Music *music = Mix_LoadMUS("res/music/battle/Pixel_Duel.wav");
+    if (!music) {
+        add_log_error("battle.c - start_battle()", "Erreur lors du chargement de la musique de combat");
+        return -1;
+    }
+    Mix_FadeInMusic(music, 0, 1000);
+
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     srand(time(NULL));
 
@@ -201,12 +287,12 @@ int start_battle(SDL_Renderer *renderer, int num_enemies, int num_loots, int e_m
         animate_boundary(renderer, &boundary, target_boundary);
     
         SDL_Rect player = {boundary.x+boundary.w/2-PLAYER_SIZE/2, boundary.y+boundary.h/2-PLAYER_SIZE/2, PLAYER_SIZE, PLAYER_SIZE};
-        SDL_Rect enemies[num_enemies];
-        int enemy_speeds[num_enemies];
-        initialize_enemies(enemies, enemy_speeds, boundary, num_enemies, e_max_speed, e_min_speed);
+        SDL_Rect enemies[info->num_enemies];
+        int enemy_speeds[info->num_enemies];
+        initialize_enemies(enemies, enemy_speeds, boundary, info->num_enemies, info->e_max_speed, info->e_min_speed);
     
-        SDL_Rect loots[num_loots];
-        initialize_loots(loots, boundary, num_loots);
+        SDL_Rect loots[info->num_loots];
+        initialize_loots(loots, boundary, info->num_loots);
 
         int score = 0;
         int health = MAX_HEALTH;
@@ -242,12 +328,12 @@ int start_battle(SDL_Renderer *renderer, int num_enemies, int num_loots, int e_m
             SDL_RenderFillRect(renderer, &player);
             SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     
-            battle = update_enemies(renderer, enemies, enemy_speeds, boundary, player, num_enemies, &health);
-            update_loots(renderer, loots, boundary, player, &score, num_loots);
+            battle = update_enemies(renderer, enemies, enemy_speeds, boundary, player, info->num_enemies, &health);
+            update_loots(renderer, loots, boundary, player, &score, info->num_loots);
     
             render_health_bar(renderer, health, boundary);
-            render_score(renderer, loots, num_loots, boundary, &score);
-            if(score >= num_loots){
+            render_score(renderer, loots, info->num_loots, boundary, &score);
+            if(score >= info->num_loots){
                 add_log_info("battle.c - start_battle()", "Tous les loots ont été collectés");
                 battle = 1;
             }
