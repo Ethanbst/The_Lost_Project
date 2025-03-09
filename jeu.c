@@ -9,6 +9,7 @@
 #include "player_utils/player.h"
 #include "save_utils/save.h"
 #include "tutorial_utils/tutorial_utils.h"
+#include "battle_utils/battle.h"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -192,6 +193,8 @@ SDL_Texture* get_world_texture(SDL_Window *window, world world){
 //Lance la partie à partir du monde donné
 void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *current_music_path){
     add_log_info("jeu.c - jeu()", "Lancement de la partie");
+
+
     int jeu = 1; //Variable permettant revenir au menu principal si = 0
     
     int tutorial = 0;
@@ -237,6 +240,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
         }
     
         int continuer = 0;
+        continuer = start_battle(renderer, 1);
     
         SDL_Event event; //Variable qui reçoit l'évènement
         const Uint8 *state = SDL_GetKeyboardState(NULL); //Récupère l'état du clavier
