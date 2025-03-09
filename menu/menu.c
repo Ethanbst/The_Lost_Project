@@ -7,6 +7,7 @@
 #include "../mouse_utils/mouse.h"
 #include "../worlds/worlds_utils.h"
 #include "../save_utils/save.h"
+#include "../battle_utils/battle.h"
 
 //Fonction pour afficher du texte à l'écran
 SDL_Texture* loadText(SDL_Renderer* renderer, TTF_Font* font, const char* text, SDL_Color color){
@@ -179,6 +180,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
 
                 //Vérifier si "Jouer" est cliqué
                 if (is_mouse_on(play_button)) {
+                    start_battle(renderer, 0, 5, 3);
                     add_log("menu.c - menu()","Jouer.");
                     
                     Mix_FadeOutMusic(1000);

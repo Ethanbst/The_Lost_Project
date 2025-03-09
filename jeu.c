@@ -240,7 +240,6 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
         }
     
         int continuer = 0;
-        continuer = start_battle(renderer, 1);
     
         SDL_Event event; //Variable qui reçoit l'évènement
         const Uint8 *state = SDL_GetKeyboardState(NULL); //Récupère l'état du clavier
