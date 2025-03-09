@@ -180,7 +180,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
 
                 //Vérifier si "Jouer" est cliqué
                 if (is_mouse_on(play_button)) {
-                    start_battle(renderer, 0, 5, 3);
+                    start_battle(renderer, 10, 3, 5, 10);
                     add_log("menu.c - menu()","Jouer.");
                     
                     Mix_FadeOutMusic(1000);

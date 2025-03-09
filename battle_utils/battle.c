@@ -4,9 +4,10 @@
 #include "../logs_utils/log.h"
 #include "../pause_menu/pause_menu.h"
 #include <time.h>
+#include "../cta_utils/cta.h"
+#include "../mouse_utils/mouse.h"
 
-#define PLAYER_SIZE 20
-#define ENEMY_SIZE 20
+#define PLAYER_SIZE 40
 #define LOOT_SIZE 20
 #define STEP_SIZE 10
 #define ANIMATION_DELAY 2
@@ -14,14 +15,14 @@
 #define MAX_HEALTH 100
 
 // Initialise les ennemis avec des positions et des vitesses aléatoires
-void initialize_enemies(SDL_Rect *enemies, int *enemy_speeds, SDL_Rect boundary, int num_enemies) {
+void initialize_enemies(SDL_Rect *enemies, int *enemy_speeds, SDL_Rect boundary, int num_enemies, int max_speed, int min_speed) {
     for (int i = 0; i < num_enemies; i++) {
-        int size = rand() % 20 + 10;
+        int size = rand() % 50 + 20;
         enemies[i].x = rand() % (boundary.w - size) + boundary.x;
-        enemies[i].y = rand() % (boundary.h - size) + boundary.y;
+        enemies[i].y = boundary.y;
         enemies[i].w = size;
         enemies[i].h = size;
-        enemy_speeds[i] = (rand() % 10) + 1;
+        enemy_speeds[i] = (rand() % max_speed) + min_speed;
     }
 }
 
@@ -73,13 +74,13 @@ void handle_player_movement(const Uint8 *keystates, SDL_Rect *player, SDL_Rect b
     if (keystates[SDL_SCANCODE_D] && player->x + player->w < boundary.x + boundary.w) player->x += MOVEMENT_SPEED;
 }
 
-// Met à jour les positions des ennemis et vérifie les collisions avec le joueur
+// Met à jour les positions des ennemis et vérifie les collisions avec le joueur renvoie -2 si partie perdu = plus de vie
 int update_enemies(SDL_Renderer *renderer, SDL_Rect *enemies, int *enemy_speeds, SDL_Rect boundary, SDL_Rect player, int num_enemies, int *health) {
     for (int i = 0; i < num_enemies; i++) {
         enemies[i].y += enemy_speeds[i];
         if (enemies[i].y > boundary.y + boundary.h) {
             enemies[i].y = boundary.y;
-            enemies[i].x = rand() % (boundary.w - ENEMY_SIZE) + boundary.x;
+            enemies[i].x = rand() % (boundary.w - enemies[i].w) + boundary.x;
         }
         SDL_RenderFillRect(renderer, &enemies[i]);
         if (SDL_HasIntersection(&player, &enemies[i])) {
@@ -100,7 +101,7 @@ void update_loots(SDL_Renderer *renderer, SDL_Rect *loots, SDL_Rect boundary, SD
         SDL_RenderFillRect(renderer, &loots[i]);
         if (SDL_HasIntersection(&player, &loots[i])) {
             add_log_info("battle.c - start_battle()", "Le joueur a collecté un loot");
-            *score += 10;
+            *score += 1;
             loots[i].x = rand() % (boundary.w - LOOT_SIZE) + boundary.x;
             loots[i].y = rand() % (boundary.h - LOOT_SIZE) + boundary.y;
         }
@@ -108,16 +109,78 @@ void update_loots(SDL_Renderer *renderer, SDL_Rect *loots, SDL_Rect boundary, SD
 }
 
 // Affiche la barre de vie du joueur
-void render_health_bar(SDL_Renderer *renderer, int health) {
+void render_health_bar(SDL_Renderer *renderer, int health, SDL_Rect boundary) {
     SDL_DisplayMode displayMode;
     SDL_GetCurrentDisplayMode(0, &displayMode);
-    SDL_Rect health_bar = {displayMode.w/2-100, displayMode.h/2-10, health*2, 20}; // La largeur de la barre de vie est proportionnelle à la santé
+    SDL_Rect health_bar = {boundary.x, boundary.y+boundary.h+20, health*4, 40}; // La largeur de la barre de vie est proportionnelle à la santé
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     SDL_RenderFillRect(renderer, &health_bar);
 }
 
+void render_score(SDL_Renderer *renderer, SDL_Rect *loots, int num_loots, SDL_Rect boundary, int *score) {
+    color couleur = {0, 255, 0, 255};
+    CTA a = draw_button(renderer, boundary.x, boundary.y-30, 1, "Loot: ", 0, 42, couleur);
+
+    char *loot_obt = (char*)malloc(sizeof(char));
+    sprintf(loot_obt, "%d", *score);
+    CTA b = draw_button(renderer, a.pos_x+a.w+20, a.pos_y+a.h/2, 1, loot_obt, 0, 42, couleur);
+
+    CTA c = draw_button(renderer, b.pos_x+b.w+10, a.pos_y+a.h/2, 1, "/", 0, 42, couleur);
+    
+    char *total_loots = (char*)malloc(sizeof(char));
+    sprintf(total_loots, "%d", num_loots);
+    draw_button(renderer, c.pos_x+c.w+10, a.pos_y+a.h/2, 1, total_loots, 0, 42, couleur);
+}
+
+void display_loose_screen(SDL_Renderer *renderer, int window_width, int window_height) {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+
+    const char *lose_messages[] = {
+        "Vous avez echoue.",
+        "Defaite! Essayez encore.",
+        "Vous avez perdu la bataille.",
+        "La partie est terminee.",
+        "Vous n'avez pas survecu.",
+        "Game Over.",
+        "Vous avez ete vaincu.",
+        "Votre aventure s'arrête ici.",
+        "Vous avez succombe à vos blessures.",
+        "La defaite est amere, réessayez."
+    };
+    int message_index = rand() % 10;
+
+    color white = {255, 255, 255, 255};
+    CTA message = draw_button(renderer, window_width / 2, window_height / 2 - 100, 3, lose_messages[message_index], 0, 42, white);
+    CTA button = draw_button(renderer, window_width / 2, window_height / 2 + 100, 2, "Je suis determine !", 0, 42, white);
+
+    SDL_RenderPresent(renderer);
+
+    SDL_Event event;
+    while(1) {
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                exit(0);
+            }
+            if (event.type == SDL_MOUSEBUTTONDOWN) {
+                if (is_mouse_on(button)) {
+                    return;
+                }
+            }
+            else{
+                if(is_mouse_on(button)){
+                    set_hand_cursor();
+                }
+                else{
+                    reset_cursor();
+                }
+            }
+        }
+    }
+}
+
 // Démarre la bataille, initialise les éléments et gère la boucle principale du combat
-int start_battle(SDL_Renderer *renderer, int battle_id, int num_enemies, int num_loots) {
+int start_battle(SDL_Renderer *renderer, int num_enemies, int num_loots, int e_min_speed, int e_max_speed) {
     add_log_info("battle.c - start_battle()", "Lancement du combat");
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     srand(time(NULL));
@@ -125,51 +188,83 @@ int start_battle(SDL_Renderer *renderer, int battle_id, int num_enemies, int num
     int window_width, window_height;
     SDL_GetRendererOutputSize(renderer, &window_width, &window_height);
 
-    SDL_Rect boundary = {window_width/2, window_height/ 2, 0, 0};
-    SDL_Rect target_boundary = {window_width/2, window_height/2, window_width/3, window_height/3};
-
-    animate_boundary(renderer, &boundary, target_boundary);
-
-    SDL_Rect player = {boundary.x + 100, boundary.y + 100, PLAYER_SIZE, PLAYER_SIZE};
-    SDL_Rect enemies[num_enemies];
-    int enemy_speeds[num_enemies];
-    initialize_enemies(enemies, enemy_speeds, boundary, num_enemies);
-
-    SDL_Rect loots[num_loots];
-    initialize_loots(loots, boundary, num_loots);
-
     const Uint8 *keystates = SDL_GetKeyboardState(NULL);
     SDL_Event event;
-    int score = 0;
-    int health = MAX_HEALTH;
 
-    int battle = 0;
+    int continuer = 0;
 
-    while (battle == 0) {
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) return -2;
-            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
-                int battle = pause(renderer);
-                if (battle == -2) return -2;
-            }
-        }
+    while(continuer == 0){ //Boucle pour démarrage du combat (ex: après mort)
+        
+        SDL_Rect boundary = {window_width/2, window_height/ 2, 0, 0};
+        SDL_Rect target_boundary = {window_width/2, window_height/2, window_width/3, window_height/3};
+    
+        animate_boundary(renderer, &boundary, target_boundary);
+    
+        SDL_Rect player = {boundary.x+boundary.w/2-PLAYER_SIZE/2, boundary.y+boundary.h/2-PLAYER_SIZE/2, PLAYER_SIZE, PLAYER_SIZE};
+        SDL_Rect enemies[num_enemies];
+        int enemy_speeds[num_enemies];
+        initialize_enemies(enemies, enemy_speeds, boundary, num_enemies, e_max_speed, e_min_speed);
+    
+        SDL_Rect loots[num_loots];
+        initialize_loots(loots, boundary, num_loots);
 
-        handle_player_movement(keystates, &player, boundary);
+        int score = 0;
+        int health = MAX_HEALTH;
 
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderClear(renderer);
 
-        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-        SDL_RenderDrawRect(renderer, &boundary);
+        // Dessiner le joueur pendant 2 secondes avant de passer au combat
+        SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
         SDL_RenderFillRect(renderer, &player);
 
-        battle = update_enemies(renderer, enemies, enemy_speeds, boundary, player, num_enemies, &health);
-        update_loots(renderer, loots, boundary, player, &score, num_loots);
-
-        render_health_bar(renderer, health);
-
         SDL_RenderPresent(renderer);
-        SDL_Delay(16);
+        SDL_Delay(2000);
+
+
+        int battle = 0;
+
+        while (battle == 0) { //Boucle de combat
+            while (SDL_PollEvent(&event)) {
+                if (event.type == SDL_QUIT) return -2;
+                if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_ESCAPE) {
+                    int battle = pause(renderer);
+                    if (battle == -2) return -2;
+                }
+            }
+    
+            handle_player_movement(keystates, &player, boundary);
+    
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
+    
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+            SDL_RenderDrawRect(renderer, &boundary);
+            SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+            SDL_RenderFillRect(renderer, &player);
+            SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    
+            battle = update_enemies(renderer, enemies, enemy_speeds, boundary, player, num_enemies, &health);
+            update_loots(renderer, loots, boundary, player, &score, num_loots);
+    
+            render_health_bar(renderer, health, boundary);
+            render_score(renderer, loots, num_loots, boundary, &score);
+            if(score >= num_loots){
+                add_log_info("battle.c - start_battle()", "Tous les loots ont été collectés");
+                battle = 1;
+            }
+    
+            SDL_RenderPresent(renderer);
+            SDL_Delay(16);
+        }
+        if(battle == -2){ //partie perdu
+            add_log_info("battle.c - start_battle()", "Partie perdu");
+            display_loose_screen(renderer, window_width, window_height);
+            health = MAX_HEALTH;
+            score = 0;
+        }
+        else if(battle == 1){ //partie gagné
+            add_log_info("battle.c - start_battle()", "Partie gagné");
+            continuer = 1;
+        }
     }
     return -2;
 }
