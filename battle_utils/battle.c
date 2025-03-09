@@ -7,6 +7,7 @@
 
 int start_battle(SDL_Renderer *renderer, int battle_id)
 {
+    static int first_launch = 1; // Variable statique pour vérifier le premier lancement
     add_log_info("battle.c - start_battle()", "Lancement du combat");
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     int battle = 0;
@@ -24,9 +25,57 @@ int start_battle(SDL_Renderer *renderer, int battle_id)
     SDL_Rect boundary = {
         (window_width - 700) / 2, // Center horizontally
         (window_height - 500) / 2, // Center vertically
+        0,
+        0
+    };
+
+    // Define target boundary size
+    SDL_Rect target_boundary = {
+        (window_width - 700) / 2, // Center horizontally
+        (window_height - 500) / 2, // Center vertically
         700,
         500
     };
+
+    // Animation step size
+    int step_size = 10;
+
+    // Animate boundary appearance only on the first launch
+    while (boundary.w < target_boundary.w || boundary.h < target_boundary.h)
+    {
+        // Clear screen
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+
+        // Increase width first
+        if (boundary.w < target_boundary.w)
+        {
+            boundary.w += step_size;
+            if (boundary.w > target_boundary.w)
+            {
+                boundary.w = target_boundary.w;
+            }
+        }
+        // Then increase height
+        else if (boundary.h < target_boundary.h)
+        {
+            boundary.h += step_size;
+            if (boundary.h > target_boundary.h)
+            {
+                boundary.h = target_boundary.h;
+            }
+        }
+
+        // Draw boundary
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderDrawRect(renderer, &boundary);
+
+        // Update screen
+        SDL_RenderPresent(renderer);
+
+        // Delay to control animation speed
+        SDL_Delay(16);
+    }
 
     // Define player properties
     SDL_Rect player = {boundary.x + 100, boundary.y + 100, 20, 20}; // Example position within boundary
@@ -76,12 +125,17 @@ int start_battle(SDL_Renderer *renderer, int battle_id)
                 {
                     // Pause menu
                     battle = pause(renderer);
+                    if (battle == -2)
+                    {
+                        return -2;
+                    }
+                    break;
                 }
             }
         }
 
         // Update player position based on key states
-        if (keystates[SDL_SCANCODE_Z] && player.y > boundary.y)
+        if (keystates[SDL_SCANCODE_W] && player.y > boundary.y)
         {
             player.y -= 10;
         }
@@ -89,7 +143,7 @@ int start_battle(SDL_Renderer *renderer, int battle_id)
         {
             player.y += 10;
         }
-        if (keystates[SDL_SCANCODE_Q] && player.x > boundary.x)
+        if (keystates[SDL_SCANCODE_A] && player.x > boundary.x)
         {
             player.x -= 10;
         }
