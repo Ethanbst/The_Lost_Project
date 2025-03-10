@@ -1,13 +1,13 @@
 {
     "ennemy_speed": {
-      "max": 5,
+      "max": 15,
       "min": 10
     },
     "ennemy_size": {
-        "max": 5,
-        "min": 10
+        "max": 10,
+        "min": 5
     },
     "ennemy_number": 5,
-    "loot_number": 5,
+    "loot_number": 2,
     "music": "res/music/battle/Pixel_Duel.wav"
   }
