@@ -74,37 +74,6 @@ CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size,
     return button;
 }
 
-CTA get_button(SDL_Renderer *renderer, const char *text, int font_size) {
-    
-    TTF_Font *font = TTF_OpenFont("res/font/Jersey10-Regular.ttf", font_size);
-
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, text, (SDL_Color){255, 255, 255, 255});
-    int text_width = textSurface->w;
-    int text_height = textSurface->h;
-
-    int screen_w, screen_h;
-    SDL_GetRendererOutputSize(renderer, &screen_w, &screen_h);
-
-    // Ajuster la taille du bouton en fonction de la résolution de l'écran
-    int adjusted_width = (text_width * 1 * screen_w) / 1920; // 1920 est la largeur de référence
-    int adjusted_height = (text_height * 1 * screen_h) / 1080; // 1080 est la hauteur de référence
-
-    
-    //SDL_Rect text_rect = {pos_x-((text_width/2)*multiply_size), pos_y, multiply_size*text_width, multiply_size*text_height}; //Taille et pos du texte
-    SDL_Rect text_rect = {(adjusted_width / 2), (adjusted_height / 2), adjusted_width, adjusted_height}; // Taille et pos du texte
-
-    SDL_FreeSurface(textSurface);
-    TTF_CloseFont(font);
-
-    CTA button;
-    button.h = text_rect.h;
-    button.w = text_rect.w;
-    button.pos_x = NULL;
-    button.pos_y = NULL;
-    
-    return button;
-}
-
 CTA draw_slider(SDL_Renderer *renderer, int pos_x, int pos_y, int w, int h, int value, int max_value) {
 
     // Rectangle contenant les éléments du slider
