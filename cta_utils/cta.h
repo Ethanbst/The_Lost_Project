@@ -21,4 +21,5 @@ typedef struct color{
 
 CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size, const char *text, int need_bg, int font_size, color couleur);
 CTA draw_slider(SDL_Renderer *renderer, int pos_x, int pos_y, int w, int h, int value, int max_value);
+CTA get_button(SDL_Renderer *renderer, const char *text, int font_size);
 #endif
