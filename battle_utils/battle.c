@@ -15,7 +15,7 @@
 #define STEP_SIZE 10
 #define ANIMATION_DELAY 2
 #define MOVEMENT_SPEED 10
-#define MAX_HEALTH 1000
+#define MAX_HEALTH 100
 
 
 
@@ -412,7 +412,7 @@ int start_battle(SDL_Renderer *renderer, int id) {
                 sprintf(time_string, "%02d:%02d", display_minutes, display_seconds);
 
                 color white = {255, 255, 255, 255};
-                draw_button(renderer, boundary.x, boundary.y - 50, 1, time_string, 0, 42, white);
+                draw_button(renderer, boundary.x, boundary.y - 100, 1, time_string, 0, 42, white);
             }
             SDL_RenderPresent(renderer);
             SDL_Delay(16);
