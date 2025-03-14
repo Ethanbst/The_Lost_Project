@@ -216,9 +216,11 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
         SDL_RenderClear(renderer);
         initWindowSize();
     
+        Mix_Music *music;
         if(strcmp(current_music_path, actual_world->music_path) != 0){ //Joue la musique du monde uniquement si elle est différente de l'ancienne
             Mix_FadeOutMusic(1000);
-            Mix_FadeInMusic(Mix_LoadMUS(actual_world->music_path), -1, 2000);
+            music =  Mix_LoadMUS(actual_world->music_path);
+            Mix_FadeInMusic(music, -1, 2000);
             printf("last_music: %s size: %d\n", current_music_path, sizeof(current_music_path));
             printf("current_music: %s size: %d\n", actual_world->music_path, sizeof(actual_world->music_path));
             free(current_music_path);
@@ -360,7 +362,11 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
 
         if(continuer > 1){ //Lancement d'un combat
             add_log_info("jeu.c - jeu()", "Lancement d'un combat");
+
+            double music_pos = Mix_GetMusicPosition(music);
+            Mix_FadeOutMusic(500);
             start_battle(renderer, continuer-1);
+            Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
             continuer = 0;
         }
     }
