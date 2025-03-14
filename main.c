@@ -37,14 +37,14 @@ int main(int argc, char *args[])
     if (sdl_utils_Init("The Lost Project", &window, &renderer, 0)) 
     {
         //Implémentation du logo de la fenêtre
-        SDL_Surface *icon = NULL;
-        icon = SDL_LoadBMP("res/icon.bmp");
-        if(!icon){
-            add_log_error("main.c","Echec du chargement de l'icone.");
-        }
-        else{
-            SDL_SetWindowIcon(window, icon);
-        }
+        // SDL_Surface *icon = NULL;
+        // icon = SDL_LoadBMP("res/icon.bmp");
+        // if(!icon){
+        //     add_log_error("main.c","Echec du chargement de l'icone.");
+        // }
+        // else{
+        //     SDL_SetWindowIcon(window, icon);
+        // }
 
         //Initialisation de SDL_image
         if(IMG_Init(IMG_INIT_PNG) == 0){
