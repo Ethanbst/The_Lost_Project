@@ -9,8 +9,8 @@
 #include "mouse_utils/mouse.h"
 #include <C:/cJSON-master/cJSON.h>
 
-#define slider_width 600
-#define slider_height 50
+#define slider_width 500
+#define slider_height 40
 
 // Retourne 1 si le fichier settings.txt existe, 0 sinon
 int exist_settings2()
@@ -188,10 +188,10 @@ void options(SDL_Renderer *renderer)
     // Dessiner les sliders
 
     CTA music_vol_txt = draw_button(renderer, displayMode.w / 2, displayMode.h/3, 2, "Volume de la musique", 0, 24, couleur);
-    CTA music_slider = draw_slider(renderer,  displayMode.w/2+slider_width, displayMode.h/3, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
+    CTA music_slider = draw_slider(renderer,  displayMode.w/2, music_vol_txt.pos_y, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
 
     CTA fx_vol_txt = draw_button(renderer, displayMode.w / 2, music_vol_txt.pos_y+music_vol_txt.h*2, 2, "Volume des effets", 0, 24, couleur);
-    CTA fx_slider = draw_slider(renderer, displayMode.w/2+slider_width, music_vol_txt.pos_y+music_vol_txt.h*2, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
+    CTA fx_slider = draw_slider(renderer, displayMode.w/2, fx_vol_txt.pos_y, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
 
     // Dessiner le bouton "Appliquer"
     CTA apply_button = draw_button(renderer, displayMode.w/2, fx_slider.pos_y+fx_slider.pos_y/2, 2, "Appliquer", 0, 24, couleur);
@@ -249,9 +249,10 @@ void options(SDL_Renderer *renderer)
                     if (is_mouse_on(music_slider))
                     {
                         musicVolume = (mouseX - music_slider.pos_x) * MIX_MAX_VOLUME / slider_width;
+                        printf("musicVolume: %d\n", musicVolume);
                         if (musicVolume < 0) musicVolume = 0;
                         if (musicVolume > MIX_MAX_VOLUME) musicVolume = MIX_MAX_VOLUME;
-                        music_slider = draw_slider(renderer, displayMode.w/2+slider_width, displayMode.h/3, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
+                        music_slider = draw_slider(renderer,  displayMode.w/2, music_vol_txt.pos_y, slider_width, slider_height, musicVolume, MIX_MAX_VOLUME);
                         set_setting_value2("music_volume", musicVolume);
                         SDL_RenderPresent(renderer);
                         Mix_VolumeMusic(musicVolume);
@@ -261,7 +262,9 @@ void options(SDL_Renderer *renderer)
                     if (is_mouse_on(fx_slider))
                     {
                         sfxVolume = (mouseX - fx_slider.pos_x) * MIX_MAX_VOLUME / slider_width;
-                        fx_slider = draw_slider(renderer, displayMode.w/2+slider_width, music_vol_txt.pos_y+music_vol_txt.h*2, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
+                        if (sfxVolume < 0) sfxVolume = 0;
+                        if (sfxVolume > MIX_MAX_VOLUME) sfxVolume = MIX_MAX_VOLUME;
+                        fx_slider = draw_slider(renderer, displayMode.w/2, fx_vol_txt.pos_y, slider_width, slider_height, sfxVolume, MIX_MAX_VOLUME);
                         set_setting_value2("fx_volume", sfxVolume);
                         SDL_RenderPresent(renderer);
                         Mix_VolumeMusic(musicVolume);

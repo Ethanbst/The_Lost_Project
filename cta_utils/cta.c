@@ -107,9 +107,16 @@ CTA get_button(SDL_Renderer *renderer, const char *text, int font_size) {
 
 CTA draw_slider(SDL_Renderer *renderer, int pos_x, int pos_y, int w, int h, int value, int max_value) {
 
+    int screen_w, screen_h;
+    SDL_GetRendererOutputSize(renderer, &screen_w, &screen_h);
+
+    // Ajuster la taille du slider en fonction de la résolution de l'écran
+    w = (w * screen_w) / 1920; // 1920 est la largeur de référence
+    h = (h * screen_h) / 1080; // 1080 est la hauteur de référence
+
     // Rectangle contenant les éléments du slider
-    SDL_Rect slider_bg = {pos_x-(w/2), pos_y-(h/2), w, h}; //Rectangle contenant le fond du slider
-    SDL_Rect slider_fg = {pos_x-(w/2), pos_y-(h/2), (w * value) / max_value, h}; //Rectangle contenant le remplissage du slider
+    SDL_Rect slider_bg = {pos_x, pos_y, w, h}; //Rectangle contenant le fond du slider
+    SDL_Rect slider_fg = {pos_x, pos_y, (w * value) / max_value, h}; //Rectangle contenant le remplissage du slider
 
     // Draw background
     SDL_SetRenderDrawColor(renderer, 128, 128, 128, 255); // Background color (gray)
