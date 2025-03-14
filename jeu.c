@@ -84,7 +84,7 @@ void updatePlayerPositionInMatrix2(world world, player *player, int cellSize) {
 }
 
 // Fonction pour gérer le mouvement du joueur retourne 0 si aucun événement n'est détecté, 1 si le joueur passe au niveau suivant, -1 si le joueur passe au niveau précédent et 2 si un combat est détecté
-int mouvement2(const Uint8 *state, world world, player *player){
+int mouvement2(const Uint8 *state, world world, player *player, int *battles_done){
     int oldMposX = player->MposX;
     int oldMposY = player->MposY;
 
@@ -122,10 +122,17 @@ int mouvement2(const Uint8 *state, world world, player *player){
     
     updatePlayerPositionInMatrix2(world, player, cellSize); //Met à jour la position du joueur dans la matrice
 
-    for(int i = 0; i < world.nb_battles; i++){
+    for(int i = 0; i < world.nb_battles; i++){ //Pour chaque combat dans le monde
         if(player->MposX == world.battles[i].battle_coords.x && player->MposY == world.battles[i].battle_coords.y){ //Si le joueur est sur un trigger de combat
-            add_log("jeu.c - mouvement2()", "Combat detecte");
-            return world.battles[i].id+1;
+            printf("Id battle: %d, indice tab: %d\n", world.battles[i].id, battles_done[world.battles[i].id]);
+            if(is_battle_not_done(world.battles[i].id, battles_done)){ //Si le combat n'a pas encore été fait
+                add_log_info("jeu.c - mouvement2()", "Combat non fait");
+                return world.battles[i].id+1;
+            }
+            else{ //Si le combat n'a pas encore été fait
+                add_log_info("jeu.c - mouvement2()", "Combat déjà fait");
+                return 0;
+            }
         }
     }
 
@@ -198,8 +205,9 @@ SDL_Texture* get_world_texture(SDL_Window *window, world world){
 }
 
 //Lance la partie à partir du monde donné
-void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *current_music_path){
+void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *current_music_path, int *battles_done){
     add_log_info("jeu.c - jeu()", "Lancement de la partie");
+
 
 
     int jeu = 1; //Variable permettant revenir au menu principal si = 0
@@ -271,7 +279,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
         
         while(continuer == 0){
 
-            continuer = mouvement2(state, *actual_world, &player); //Déplace le joueur
+            continuer = mouvement2(state, *actual_world, &player, battles_done); //Déplace le joueur
             SDL_RenderClear(renderer); //Efface l'écran
             SDL_RenderCopy(renderer, actual_world->global_texture, NULL, NULL); //Rend la texture des murs
             SDL_RenderCopy(renderer, player.player_texture, NULL, &player.player_rect); //Rend le joueur car sa position à changé
@@ -365,7 +373,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
 
             double music_pos = Mix_GetMusicPosition(music);
             Mix_FadeOutMusic(500);
-            start_battle(renderer, continuer-1);
+            start_battle(renderer, continuer-1, battles_done);
             Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
             continuer = 0;
         }
@@ -373,7 +381,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
 
     //Libération de la mémoire
     add_log_info("jeu.c - jeu()", "Libération de la mémoire du monde");
-    save_progress(actual_world->actual_world);
+    save_progress(actual_world->actual_world, battles_done);
     free_world(actual_world);
     free(current_music_path);
     add_log_info("jeu.c - jeu()", "Fin de la partie");

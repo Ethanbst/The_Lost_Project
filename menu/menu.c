@@ -59,7 +59,8 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
 
     color couleur = {255, 255, 255, 255}; //Couleur blanche
 
-    CTA version = draw_button(renderer, ecran.w-200, ecran.h-120, 1, "Alpha 0.47.11", 1, 48, couleur);
+    //Affichage de la version du jeu VersionMajeure.VersionMineure.CorrectiondeBug
+    CTA version = draw_button(renderer, ecran.w-200, ecran.h-120, 1, "Alpha 0.53.11", 1, 48, couleur); //14.03.25
     draw_button(renderer, ecran.w-200, version.pos_y+version.h+20, 1, "By E. Bastien", 1, 48, couleur);
 
 
@@ -191,14 +192,20 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     
                     double music_pos = Mix_GetMusicPosition(music);
 
-                    world *world = NULL;
+                    world *world = NULL; //Structure contenant les informations du monde
+                    int *battles_done; //Tableau contenant les batailles effectuées
                     //Contrôle si sauvegarde déjà existante
                     if(exist_save()){ //Si une sauvegarde existe on charge à partir du dernier monde sauvegardé
                         world = get_world_info(getlastworldname());
+                        battles_done = get_battles();
                     }
                     else{ //Sinon on charge le monde 1
                         add_log_info("menu.c - menu()","Aucune sauvegarde trouvée, chargement du monde 1.");
                         world = get_world_info((char *)"world1.json");
+                        battles_done = (int *)malloc(NB_BATTLES * sizeof(int));
+                        for(int i = 0; i < 20; i++){
+                            battles_done[i] = 0;
+                        }
                     }
 
                     if(world == NULL){
@@ -213,7 +220,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     }
                     strcpy(current_music_path, "res/music/menu.wav");
                     
-                    jeu(window, renderer, world, current_music_path);
+                    jeu(window, renderer, world, current_music_path, battles_done);
                     menu_start(renderer, bg_menu_surface, bg_menu_texture, logo_menu_texture, logo_menu_surface);
                     Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
                 }

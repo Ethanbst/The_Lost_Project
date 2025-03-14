@@ -9,11 +9,11 @@
     },
     "ennemy_number": 5,
     "ennemy_names": [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5"
+      "Segmentation fault",
+      "Undefined reference",
+      "Implicit declaration",
+      "Conflicting types",
+      "Unused variable"
     ],
     "loot_number": 5,
     "music": "res/music/battle/Pixel_Duel.wav"

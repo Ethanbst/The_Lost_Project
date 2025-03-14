@@ -9,6 +9,7 @@
 #include <SDL_mixer.h>
 #include <SDL.h>
 #include "../debug_var.h"
+#include "../worlds/worlds_utils.h"
 
 #define PLAYER_SIZE 40
 #define LOOT_SIZE 20
@@ -16,6 +17,7 @@
 #define ANIMATION_DELAY 2
 #define MOVEMENT_SPEED 10
 #define MAX_HEALTH 100
+#define NB_BATTLES 20
 
 
 
@@ -175,6 +177,8 @@ void render_score(SDL_Renderer *renderer, SDL_Rect *loots, int num_loots, SDL_Re
     char *total_loots = (char*)malloc(sizeof(char));
     sprintf(total_loots, "%d", num_loots);
     draw_button(renderer, c.pos_x+c.w+10, a.pos_y+a.h/2, 1, total_loots, 0, 42, couleur);
+    free(loot_obt);
+    free(total_loots);
 }
 
 void display_loose_screen(SDL_Renderer *renderer, int window_width, int window_height) {
@@ -293,6 +297,12 @@ battle_info* get_battle_info(int id) {
     return info;
 }
 
+void free_battle_info(battle_info *info) {
+    free(info->music_path);
+    free(info->ennemy_strings);
+    free(info);
+}
+
 void display_battle_info(battle_info *info) {
     printf("Nombre d'ennemis: %d\n", info->num_enemies);
     printf("Nombre de loots: %d\n", info->num_loots);
@@ -305,8 +315,20 @@ void display_battle_info(battle_info *info) {
     }
 }
 
+bool is_battle_not_done(int id, int *battles_done) {
+    return battles_done[id-1] == 0;
+}
+
+void print_battles_done(int *battles_done) {
+    printf("Batailles effectuées: ");
+    for (int i = 0; i < NB_BATTLES; i++) {
+        printf("%d ", battles_done[i]);
+    }
+    printf("\n");
+}
+
 // Démarre la bataille d'id id, initialise les éléments et gère la boucle principale du combat
-int start_battle(SDL_Renderer *renderer, int id) {
+int start_battle(SDL_Renderer *renderer, int id, int *battles_done) {
 
     add_log_info("battle.c - start_battle()", "Lancement du combat");
 
@@ -423,8 +445,11 @@ int start_battle(SDL_Renderer *renderer, int id) {
         }
         else if(battle == 1){ //partie gagné
             add_log_info("battle.c - start_battle()", "Partie gagné");
+            battles_done[id-1] = 1; //On met à 1 l'indice correspondant à la bataille effectuée
+            print_battles_done(battles_done);
             continuer = 1;
         }
     }
+    free_battle_info(info);
     return -2;
 }
