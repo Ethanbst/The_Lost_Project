@@ -20,48 +20,27 @@
 
 
 typedef struct battle_info {
-    int num_enemies;
-    int num_loots;
-    int e_min_speed;
-    int e_max_speed;
-    char *music_path;
+    int num_enemies; // Nombre d'ennemis
+    int num_loots; // Nombre de loots à récupérer pour gagner
+    int e_min_speed; // Vitesse minimale des ennemis
+    int e_max_speed; // Vitesse maximale des ennemis
+    char *music_path; // Chemin de la musique de combat
+    char *ennemy_strings; // Tableau de chaînes de caractères pour les ennemis
 } battle_info;
 
 typedef struct enemy {
     SDL_Rect rect;
     int speed;
-    char label[10];
+    char label[20];
     int size; //Taille de la police d'écriture
 } enemy;
 
-const char *compilation_errors[] = {
-    "Segmentation",
-    "fault",
-    "Undefined",
-    "Implicit",
-    "Conflicting",
-    "Unused",
-    "Expected",
-    "Redeclaration",
-    "Incompatible",
-    "Invalid",
-    "Malloc",
-    "failed",
-    "Array",
-    "Char*",
-    "zero",
-    "bounds",
-    "out",
-    "error",
-};
-
-
 // Initialise les ennemis avec des positions et des vitesses aléatoires
-void initialize_enemies(enemy *enemies, SDL_Rect boundary, int num_enemies, int max_speed, int min_speed, SDL_Renderer *renderer) {
+void initialize_enemies(enemy *enemies, battle_info *battle, SDL_Rect boundary, int num_enemies, int max_speed, int min_speed, SDL_Renderer *renderer) {
     for (int i = 0; i < num_enemies; i++) {
         
-        int error_index = rand() % (sizeof(compilation_errors) / sizeof(compilation_errors[0]));
-        sprintf(enemies[i].label, "%s", compilation_errors[error_index]);
+        //int error_index = rand() % (sizeof(compilation_errors) / sizeof(compilation_errors[0]));
+        snprintf(enemies[i].label, sizeof(enemies[i].label), "%s", battle->ennemy_strings + i * 20);
 
         int size;
         do {
@@ -294,6 +273,21 @@ battle_info* get_battle_info(int id) {
         strcpy(info->music_path, music_path->valuestring);
     }
 
+    cJSON *enemy_names = cJSON_GetObjectItem(json, "ennemy_names");
+    if (enemy_names) {
+        int num_names = cJSON_GetArraySize(enemy_names);
+        info->ennemy_strings = (char *)malloc(num_names * 20 * sizeof(char)); // Assuming each name is less than 20 characters
+        for (int i = 0; i < num_names; i++) {
+            cJSON *name = cJSON_GetArrayItem(enemy_names, i);
+            strcpy(&info->ennemy_strings[i * 20], name->valuestring);
+        }
+    }
+    else{
+        add_log_error("battle.c - get_battle_info()", "Pas de noms d'ennemis trouvés");
+    }
+
+
+
     cJSON_Delete(json);
     free(data);
     return info;
@@ -305,6 +299,10 @@ void display_battle_info(battle_info *info) {
     printf("Vitesse minimale des ennemis: %d\n", info->e_min_speed);
     printf("Vitesse maximale des ennemis: %d\n", info->e_max_speed);
     printf("Chemin de la musique: %s\n", info->music_path);
+    printf("Noms des ennemis: ");
+    for (int i = 0; i < info->num_enemies; i++) {
+        printf("%s \n", &info->ennemy_strings[i*20]);
+    }
 }
 
 // Démarre la bataille d'id id, initialise les éléments et gère la boucle principale du combat
@@ -345,7 +343,7 @@ int start_battle(SDL_Renderer *renderer, int id) {
         
         enemy enemies[info->num_enemies];
         //int enemy_speeds[info->num_enemies];
-        initialize_enemies(enemies, boundary, info->num_enemies, info->e_max_speed, info->e_min_speed, renderer);
+        initialize_enemies(enemies, info, boundary, info->num_enemies, info->e_max_speed, info->e_min_speed, renderer);
     
         SDL_Rect loots[1];
         initialize_loots(loots, boundary, 1);

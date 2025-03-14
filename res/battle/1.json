@@ -8,6 +8,13 @@
         "min": 10
     },
     "ennemy_number": 5,
+    "ennemy_names": [
+      "Segmentation fault",
+      "Undefined reference",
+      "Implicit declaration",
+      "Conflicting types",
+      "Unused variable"
+    ],
     "loot_number": 5,
     "music": "res/music/battle/Pixel_Duel.wav"
   }
