@@ -45,9 +45,9 @@ void print_world_info(world *w) {
     printf("Back Portal: (%d:%d)\n", w->back_portal.x, w->back_portal.y);
     printf("Wall Texture Path: %s\n", w->wall_texture_path);
     printf("Music Path: %s\n", w->music_path);
-    // for(int i=0;i<w->nb_battles;i++){
-    //     printf("Battle | id: %d, coords: (%d:%d)\n", i, w->battles[i].id, w->battles[i].battle_coords.x, w->battles[i].battle_coords.y);
-    // }
+    for(int i=0;i<w->nb_battles;i++){
+        printf("Battle | id: %d, coords: (%d:%d)\n", w->battles[i].id, w->battles[i].battle_coords.x, w->battles[i].battle_coords.y);
+    }
 
     printf("Matrice:\n");
     for (int i = 0; i < 13; i++) {
@@ -286,7 +286,7 @@ world* get_world_info(char world_name[256]){
             else{
                 int nb_battle = cJSON_GetArraySize(parameter);
                 world->nb_battles = nb_battle; //Nombre de combats dans le monde
-                printf("Nombre de combats : %d\n", world->nb_battles);
+                //printf("Nombre de combats : %d\n", world->nb_battles);
                 world->battles = (battle *)malloc(nb_battle * sizeof(battle));
                 if(!world->battles){
                     add_log_error("worlds_utils.c - get_world_info()", "Erreur : Echec de l'allocation de memoire pour battles.");

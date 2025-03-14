@@ -30,7 +30,7 @@ typedef struct world{
     char *wall_texture_path; //Chemin de la texture des murs
     char *floor_texture_path; //Chemin de la texture du sol
     int nb_battles; //Nombre de combats dans le monde
-    battle battle; //Tableau contenant la liste des combats du monde, leur id ainsi que leurs coordonnées de trigger
+    battle *battles; //Tableau contenant la liste des combats du monde, leur id ainsi que leurs coordonnées de trigger
 }world;
 
 //Récupère les information d'un fichier worldX.json donné en paramètre et retourne une structure contenant ces paramètres
