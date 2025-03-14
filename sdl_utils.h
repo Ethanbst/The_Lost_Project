@@ -52,7 +52,7 @@ sdl_utils_Init(const char *title, SDL_Window **window, SDL_Renderer **renderer, 
 
 
     //Création de la fenêtre en fonction de la taille de l'écran:
-    *window = SDL_CreateWindow(title, 0, 0, screenWidth, screenHeight, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    *window = SDL_CreateWindow(title, 0, 0, screenWidth, screenHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP);
     if (window == 0)
     {
         printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());

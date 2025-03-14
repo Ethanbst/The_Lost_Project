@@ -40,6 +40,7 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     bg_menu_texture = SDL_CreateTextureFromSurface(renderer, bg_menu_surface);
     SDL_RenderCopy(renderer, bg_menu_texture, NULL, NULL);
 
+
     //Logo du jeu pour le menu
     logo_menu_surface = IMG_Load("res/bg/logo.png");
     if(!logo_menu_surface){
@@ -51,10 +52,12 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     SDL_DisplayMode ecran = GetScreenSize();
     // Définir la position et la taille du rectangle pour le logo
     SDL_Rect logo_rect;
-    logo_rect.w = logo_menu_surface->w/2;
-    logo_rect.h = logo_menu_surface->h/2;
-    logo_rect.x = ecran.w/2 - logo_rect.w/2; // Centrer horizontalement
-    logo_rect.y = -100; // Positionner en haut de l'écran
+    logo_rect.w = ecran.w / 4; // Largeur du rectangle proportionnelle à la largeur de l'écran
+    logo_rect.h = (logo_menu_surface->h * logo_rect.w) / logo_menu_surface->w; // Hauteur proportionnelle à la largeur pour conserver le ratio
+    logo_rect.x = ecran.w / 2 - logo_rect.w / 2; // Centrer horizontalement
+    logo_rect.y = ecran.h / 10; // Positionner en haut de l'écran avec un petit décalage
+    SDL_RenderDrawRect(renderer, &logo_rect);
+    SDL_RenderPresent(renderer);
     SDL_RenderCopy(renderer, logo_menu_texture, NULL, &logo_rect);
 
     color couleur = {255, 255, 255, 255}; //Couleur blanche
