@@ -83,7 +83,7 @@ void updatePlayerPositionInMatrix2(world world, player *player, int cellSize) {
     fflush(stdout);
 }
 
-// Fonction pour gérer le mouvement du joueur
+// Fonction pour gérer le mouvement du joueur retourne 0 si aucun événement n'est détecté, 1 si le joueur passe au niveau suivant, -1 si le joueur passe au niveau précédent et 2 si un combat est détecté
 int mouvement2(const Uint8 *state, world world, player *player){
     int oldMposX = player->MposX;
     int oldMposY = player->MposY;
@@ -121,6 +121,13 @@ int mouvement2(const Uint8 *state, world world, player *player){
     }
     
     updatePlayerPositionInMatrix2(world, player, cellSize); //Met à jour la position du joueur dans la matrice
+
+    for(int i = 0; i < world.nb_battles; i++){
+        if(player->MposX == world.battles[i].battle_coords.x && player->MposY == world.battles[i].battle_coords.y){ //Si le joueur est sur un trigger de combat
+            add_log("jeu.c - mouvement2()", "Combat detecte");
+            return world.battles[i].id+1;
+        }
+    }
 
     if(player->MposX == world.next_portal.x && player->MposY == world.next_portal.y){ //Indication de passage au prochain niveau
         add_log("jeu.c - mouvement2()", "Passage au niveau suivant");
@@ -316,6 +323,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
         SDL_RenderClear(renderer); //Efface l'écran
     
         if(continuer == -1){ //Retour au monde précédent
+            add_log_info("jeu.c - jeu()", "Retour au monde précédent");
     
             char *previous_world = (char*)malloc(strlen(actual_world->previous_world) + 1);
             if (previous_world == NULL) {
@@ -334,6 +342,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
         }
     
         if(continuer == 1){ //Aller au monde suivant
+            add_log_info("jeu.c - jeu()", "Passage au monde suivant");
     
             char *next_world = (char*)malloc(strlen(actual_world->next_world) + 1);
             if (next_world == NULL) {
@@ -347,6 +356,12 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
             if(actual_world == NULL){
                 add_log_error("jeu.c - jeu()", "Erreur de récupération des informations du monde suivant");
             }
+        }
+
+        if(continuer > 1){ //Lancement d'un combat
+            add_log_info("jeu.c - jeu()", "Lancement d'un combat");
+            start_battle(renderer, continuer-1);
+            continuer = 0;
         }
     }
 
