@@ -23,6 +23,13 @@
     "previous_world": "world3.json",
     "next_world": "world5.json",
   "wall_texture": "wall1.bmp",
-  "floor_texture": "floor1.bmp"
+  "floor_texture": "floor1.bmp",
+  "battle_list": [
+    {
+      "id": 1,
+      "x": 1,
+      "y": 2
+    }
+  ]
   }
   
