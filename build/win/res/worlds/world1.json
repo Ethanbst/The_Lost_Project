@@ -35,5 +35,17 @@
   "previous_world": "null",
   "next_world": "world2.json",
   "wall_texture": "wall1.bmp",
-  "floor_texture": "floor1.bmp"
+  "floor_texture": "floor1.bmp",
+  "battle_list": [
+    {
+      "id": "1",
+      "x": 1,
+      "y": 2
+    },
+    {
+      "id": "2",
+      "x": 300,
+      "y": 400
+    }
+  ]
 }

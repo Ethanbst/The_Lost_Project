@@ -203,7 +203,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
     int S_pressed = 0;
     int D_pressed = 0;
 
-    while(jeu != 0){
+    while(jeu != 0 && actual_world != NULL){
         print_world_info(actual_world);
     
         SDL_RenderClear(renderer);
@@ -331,8 +331,6 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
                 return;
             }
             actual_world->start_spawn = actual_world->end_spawn;
-    
-            //jeu(window, renderer, actual_world, current_music_path);
         }
     
         if(continuer == 1){ //Aller au monde suivant
@@ -349,8 +347,6 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
             if(actual_world == NULL){
                 add_log_error("jeu.c - jeu()", "Erreur de récupération des informations du monde suivant");
             }
-    
-            //jeu(window, renderer, actual_world, current_music_path);
         }
     }
 

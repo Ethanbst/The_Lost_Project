@@ -9,6 +9,11 @@ typedef struct coords{
     int y;
 }coords;
 
+typedef struct battle{ //Structure contenant l'id et les coordonnées d'un combat.
+    int id;
+    coords battle_coords;
+}battle;
+
 //Contient les informations d'un monde (matrice, texture, positions du joueur dans la matrice et sur l'écran)
 typedef struct world{
     int matrice[13][20]; //Matrice de la map
@@ -22,8 +27,10 @@ typedef struct world{
     char *previous_world; //Nom du monde précédent "worldX-1"
     char *actual_world; //Nom du monde actuel "worldX"
     SDL_Texture *global_texture; //Texture globale
-    char *wall_texture_path;
-    char *floor_texture_path;
+    char *wall_texture_path; //Chemin de la texture des murs
+    char *floor_texture_path; //Chemin de la texture du sol
+    int nb_battles; //Nombre de combats dans le monde
+    battle battle; //Tableau contenant la liste des combats du monde, leur id ainsi que leurs coordonnées de trigger
 }world;
 
 //Récupère les information d'un fichier worldX.json donné en paramètre et retourne une structure contenant ces paramètres

@@ -324,7 +324,7 @@ int start_battle(SDL_Renderer *renderer, int id) {
     Mix_FadeInMusic(music, 0, 1000);
 
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    srand(time(NULL));
+    srand(time(NULL)); //Changement du seed pour la génération aléatoire
 
     int window_width, window_height;
     SDL_GetRendererOutputSize(renderer, &window_width, &window_height);

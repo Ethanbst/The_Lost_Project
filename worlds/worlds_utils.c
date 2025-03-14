@@ -11,6 +11,11 @@ typedef struct coords{
     int y;
 }coords;
 
+typedef struct battle{ //Structure contenant l'id et les coordonnées d'un combat.
+    int id;
+    coords battle_coords;
+}battle;
+
 //Contient les informations d'un monde (matrice, texture, positions du joueur dans la matrice et sur l'écran)
 typedef struct world{
     int matrice[13][20]; //Matrice de la map
@@ -23,8 +28,10 @@ typedef struct world{
     char *previous_world; //Nom du monde précédent "worldX-1"
     char *actual_world; //Nom du monde actuel "worldX"
     SDL_Texture *global_texture; //Texture globale
-    char *wall_texture_path;
-    char *floor_texture_path;
+    char *wall_texture_path; //Chemin de la texture des murs
+    char *floor_texture_path; //Chemin de la texture du sol
+    int nb_battles; //Nombre de combats dans le monde
+    battle *battles; //Tableau contenant la liste des combats du monde, leur id ainsi que leurs coordonnées de trigger
 }world;
 
 void print_world_info(world *w) {
@@ -38,6 +45,9 @@ void print_world_info(world *w) {
     printf("Back Portal: (%d:%d)\n", w->back_portal.x, w->back_portal.y);
     printf("Wall Texture Path: %s\n", w->wall_texture_path);
     printf("Music Path: %s\n", w->music_path);
+    // for(int i=0;i<w->nb_battles;i++){
+    //     printf("Battle | id: %d, coords: (%d:%d)\n", i, w->battles[i].id, w->battles[i].battle_coords.x, w->battles[i].battle_coords.y);
+    // }
 
     printf("Matrice:\n");
     for (int i = 0; i < 13; i++) {
@@ -75,6 +85,14 @@ void free_world(world *world) {
         if (world->wall_texture_path) {
             free(world->wall_texture_path);
             world->wall_texture_path = NULL;
+        }
+        if(world->floor_texture_path){
+            free(world->floor_texture_path);
+            world->floor_texture_path = NULL;
+        }
+        if(world->battles){
+            free(world->battles);
+            world->battles = NULL;
         }
         if(world){
             free(world);
@@ -255,6 +273,45 @@ world* get_world_info(char world_name[256]){
                 free_world(world);
                 world = NULL;
                 return world;
+            }
+
+            //Récupération de la liste des combats
+            parameter = cJSON_GetObjectItem(root, "battle_list");
+            if(!parameter){
+                add_log_error("worlds_utils.c - get_world_info()", "Erreur : Aucun combat n'a été trouvé.");
+                free_world(world);
+                world = NULL;
+                return world;
+            }
+            else{
+                int nb_battle = cJSON_GetArraySize(parameter);
+                world->nb_battles = nb_battle; //Nombre de combats dans le monde
+                printf("Nombre de combats : %d\n", world->nb_battles);
+                world->battles = (battle *)malloc(nb_battle * sizeof(battle));
+                if(!world->battles){
+                    add_log_error("worlds_utils.c - get_world_info()", "Erreur : Echec de l'allocation de memoire pour battles.");
+                    free_world(world);
+                    world = NULL;
+                    return world;
+                }
+                else{
+                    for(int i = 0; i < nb_battle; i++){
+                        cJSON *battle = cJSON_GetArrayItem(parameter, i);
+                        cJSON *id = cJSON_GetObjectItem(battle, "id");
+                        cJSON *x = cJSON_GetObjectItem(battle, "x");
+                        cJSON *y = cJSON_GetObjectItem(battle, "y");
+                        if(!id || !x || !y || !battle){
+                            add_log_error("worlds_utils.c - get_world_info()", "Erreur : Echec de récupération des informations du combat.");
+                            free_world(world);
+                            world = NULL;
+                            return world;
+                        }
+                        world->battles[i].id = id->valueint;
+                        world->battles[i].battle_coords.x = x->valueint;
+                        world->battles[i].battle_coords.y = y->valueint;
+                        }
+                }
+
             }
         }
     }
