@@ -206,6 +206,9 @@ SDL_Texture* get_world_texture(SDL_Window *window, world world){
 
 //Lance la partie à partir du monde donné
 void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *current_music_path, int *battles_done){
+    
+    SDL_ShowCursor(SDL_DISABLE); //Cache le curseur
+    
     add_log_info("jeu.c - jeu()", "Lancement de la partie");
 
 

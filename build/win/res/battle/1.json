@@ -1,15 +1,14 @@
 {
     "ennemy_speed": {
       "max": 5,
-      "min": 10
+      "min": 1
     },
-    "ennemy_number": 5,
     "ennemy_names": [
-      "Segmentation fault",
-      "Undefined reference",
-      "Implicit declaration",
-      "Conflicting types",
-      "Unused variable"
+      "Esquive-moi",
+      "Attention",
+      "Contourne",
+      "Évite",
+      "Fuis"
     ],
     "loot_number": 5,
     "music": "res/music/battle/Pixel_Duel.wav"

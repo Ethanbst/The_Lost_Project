@@ -4,6 +4,9 @@
 
 //Affiche un menu de pause avec 3 choix, retourne 0 si le joueur veut continuer, -2 si il veut retourner au menu
 int pause(SDL_Renderer *renderer){
+
+    SDL_ShowCursor(SDL_ENABLE);
+
     add_log("PAUSE MENU","Entered");
     
     SDL_Event event;
@@ -80,5 +83,6 @@ int pause(SDL_Renderer *renderer){
             }
         }
     }
+    SDL_ShowCursor(SDL_DISABLE);
     return 0;
 }

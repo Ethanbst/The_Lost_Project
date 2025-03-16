@@ -102,6 +102,8 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
 void menu(SDL_Renderer *renderer, SDL_Window *window) {
     add_log_info("menu.c - menu()", "Menu principal.");
 
+    SDL_ShowCursor(SDL_ENABLE); //Affiche le curseur
+
     init_default_settings2();
 
     int music_volume = get_setting_value2("music_volume"); //On récupère la valeur de notre fichier afin de l'appliquer
