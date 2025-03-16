@@ -63,7 +63,7 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     color couleur = {255, 255, 255, 255}; //Couleur blanche
 
     //Affichage de la version du jeu VersionMajeure.VersionMineure.CorrectiondeBug
-    CTA version = draw_button(renderer, ecran.w-200, ecran.h-120, 1, "Alpha 0.57.12", 1, 48, couleur); //14.03.25
+    CTA version = draw_button(renderer, ecran.w-200, ecran.h-120, 1, "Alpha 0.61.13", 1, 48, couleur); //16.03.25
     draw_button(renderer, ecran.w-200, version.pos_y+version.h+20, 1, "By E. Bastien", 1, 48, couleur);
 
 
@@ -199,10 +199,12 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
 
                     world *world = NULL; //Structure contenant les informations du monde
                     int *battles_done; //Tableau contenant les batailles effectuées
+                    int *dialogs_done; //Tableau contenant les dialogues déjà déclanchés
                     //Contrôle si sauvegarde déjà existante
                     if(exist_save()){ //Si une sauvegarde existe on charge à partir du dernier monde sauvegardé
                         world = get_world_info(getlastworldname());
                         battles_done = get_battles();
+                        dialogs_done = get_dialogs();
                     }
                     else{ //Sinon on charge le monde 1
                         add_log_info("menu.c - menu()","Aucune sauvegarde trouvée, chargement du monde 1.");
@@ -210,6 +212,10 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                         battles_done = (int *)malloc(NB_BATTLES * sizeof(int));
                         for(int i = 0; i < 20; i++){
                             battles_done[i] = 0;
+                        }
+                        dialogs_done = (int *)malloc(NB_DIALOGS * sizeof(int));
+                        for(int i = 0; i < 20; i++){
+                            dialogs_done[i] = 0;
                         }
                     }
 
@@ -225,7 +231,7 @@ void menu(SDL_Renderer *renderer, SDL_Window *window) {
                     }
                     strcpy(current_music_path, "res/music/menu.wav");
                     
-                    jeu(window, renderer, world, current_music_path, battles_done);
+                    jeu(window, renderer, world, current_music_path, battles_done, dialogs_done);
                     menu_start(renderer, bg_menu_surface, bg_menu_texture, logo_menu_texture, logo_menu_surface);
                     Mix_FadeInMusicPos(music, -1, 1000, music_pos+1);
                 }

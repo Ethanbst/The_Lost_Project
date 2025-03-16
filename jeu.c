@@ -85,7 +85,7 @@ void updatePlayerPositionInMatrix2(world world, player *player, int cellSize) {
 }
 
 // Fonction pour gérer le mouvement du joueur retourne 0 si aucun événement n'est détecté, 1 si le joueur passe au niveau suivant, -1 si le joueur passe au niveau précédent et 2 si un combat est détecté
-int mouvement2(const Uint8 *state, world world, player *player, int *battles_done){
+int mouvement2(const Uint8 *state, world world, player *player, int *battles_done, int *dialogs_done) {
     int oldMposX = player->MposX;
     int oldMposY = player->MposY;
 
@@ -132,6 +132,20 @@ int mouvement2(const Uint8 *state, world world, player *player, int *battles_don
             }
             else{ //Si le combat n'a pas encore été fait
                 add_log_info("jeu.c - mouvement2()", "Combat déjà fait");
+                return 0;
+            }
+        }
+    }
+
+    for(int i = 0; i < world.nb_dialogs; i++){ //Pour chaque dialogue dans le monde
+        if(player->MposX == world.dialogs[i].dialog_coords.x && player->MposY == world.dialogs[i].dialog_coords.y){ //Si le joueur est sur un trigger de dialogue
+            printf("Id dialog: %d\n", world.dialogs[i].id);
+            if(is_dialog_not_done(world.dialogs[i].id, dialogs_done)){ //Si le dialogue n'a pas encore été fait
+                add_log_info("jeu.c - mouvement2()", "Dialogue non fait");
+            return world.dialogs[i].id+200;
+            }
+            else{ //Si le dialogue a déjà été fait
+                add_log_info("jeu.c - mouvement2()", "Dialogue déjà fait");
                 return 0;
             }
         }
@@ -206,7 +220,7 @@ SDL_Texture* get_world_texture(SDL_Window *window, world world){
 }
 
 //Lance la partie à partir du monde donné
-void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *current_music_path, int *battles_done){
+void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *current_music_path, int *battles_done, int *dialogs_done){
     
     SDL_ShowCursor(SDL_DISABLE); //Cache le curseur
     
@@ -283,7 +297,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
         
         while(continuer == 0){
 
-            continuer = mouvement2(state, *actual_world, &player, battles_done); //Déplace le joueur
+            continuer = mouvement2(state, *actual_world, &player, battles_done, dialogs_done); //Déplace le joueur
             SDL_RenderClear(renderer); //Efface l'écran
             SDL_RenderCopy(renderer, actual_world->global_texture, NULL, NULL); //Rend la texture des murs
             SDL_RenderCopy(renderer, player.player_texture, NULL, &player.player_rect); //Rend le joueur car sa position à changé
@@ -331,6 +345,15 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
                     jeu = continuer+2;
                 }
             }
+
+            if(continuer >= 200){ //Affichage d'un dialogue
+                display_dialogs(renderer, continuer-200);
+                dialogs_done[continuer-201] = 1;
+                for(int i = 0; i < 20; i++){
+                    printf("%d ", dialogs_done[i]);
+                }
+                continuer = 0;
+            }
         }
         
         //Libération de ressources de la fonction jeu
@@ -373,8 +396,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
             }
         }
 
-        if(continuer > 1){ //Lancement d'un combat
-            display_dialogs(renderer, 1); //Affiche les dialogues
+        if(continuer > 1 && continuer < 200){ //Lancement d'un combat
             add_log_info("jeu.c - jeu()", "Lancement d'un combat");
 
             double music_pos = Mix_GetMusicPosition(music);
@@ -387,7 +409,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
 
     //Libération de la mémoire
     add_log_info("jeu.c - jeu()", "Libération de la mémoire du monde");
-    save_progress(actual_world->actual_world, battles_done);
+    save_progress(actual_world->actual_world, battles_done, dialogs_done);
     free_world(actual_world);
     free(current_music_path);
     add_log_info("jeu.c - jeu()", "Fin de la partie");

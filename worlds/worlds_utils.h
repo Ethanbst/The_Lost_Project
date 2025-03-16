@@ -14,6 +14,11 @@ typedef struct battle{ //Structure contenant l'id et les coordonnées d'un comba
     coords battle_coords;
 }battle;
 
+typedef struct dialog{ //Structure contenant l'id et les coordonnées d'un dialogue.
+    int id;
+    coords dialog_coords;
+}dialog;
+
 //Contient les informations d'un monde (matrice, texture, positions du joueur dans la matrice et sur l'écran)
 typedef struct world{
     int matrice[13][20]; //Matrice de la map
@@ -21,8 +26,7 @@ typedef struct world{
     coords end_spawn; //Coordonnées X.Y d'apparition du joueur si il reviens dans le monde
     coords back_portal; //Coordonnées X.Y du trigger pour téléporter le joueur au monde précédent
     coords next_portal; //Coordonnées X.Y du trigger pour téléporter le joueur au monde suivant
-    //Mix_Music *music; //Musique du monde
-    char *music_path;
+    char *music_path; //Musique du monde
     char *next_world; //Nom du monde suivant "worldX+1"
     char *previous_world; //Nom du monde précédent "worldX-1"
     char *actual_world; //Nom du monde actuel "worldX"
@@ -31,6 +35,8 @@ typedef struct world{
     char *floor_texture_path; //Chemin de la texture du sol
     int nb_battles; //Nombre de combats dans le monde
     battle *battles; //Tableau contenant la liste des combats du monde, leur id ainsi que leurs coordonnées de trigger
+    int nb_dialogs; //Nombre de dialogues dans le monde
+    dialog *dialogs; //Tableau contenant la liste des dialogues du monde, leur id ainsi que leurs coordonnées de trigger
 }world;
 
 //Récupère les information d'un fichier worldX.json donné en paramètre et retourne une structure contenant ces paramètres

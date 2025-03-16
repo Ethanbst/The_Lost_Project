@@ -16,6 +16,11 @@ typedef struct battle{ //Structure contenant l'id et les coordonnées d'un comba
     coords battle_coords;
 }battle;
 
+typedef struct dialog{ //Structure contenant l'id et les coordonnées d'un dialogue.
+    int id;
+    coords dialog_coords;
+}dialog;
+
 //Contient les informations d'un monde (matrice, texture, positions du joueur dans la matrice et sur l'écran)
 typedef struct world{
     int matrice[13][20]; //Matrice de la map
@@ -32,6 +37,8 @@ typedef struct world{
     char *floor_texture_path; //Chemin de la texture du sol
     int nb_battles; //Nombre de combats dans le monde
     battle *battles; //Tableau contenant la liste des combats du monde, leur id ainsi que leurs coordonnées de trigger
+    int nb_dialogs; //Nombre de dialogues dans le monde
+    dialog *dialogs; //Tableau contenant la liste des dialogues du monde, leur id ainsi que leurs coordonnées de trigger
 }world;
 
 void print_world_info(world *w) {
@@ -47,6 +54,9 @@ void print_world_info(world *w) {
     printf("Music Path: %s\n", w->music_path);
     for(int i=0;i<w->nb_battles;i++){
         printf("Battle | id: %d, coords: (%d:%d)\n", w->battles[i].id, w->battles[i].battle_coords.x, w->battles[i].battle_coords.y);
+    }
+    for(int i=0;i<w->nb_battles;i++){
+        printf("Dialog | id: %d, coords: (%d:%d)\n", w->dialogs[i].id, w->dialogs[i].dialog_coords.x, w->dialogs[i].dialog_coords.y);
     }
 
     printf("Matrice:\n");
@@ -309,6 +319,44 @@ world* get_world_info(char world_name[256]){
                         world->battles[i].id = id->valueint;
                         world->battles[i].battle_coords.x = x->valueint;
                         world->battles[i].battle_coords.y = y->valueint;
+                        }
+                }
+
+            }
+
+            //Récupération de la liste des combats
+            parameter = cJSON_GetObjectItem(root, "dialog_list");
+            if(!parameter){
+                add_log_error("worlds_utils.c - get_world_info()", "Erreur : Aucun dialog n'a été trouvé.");
+                free_world(world);
+                world = NULL;
+                return world;
+            }
+            else{
+                int nb_dialog = cJSON_GetArraySize(parameter);
+                world->nb_dialogs = nb_dialog; //Nombre de dialogues dans le monde
+                world->dialogs = (dialog *)malloc(nb_dialog * sizeof(dialog));
+                if(!world->dialogs){
+                    add_log_error("worlds_utils.c - get_world_info()", "Erreur : Echec de l'allocation de memoire pour dialogs.");
+                    free_world(world);
+                    world = NULL;
+                    return world;
+                }
+                else{
+                    for(int i = 0; i < nb_dialog; i++){
+                        cJSON *dialog = cJSON_GetArrayItem(parameter, i);
+                        cJSON *id = cJSON_GetObjectItem(dialog, "id");
+                        cJSON *x = cJSON_GetObjectItem(dialog, "x");
+                        cJSON *y = cJSON_GetObjectItem(dialog, "y");
+                        if(!id || !x || !y || !dialog){
+                            add_log_error("worlds_utils.c - get_world_info()", "Erreur : Echec de récupération des informations du dialog.");
+                            free_world(world);
+                            world = NULL;
+                            return world;
+                        }
+                        world->dialogs[i].id = id->valueint;
+                        world->dialogs[i].dialog_coords.x = x->valueint;
+                        world->dialogs[i].dialog_coords.y = y->valueint;
                         }
                 }
 

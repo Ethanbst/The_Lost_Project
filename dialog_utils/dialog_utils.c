@@ -7,6 +7,13 @@
 #include <string.h>
 #include <locale.h>
 
+#define NB_DIALOGS 20
+
+// Vérifie si la bataille d'id id n'a pas déjà été effectuée (si elle n'est pas dans le tableau battles_done)
+bool is_dialog_not_done(int id, int *dialogs_done) {
+    return dialogs_done[id-1] == 0;
+}
+
 // Fonction qui affiche un dialogue progressivement et attend un clic pour passer à la phrase suivante
 void display_dialog(SDL_Renderer *renderer, char *text) {
     add_log_info("dialog_utils.c - display_dialog()", "Affichage du dialogue");
