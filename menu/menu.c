@@ -63,7 +63,7 @@ void menu_start(SDL_Renderer *renderer, SDL_Surface *bg_menu_surface, SDL_Textur
     color couleur = {255, 255, 255, 255}; //Couleur blanche
 
     //Affichage de la version du jeu VersionMajeure.VersionMineure.CorrectiondeBug
-    CTA version = draw_button(renderer, ecran.w-200, ecran.h-120, 1, "Alpha 0.53.11", 1, 48, couleur); //14.03.25
+    CTA version = draw_button(renderer, ecran.w-200, ecran.h-120, 1, "Alpha 0.57.12", 1, 48, couleur); //14.03.25
     draw_button(renderer, ecran.w-200, version.pos_y+version.h+20, 1, "By E. Bastien", 1, 48, couleur);
 
 
