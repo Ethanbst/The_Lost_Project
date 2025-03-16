@@ -20,7 +20,7 @@
 #define NB_BATTLES 20
 
 
-
+// Structure pour les informations de la bataille
 typedef struct battle_info {
     int num_enemies; // Nombre d'ennemis
     int num_loots; // Nombre de loots à récupérer pour gagner
@@ -30,6 +30,7 @@ typedef struct battle_info {
     char *ennemy_strings; // Tableau de chaînes de caractères pour les ennemis
 } battle_info;
 
+// Structure pour les ennemis
 typedef struct enemy {
     SDL_Rect rect;
     int speed;
@@ -164,6 +165,7 @@ void render_health_bar(SDL_Renderer *renderer, int health, SDL_Rect boundary) {
     SDL_RenderFillRect(renderer, &health_bar);
 }
 
+// Affiche le score du joueur
 void render_score(SDL_Renderer *renderer, SDL_Rect *loots, int num_loots, SDL_Rect boundary, int *score) {
     color couleur = {0, 255, 0, 255};
     CTA a = draw_button(renderer, boundary.x, boundary.y-30, 1, "Bits: ", 0, 42, couleur);
@@ -181,6 +183,7 @@ void render_score(SDL_Renderer *renderer, SDL_Rect *loots, int num_loots, SDL_Re
     free(total_loots);
 }
 
+// Affiche l'écran de défaite
 void display_loose_screen(SDL_Renderer *renderer, int window_width, int window_height) {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
@@ -193,9 +196,9 @@ void display_loose_screen(SDL_Renderer *renderer, int window_width, int window_h
         "Vous n'avez pas survecu.",
         "Game Over.",
         "Vous avez ete vaincu.",
-        "Votre aventure s'arrête ici.",
+        "Votre aventure s'arrete ici.",
         "Vous avez succombe à vos blessures.",
-        "La defaite est amere, réessayez."
+        "La defaite est amere, reessayez."
     };
     int message_index = rand() % 10;
 
@@ -268,7 +271,13 @@ battle_info* get_battle_info(int id) {
         info->e_min_speed = cJSON_GetObjectItem(enemy_speed, "min")->valueint;
     }
 
-    info->num_enemies = cJSON_GetObjectItem(json, "ennemy_number")->valueint;
+    cJSON *tab_ennemy = cJSON_GetObjectItem(json, "ennemy_names");
+    if (tab_ennemy) {
+        info->num_enemies = cJSON_GetArraySize(tab_ennemy);
+    }
+    else{
+        add_log_error("battle.c - get_battle_info()", "Pas de noms d'ennemis trouvés");
+    }
     info->num_loots = cJSON_GetObjectItem(json, "loot_number")->valueint;
 
     cJSON *music_path = cJSON_GetObjectItem(json, "music");
@@ -294,12 +303,14 @@ battle_info* get_battle_info(int id) {
     return info;
 }
 
+// Libère la mémoire allouée pour la structure battle_info
 void free_battle_info(battle_info *info) {
     free(info->music_path);
     free(info->ennemy_strings);
     free(info);
 }
 
+// Affiche les informations de la bataille
 void display_battle_info(battle_info *info) {
     printf("Nombre d'ennemis: %d\n", info->num_enemies);
     printf("Nombre de loots: %d\n", info->num_loots);
@@ -312,10 +323,12 @@ void display_battle_info(battle_info *info) {
     }
 }
 
+// Vérifie si la bataille d'id id n'a pas déjà été effectuée (si elle n'est pas dans le tableau battles_done)
 bool is_battle_not_done(int id, int *battles_done) {
     return battles_done[id-1] == 0;
 }
 
+// Affiche les batailles effectuées
 void print_battles_done(int *battles_done) {
     printf("Batailles effectuées: ");
     for (int i = 0; i < NB_BATTLES; i++) {
@@ -326,6 +339,8 @@ void print_battles_done(int *battles_done) {
 
 // Démarre la bataille d'id id, initialise les éléments et gère la boucle principale du combat
 int start_battle(SDL_Renderer *renderer, int id, int *battles_done) {
+
+    SDL_ShowCursor(SDL_DISABLE);
 
     add_log_info("battle.c - start_battle()", "Lancement du combat");
 
