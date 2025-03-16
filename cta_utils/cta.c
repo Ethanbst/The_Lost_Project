@@ -26,7 +26,7 @@ CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size,
     textColor.g = couleur.g;
     textColor.b = couleur.b;
     textColor.a = couleur.a;
-    SDL_Surface *textSurface = TTF_RenderText_Solid(font, text, textColor);
+    SDL_Surface *textSurface = TTF_RenderUTF8_Solid(font, text, textColor);
     SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
     int text_width = textSurface->w;
     int text_height = textSurface->h;
@@ -46,7 +46,7 @@ CTA draw_button(SDL_Renderer *renderer, int pos_x, int pos_y, int multiply_size,
     
     if(need_bg){ //Texte supplémentaire pour effet 3D / Fond pour meilleurs lecture
         SDL_Color textColor2 = {0, 0, 0, 0}; // Text color
-        SDL_Surface *textSurface2 = TTF_RenderText_Solid(font, text, textColor2);
+        SDL_Surface *textSurface2 = TTF_RenderUTF8_Solid(font, text, textColor2);
         SDL_Texture *textTexture2 = SDL_CreateTextureFromSurface(renderer, textSurface2);
         SDL_Rect text_rect_bg = {text_rect.x, text_rect.y+(screen_h/300), text_rect.w, text_rect.h}; //Taille et pos du texte
         SDL_RenderCopy(renderer, textTexture2, NULL, &text_rect_bg);
