@@ -57,9 +57,13 @@
   "C_Cpp_Runner.useLinkTimeOptimization": false,
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
+    "*.sqlbook": "sql",
+    "*.ndjson": "jsonl",
+    "*.dbclient-js": "javascript",
     "common.h": "c",
     "sdl_mixer.h": "c",
     "log.h": "c",
-    "sdl_image.h": "c"
+    "sdl_image.h": "c",
+    "cta.h": "c"
   }
 }

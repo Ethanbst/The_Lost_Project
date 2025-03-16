@@ -10,6 +10,7 @@
 #include "save_utils/save.h"
 #include "tutorial_utils/tutorial_utils.h"
 #include "battle_utils/battle.h"
+#include "dialog_utils/dialog_utils.h"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -318,6 +319,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
 
             
             SDL_Delay(16); //Délai pour éviter de bouger trop vite
+
     
             while(SDL_PollEvent(&event)){
                 if(event.type == SDL_QUIT){
@@ -372,6 +374,7 @@ void jeu(SDL_Window *window, SDL_Renderer *renderer, world *actual_world, char *
         }
 
         if(continuer > 1){ //Lancement d'un combat
+            display_dialogs(renderer, 1); //Affiche les dialogues
             add_log_info("jeu.c - jeu()", "Lancement d'un combat");
 
             double music_pos = Mix_GetMusicPosition(music);
