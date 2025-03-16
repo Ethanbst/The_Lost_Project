@@ -289,9 +289,6 @@ battle_info* get_battle_info(int id) {
     else{
         add_log_error("battle.c - get_battle_info()", "Pas de noms d'ennemis trouvés");
     }
-
-
-
     cJSON_Delete(json);
     free(data);
     return info;
