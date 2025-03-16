@@ -3,10 +3,6 @@
       "max": 5,
       "min": 10
     },
-    "ennemy_size": {
-        "max": 5,
-        "min": 10
-    },
     "ennemy_number": 5,
     "ennemy_names": [
       "Segmentation fault",
